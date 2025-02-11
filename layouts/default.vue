@@ -10,10 +10,10 @@ const localePath = useLocalePath()
 
   <UIcon name="i-logos:angular" class="w-96 h-96" />
 
-  <NuxtLink :to="localePath('index')">{{ $t('home') }}</NuxtLink>
+  <!-- <NuxtLink :to="localePath('index')">{{ $t('home') }}</NuxtLink> -->
   <hr>
 
-  <NuxtLink :to="localePath('/')">{{ $t('home') }}</NuxtLink>
+  <!-- <NuxtLink :to="localePath('/')">{{ $t('home') }}</NuxtLink> -->
   <hr>
 
   <NuxtLink :to="localePath('index', 'en')">Homepage in en</NuxtLink>
