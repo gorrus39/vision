@@ -11,18 +11,19 @@ const navLinks = [
 </script>
 
 <template>
-  <nav class="x-border-b hidden h-[7.5vw] md:flex">
+  <nav class="x-border-b h-desc-20 md:flex">
     <div class="x-w-indent x-border-e"></div>
     <ul>
-      <li class="aaa">1</li>
+      <li class="aaa w-desc-100">1</li>
       <li class="tex-desc42">2</li>
       <li class="tex-desc-[42px]">3</li>
       <li class="tex-desc42px">4</li>
       <div class="tex-desc-&lsqb;42px&rsqb;">5</div>
       <div class="tex-desc-42">6</div>
       <div class="tex-desc-42">6</div>
-      <div class="tex-desc-42">6</div>
-      <div class="tex-desc-120">6</div>
+      <div class="text-desc-100">plugin</div>
+      <div class="text-d-72">theme</div>
+      <div class="text-yellow-600">tailwind</div>
     </ul>
     <NuxtLink
       class="x-ps tex-desc-42 x-border-e flex w-[35.7vw] items-center"
