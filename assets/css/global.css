@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import "tailwindcss"; */
+
+body {
+  font-family: Poppins;
+  font-weight: 400;
+  color: white;
+  background-color: black;
+}
+
+.x-w-indent {
+  @apply w-[8vw];
+}
+
+.x-border-s {
+  @apply border-s-[0.07vw] border-solid border-white;
+}
+
+.x-border-t {
+  @apply border-t-[0.07vw] border-solid border-white;
+}
+
+.x-border-b {
+  @apply border-b-[0.07vw] border-solid border-white;
+}
+
+.x-border-e {
+  @apply border-e-[0.07vw] border-solid border-white;
+}
+
+.x-ps {
+  @apply ps-[1.35vw];
+}
+
+.on-hover {
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}

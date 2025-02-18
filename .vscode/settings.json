@@ -1,0 +1,14 @@
+{
+	"prettier.printWidth": 120,
+	"prettier.semi": false,
+	"prettier.singleQuote": true,
+	"prettier.enable": true,
+	"editor.formatOnSave": true,
+	"notebook.formatOnSave.enabled": true,
+	"prettier.htmlWhitespaceSensitivity": "css",
+	"prettier.bracketSameLine": false,
+	"prettier.proseWrap": "always",
+	"prettier.useTabs": true,
+	"html.format.indentInnerHtml": true,
+	"prettier.arrowParens": "always"
+}

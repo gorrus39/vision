@@ -2,6 +2,7 @@
 
 <template>
   <div>
+  <!-- <UCarousel/> -->
     Page: about
   </div>
 </template>
