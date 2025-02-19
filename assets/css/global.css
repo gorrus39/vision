@@ -1,9 +1,3 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
-/* @import "tailwindcss"; */
-
 body {
   font-family: Poppins;
   font-weight: 400;
@@ -11,28 +5,45 @@ body {
   background-color: black;
 }
 
-.x-w-indent {
-  @apply w-[8vw];
+:root {
+  --border-desktop-size: calc(1 / 1920 * 100vw);
+  --border-mobile-size: calc(1 / 320 * 100vw);
 }
 
-.x-border-s {
-  @apply border-s-[0.07vw] border-solid border-white;
+.border-D-s {
+  border-left-width: var(--border-desktop-size);
+  border-style: solid;
 }
 
-.x-border-t {
-  @apply border-t-[0.07vw] border-solid border-white;
+.border-D-e {
+  border-right-width: var(--border-desktop-size);
+  border-style: solid;
+}
+.border-D-t {
+  border-top-width: var(--border-desktop-size);
+  border-style: solid;
+}
+.border-D-b {
+  border-bottom-width: var(--border-desktop-size);
+  border-style: solid;
 }
 
-.x-border-b {
-  @apply border-b-[0.07vw] border-solid border-white;
+.border-M-s {
+  border-left-width: var(--border-mobile-size);
+  border-style: solid;
 }
 
-.x-border-e {
-  @apply border-e-[0.07vw] border-solid border-white;
+.border-M-e {
+  border-right-width: var(--border-mobile-size);
+  border-style: solid;
 }
-
-.x-ps {
-  @apply ps-[1.35vw];
+.border-M-t {
+  border-top-width: var(--border-mobile-size);
+  border-style: solid;
+}
+.border-M-b {
+  border-bottom-width: var(--border-mobile-size);
+  border-style: solid;
 }
 
 .on-hover {
