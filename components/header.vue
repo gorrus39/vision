@@ -64,9 +64,9 @@ const toast = useToast();
     </div>
 
     <div class="w-M-23 border-M-e border-white"></div>
-    <div class="ps-M-7 relative flex w-full">
+    <div class="relative flex flex-1">
       <NuxtImg
-        class="w-M-20 on-hover absolute top-1/2 -translate-y-1/2"
+        class="ms-M-7 w-M-20 on-hover absolute top-1/2 -translate-y-1/2"
         src="/images/home/burger.svg"
         @click="showMobileNavigation = true"
       />

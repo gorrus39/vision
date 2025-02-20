@@ -5,9 +5,26 @@ body {
   background-color: black;
 }
 
+* {
+  box-sizing: border-box;
+}
 :root {
   --border-desktop-size: calc(1 / 1920 * 100vw);
   --border-mobile-size: calc(1 / 320 * 100vw);
+}
+
+.font-bebas-neue {
+  font-family: Bebas Neue;
+}
+
+.border-D {
+  border-width: var(--border-desktop-size);
+  border-style: solid;
+}
+
+.border-M {
+  border-width: var(--border-mobile-size);
+  border-style: solid;
 }
 
 .border-D-s {

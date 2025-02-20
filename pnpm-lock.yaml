@@ -26,9 +26,6 @@ importers:
       '@nuxtjs/i18n':
         specifier: 9.1.4
         version: 9.1.4(@vue/compiler-dom@3.5.13)(eslint@9.20.1(jiti@2.4.2))(magicast@0.3.5)(rollup@4.34.8)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
-      '@nuxtjs/tailwindcss':
-        specifier: 6.13.1
-        version: 6.13.1(magicast@0.3.5)
       hub:
         specifier: 6.1.3
         version: 6.1.3

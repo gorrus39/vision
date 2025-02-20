@@ -3,6 +3,11 @@
 export default defineNuxtConfig({
   css: ["~/assets/css/global.css"],
   compatibilityDate: "2024-11-01",
+  app: {
+    head: {
+      title: "Vision",
+    },
+  },
   devtools: { enabled: false },
   modules: [
     "@nuxtjs/i18n",
@@ -22,7 +27,7 @@ export default defineNuxtConfig({
     families: {
       Poppins: {
         // regular, medium, semibold, bold, extrabold
-        wght: [400, 700],
+        wght: [400, 600, 700],
         // ital: [],
       },
       "Bebas Neue": {

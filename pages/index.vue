@@ -1,8 +1,9 @@
-<script setup lang="ts">
-// "packageManager": "pnpm@9.13.2+sha512.88c9c3864450350e65a33587ab801acf946d7c814ed1134da4a924f6df5a2120fd36b46aab68f7cd1d413149112d53c7db3a4136624cfd00ff1846a0c6cef48a",
-//
-</script>
+<script setup lang="ts"></script>
 
-<template></template>
+<template>
+  <Home1Title />
+  <Home2Vision />
+  <!-- <Home3TopProjects /> -->
+</template>
 
 <style scoped></style>

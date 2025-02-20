@@ -10,25 +10,36 @@ export default <Partial<Config>>{
   plugins: [
     // добавление vw для 2-х резиновых экранов
     plugin(function ({ addUtilities }) {
-      const pixelCounter = 700;
+      const startPixel = -100;
+      const endPixel = 1200;
 
       const mobileKamertonWidth = 320;
       const desktopKamertonWidth = 1920;
 
       const subClasses = [
         { css: "fontSize", subClass: ".text" },
+        { css: "lineHeight", subClass: ".leading" },
         { css: "width", subClass: ".w" },
         { css: "height", subClass: ".h" },
         { css: "gap", subClass: ".gap" },
+        { css: "padding", subClass: ".p" },
         { css: "padding-left", subClass: ".ps" },
         { css: "padding-top", subClass: ".pt" },
+        { css: "padding-bottom", subClass: ".pb" },
         { css: "padding-right", subClass: ".pe" },
+        { css: "margin", subClass: ".m" },
+        { css: "margin-right", subClass: ".me" },
+        { css: "margin-left", subClass: ".ms" },
+        { css: "margin-bottom", subClass: ".mb" },
+        { css: "margin-top", subClass: ".mt" },
         { css: "top", subClass: ".top" },
         { css: "left", subClass: ".left" },
+        { css: "right", subClass: ".right" },
+        { css: "bottom", subClass: ".bottom" },
       ];
 
       const utilities: { [key: string]: CSSRuleObject } = {};
-      for (let i = 1; i <= pixelCounter; i++) {
+      for (let i = startPixel; i <= endPixel; i++) {
         const desktopAmount = `${((i / desktopKamertonWidth) * 100).toFixed(2)}vw`;
         const mobileAmount = `${((i / mobileKamertonWidth) * 100).toFixed(2)}vw`;
 
