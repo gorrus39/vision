@@ -15,19 +15,19 @@ const toast = useToast();
 </script>
 
 <template>
-  <div class="border-D-b h-D-128 hidden border-white md:flex">
-    <div class="w-D-155 border-D-e border-white"></div>
+  <div class="border-D-b hidden border-white h-D-128 md:flex">
+    <div class="border-D-e border-white w-D-155"></div>
     <NuxtLink
-      class="text-D-42 border-D-e ps-D-28 w-D-686 flex items-center border-white"
+      class="border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686"
       :to="homeLink.path"
       @click="toast.add({ title: 'Soon!)' })"
     >
       <span class="on-hover"> {{ homeLink.label }} </span>
     </NuxtLink>
 
-    <nav class="ps-D-22 gap-D-80 flex items-center">
+    <nav class="flex items-center ps-D-22 gap-D-80">
       <NuxtLink
-        class="text-D-20 on-hover"
+        class="on-hover text-D-20"
         v-for="link in navLinks"
         :to="link.path"
         @click="toast.add({ title: 'Soon!)' })"
@@ -36,41 +36,41 @@ const toast = useToast();
     </nav>
   </div>
 
-  <div class="border-M-b h-M-69 flex border-white md:hidden">
+  <div class="border-M-b flex border-white h-M-69 md:hidden">
     <div
-      class="ps-M-13 pe-M-13 absolute z-10 flex h-full w-full flex-col bg-black"
+      class="fixed z-10 flex h-full w-full flex-col bg-black ps-M-13 pe-M-13"
       v-if="showMobileNavigation"
     >
       <NuxtImg
-        class="w-M-23 on-hover top-M-36 left-M-36 absolute"
+        class="on-hover absolute w-M-23 top-M-36 left-M-36"
         src="/images/home/close-button.svg"
         @click="showMobileNavigation = false"
       />
 
-      <nav class="gap-M-22 m-auto flex flex-col items-center">
+      <nav class="m-auto flex flex-col items-center gap-M-22">
         <NuxtLink
-          class="text-M-14 on-hover"
+          class="on-hover text-M-14"
           v-for="link in navLinks"
           :to="link.path"
           @click="toast.add({ title: 'Soon!)' })"
           >{{ link.label }}</NuxtLink
         >
       </nav>
-      <div class="h-M-129 pt-M-11">
-        <span class="text-M-20 border-M-t flex justify-center border-white">
+      <div class="pt-M-11 h-M-129">
+        <span class="border-M-t flex justify-center border-white text-M-20">
           THAT`S THE VISION
         </span>
       </div>
     </div>
 
-    <div class="w-M-23 border-M-e border-white"></div>
+    <div class="border-M-e border-white w-M-23"></div>
     <div class="relative flex flex-1">
       <NuxtImg
-        class="ms-M-7 w-M-20 on-hover absolute top-1/2 -translate-y-1/2"
+        class="on-hover absolute top-1/2 -translate-y-1/2 ms-M-7 w-M-20"
         src="/images/home/burger.svg"
         @click="showMobileNavigation = true"
       />
-      <span class="text-M-18 m-auto"> VISION </span>
+      <span class="m-auto text-M-18"> VISION </span>
     </div>
   </div>
 </template>
