@@ -58,7 +58,9 @@ const handleClickShowMore = () => {
   </div>
 
   <div class="relative flex flex-col me-M-30 ms-M-30 mb-M-44 md:hidden">
-    <div class="border-M-e absolute border-white right-M--6 h-M-400"></div>
+    <div
+      class="border-M-e absolute border-white top-M--90 right-M--6 h-M-490"
+    ></div>
 
     <p class="font-bebas-neue mb-M-32 text-M-50">TOP PROJECTS</p>
 

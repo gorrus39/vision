@@ -10,7 +10,7 @@ export default <Partial<Config>>{
   plugins: [
     // добавление vw для 2-х резиновых экранов
     plugin(function ({ addUtilities }) {
-      const startPixel = -100;
+      const startPixel = -500;
       const endPixel = 1500;
 
       const mobileKamertonWidth = 320;

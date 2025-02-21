@@ -38,7 +38,7 @@ const isEven = props.index % 2 == 0;
           { 'w-M-30': screen == 'mobile' },
         ]"
         @click="toast.add({ title: 'Soon!)' })"
-        src="images/home/arrow-white-link.svg"
+        src="images/home/arrow-link.svg"
       />
     </div>
 

@@ -5,12 +5,13 @@ export default defineAppConfig({
         base: "dark:border-white border-white",
         size: {
           horizontal: {
-            custom: "border-M-t md:border-D-t",
+            mobile: "border-M-t",
+            xl: "border-D-t",
           },
         },
       },
       default: {
-        size: "custom",
+        size: "mobile",
       },
     },
   },
