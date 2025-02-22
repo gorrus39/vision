@@ -10,3 +10,15 @@ export type Project = {
   starsAmount: number;
   avatar?: string;
 };
+
+export enum BlogItemCategory {
+  categories,
+}
+
+export type BlogItem = {
+  id: number;
+  date: Date;
+  category: BlogItemCategory;
+  title: string;
+  text: string;
+};
