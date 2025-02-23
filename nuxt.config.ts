@@ -39,4 +39,9 @@ export default defineNuxtConfig({
     },
   },
   image: {},
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },
 });
