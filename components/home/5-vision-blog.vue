@@ -84,8 +84,11 @@ const goToAllArticles = () => {
           </div>
         </div>
 
-        <div class="border-D-e border-white">
+        <div class="border-D-e relative border-white">
           <HomeBlogItem :blogItem="blogItems[2]" />
+          <div
+            class="border-D-e absolute border-white bottom-D--50 right-D--1 h-D-50"
+          ></div>
         </div>
         <div class="border-D-e relative border-white">
           <div
