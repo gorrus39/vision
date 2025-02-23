@@ -6,6 +6,7 @@
   <Home3TopProjects />
   <Home4AlwaysRelevant />
   <Home5VisionBlog />
+  <Home6Faq />
 </template>
 
 <style scoped></style>

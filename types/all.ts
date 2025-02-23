@@ -22,3 +22,9 @@ export type BlogItem = {
   title: string;
   text: string;
 };
+
+export type FAQItem = {
+  id: number;
+  title: string;
+  text: string;
+};

@@ -4,4 +4,5 @@
   <UNotifications />
   <Header />
   <slot />
+  <Footer />
 </template>

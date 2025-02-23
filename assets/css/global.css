@@ -17,6 +17,10 @@ body {
   font-family: Bebas Neue;
 }
 
+.font-inter {
+  font-family: Inter;
+}
+
 .border-D {
   border-width: var(--border-desktop-size);
   border-style: solid;

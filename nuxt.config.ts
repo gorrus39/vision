@@ -33,6 +33,9 @@ export default defineNuxtConfig({
       "Bebas Neue": {
         wght: [400],
       },
+      Inter: {
+        wght: [300],
+      },
     },
   },
   image: {},

@@ -16,7 +16,7 @@ const toast = useToast();
 
 <template>
   <div class="border-D-b hidden border-white h-D-128 md:flex">
-    <div class="border-D-e border-white w-D-155"></div>
+    <div class="border-D-e border-white w-D-154"></div>
     <NuxtLink
       class="border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686"
       :to="homeLink.path"
