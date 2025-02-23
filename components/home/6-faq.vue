@@ -14,14 +14,14 @@
 
     <div class="absolute top-0 flex h-full">
       <div class="border-D-e border-white w-D-154"></div>
-      <!-- <div
+      <div
         class="font-bebas-neue flex flex-col text-D-300 leading-D-360 w-D-1054"
-      > -->
-      <div class="border-D-e border-white h-D-100"></div>
-      <span class="ms-D-29">F</span>
-      <span class="ms-D-29">A</span>
-      <span class="ms-D-29">Q</span>
-      <!-- </div> -->
+      >
+        <!-- <div class="border-D-e border-white h-D-100"></div> -->
+        <span class="ms-D-29">F</span>
+        <span class="ms-D-29">A</span>
+        <span class="ms-D-29">Q</span>
+      </div>
     </div>
   </div>
 
