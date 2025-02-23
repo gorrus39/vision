@@ -44,4 +44,7 @@ export default defineNuxtConfig({
       openAPI: true,
     },
   },
+  hub: {
+    database: true,
+  },
 });
