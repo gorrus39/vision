@@ -47,5 +47,6 @@ export default defineNuxtConfig({
   hub: {
     database: true,
     remote: true,
+    blob: true,
   },
 });

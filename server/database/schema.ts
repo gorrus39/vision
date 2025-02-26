@@ -10,10 +10,10 @@ export const users = sqliteTable("users", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
-export const users2 = sqliteTable("users", {
+export const users2 = sqliteTable("users2", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  username: text("name"),
   name: text("name").notNull(),
+  username: text("username").notNull(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   avatar: text("avatar").notNull(),
