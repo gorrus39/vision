@@ -9,10 +9,10 @@ import "swiper/css/effect-cards";
 const toast = useToast();
 
 const onSwiper = (swiper: SwiperType) => {
-  console.log(swiper);
+  // console.log(swiper);
 };
 const onSlideChange = () => {
-  console.log("slide change");
+  // console.log("slide change");
 };
 
 const props = defineProps<{

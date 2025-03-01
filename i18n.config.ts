@@ -1,21 +1,26 @@
 export default defineI18nConfig(() => ({
   legacy: false,
-  // locale: "en",
   messages: {
     en: {
       welcome: "Welcome",
-    },
-    fr: {
-      welcome: "Bienvenue",
+      header: {
+        "select-a-language": "SELECT A LANGUAGE",
+        select: "SELECT",
+      },
     },
     ru: {
-      welcome: "Приветствие",
+      welcome: "велкам",
+      header: {
+        "select-a-language": "ВЫБЕРИТЕ ЯЗЫК",
+        select: "ВЫБОР",
+      },
     },
     cn: {
-      welcome: "ПриветствиеПриветствиеПриветствиеПриветствиеПриветствие",
-    },
-    sp: {
-      welcome: "ПриветствиеПриветствиеПриветствиеПриветствиеПриветствие",
+      welcome: "велкам",
+      header: {
+        "select-a-language": "ВЫБЕРИТЕ ЯЗЫК K",
+        select: "ВЫБОР K",
+      },
     },
   },
 }));

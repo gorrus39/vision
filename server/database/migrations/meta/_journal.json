@@ -22,6 +22,20 @@
       "when": 1740560586583,
       "tag": "0002_wandering_johnny_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1740561982084,
+      "tag": "0003_crazy_true_believers",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1740598747989,
+      "tag": "0004_dazzling_pandemic",
+      "breakpoints": true
     }
   ]
 }

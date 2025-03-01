@@ -8,7 +8,9 @@ export default defineNuxtConfig({
       title: "Vision",
     },
   },
-  devtools: { enabled: false },
+  devtools: {
+    enabled: false,
+  },
   modules: [
     "@nuxtjs/i18n",
     "@nuxthub/core",
@@ -18,8 +20,8 @@ export default defineNuxtConfig({
   ],
   i18n: {
     strategy: "prefix",
-    // vueI18n: './i18n.config.ts', // if you are using custom path, default
-    locales: ["ru", "en", "cn", "fr", "sp"], // used in URL path prefix
+    vueI18n: "./i18n.config.ts", // if you are using custom path, default
+    locales: ["ru", "en", "cn"], // used in URL path prefix
     defaultLocale: "en", // default locale of your project for Nuxt pages and routings
   },
   googleFonts: {
@@ -38,15 +40,17 @@ export default defineNuxtConfig({
       },
     },
   },
-  image: {},
+  image: {
+    format: ["png", "webp"],
+  },
   nitro: {
     experimental: {
-      openAPI: true,
+      // openAPI: true,
     },
   },
   hub: {
     database: true,
-    remote: true,
+    // remote: true,
     blob: true,
   },
 });

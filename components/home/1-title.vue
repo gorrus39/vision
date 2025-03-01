@@ -8,7 +8,7 @@ const toast = useToast();
     <div class="border-D-b flex flex-1 border-white">
       <div class="relative ps-D-28 w-D-732">
         <p
-          class="font-bebas-neue absolute w-max text-D-62 leading-D-75 top-D-144"
+          class="font-bebas-neue absolute z-10 w-max text-D-62 leading-D-75 top-D-144"
         >
           VISION SAVES YOU WEEKS AND MONTHS OF <br />
           DIGGING THROUGH FORUMS, CHATS, <br />
@@ -16,11 +16,22 @@ const toast = useToast();
         </p>
       </div>
       <div class="flex w-full flex-col">
-        <div class="border-D-b relative border-white h-D-593">
-          <p class="absolute text-D-38 top-D-383">*VIDEO*</p>
+        <div class="relative border-white h-D-593">
+          <video
+            class="h-full w-auto"
+            playsinline
+            autoplay
+            muted
+            loop
+            preload="auto"
+          >
+            <source src="/videos/home/video-desktop.mp4" type="video/mp4" />
+            Ваш браузер не поддерживает видео.
+          </video>
+          <!-- <p class="absolute text-D-38 top-D-383">*VIDEO*</p> -->
         </div>
         <div class="flex flex-col h-D-359">
-          <div class="flex text-D-24 leading-D-36">
+          <div class="border-D-t flex border-white text-D-24 leading-D-36">
             <span class="mx-auto pt-D-43">
               SAY GOODBYE TO OUTDATED 2012 FORUM DESIGNS AND SITES <br />
               RUN BY PEOPLE WHO ARE OUT OF TOUCH WITH THE COMMUNITY.
@@ -43,11 +54,23 @@ const toast = useToast();
     </div>
     <div class="border-D-b border-white w-D-154"></div>
   </div>
+
   <div class="flex h-M-499 md:hidden">
     <div class="border-M-e border-white w-M-23"></div>
     <div class="border-M-b flex flex-1 flex-col border-white">
-      <div class="flex flex-1">
-        <span class="m-auto text-M-18">*VIDEO*</span>
+      <div class="flex flex-1 overflow-hidden">
+        <video
+          class="h-auto w-full"
+          playsinline
+          autoplay
+          muted
+          loop
+          preload="auto"
+        >
+          <source src="/videos/home/video-mobile.mp4" type="video/mp4" />
+          Ваш браузер не поддерживает видео.
+        </video>
+        <!-- <span class="m-auto text-M-18">*VIDEO*</span> -->
       </div>
       <p class="font-bebas-neue ms-M-7 text-M-26 leading-M-32 mb-M-37">
         LOREM IPSUM DOLOR SIT <br />

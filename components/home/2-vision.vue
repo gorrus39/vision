@@ -53,7 +53,8 @@ const goToLearnMore = () => {
           <div class="relative flex-1">
             <NuxtImg
               class="absolute left-D-200 w-D-400"
-              src="/images/home/figure-1.png"
+              src="images/home/figure-1.png"
+              format="png"
             />
             <p class="absolute left-D-200 w-D-580 top-D-600">
               {{ texts[2] }}
@@ -77,7 +78,7 @@ const goToLearnMore = () => {
           </p>
           <NuxtImg
             class="absolute bottom-D-100 w-D-250 left-D-300"
-            src="images/home/figure-2.png"
+            src="/images/home/figure-2.png"
           />
         </div>
         <div class="w-D-154"></div>

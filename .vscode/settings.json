@@ -10,5 +10,8 @@
 	"prettier.proseWrap": "always",
 	"prettier.useTabs": true,
 	"html.format.indentInnerHtml": true,
-	"prettier.arrowParens": "always"
+	"prettier.arrowParens": "always",
+	"prettier.configPath": "",
+	"prettier.trailingComma": "es5",
+
 }
