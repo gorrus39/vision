@@ -1,5 +1,5 @@
 import { readMultipartFormData } from "h3";
-import { addBlogItem, useDrizzle } from "~/server/utils/drizzle";
+import { useDrizzle } from "~/server/utils/drizzle";
 import { BlogItemsSchema } from "~/types/all";
 const db = useDrizzle();
 
@@ -56,7 +56,7 @@ export default eventHandler(async (event) => {
     for (const item of data) {
       try {
         // Вставляем данные в БД
-        await addBlogItem(db, item);
+        // await addBlogItem(db, item);
         return { success: true };
       } catch (error) {
         return { error: "Failed to insert data", details: error };

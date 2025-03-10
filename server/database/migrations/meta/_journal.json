@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1740552282452,
-      "tag": "0000_red_hydra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1740560475279,
-      "tag": "0001_aspiring_zaladane",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1740560586583,
-      "tag": "0002_wandering_johnny_storm",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1740561982084,
-      "tag": "0003_crazy_true_believers",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1740598747989,
-      "tag": "0004_dazzling_pandemic",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1741604393241,
-      "tag": "0005_optimal_black_queen",
+      "when": 1741614196559,
+      "tag": "0000_steep_black_cat",
       "breakpoints": true
     }
   ]

@@ -13,9 +13,9 @@ export function useDrizzle() {
 export type BlogItem = typeof schema.blogItems.$inferInsert;
 
 // Функция для добавления записи в таблицу
-export async function addBlogItem(
-  db: ReturnType<typeof useDrizzle>,
-  data: BlogItem,
-) {
-  await db.insert(schema.blogItems).values(data);
-}
+// export async function addBlogItem(
+//   db: ReturnType<typeof useDrizzle>,
+//   data: BlogItem,
+// ) {
+//   await db.insert(schema.blogItems).values(data);
+// }

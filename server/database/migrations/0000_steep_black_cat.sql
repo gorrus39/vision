@@ -10,6 +10,3 @@ CREATE TABLE `blog_items` (
 	`order_index` integer NOT NULL,
 	`modified` text
 );
---> statement-breakpoint
-DROP TABLE `users`;--> statement-breakpoint
-DROP TABLE `users2`;
