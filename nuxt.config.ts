@@ -1,15 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  css: ["~/assets/css/global.css"],
+  css: ["~/assets/css/fonts.css", "~/assets/css/global.css"],
   compatibilityDate: "2024-11-01",
   app: {
     head: {
       title: "Vision",
     },
   },
+  // sourcemap: {
+  //   server: true,
+  //   client: true,
+  // },
   devtools: {
-    enabled: false,
+    enabled: true,
   },
   modules: [
     "@nuxtjs/i18n",
@@ -17,6 +21,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/image",
     "@nuxtjs/google-fonts",
+    "@pinia/nuxt",
   ],
   i18n: {
     strategy: "prefix",
@@ -27,11 +32,11 @@ export default defineNuxtConfig({
   googleFonts: {
     download: true,
     families: {
-      Poppins: {
-        // regular, medium, semibold, bold, extrabold
-        wght: [400, 600, 700],
-        // ital: [],
-      },
+      // Poppins: {
+      //   // regular, medium, semibold, bold, extrabold
+      //   wght: [400, 600, 700],
+      //   // ital: [],
+      // },
       "Bebas Neue": {
         wght: [400],
       },

@@ -1,5 +1,12 @@
+
+:root {
+  --font-main: Poppins;
+  --font-secondary: Bebas Neue;
+}
+
+
 body {
-  font-family: Poppins;
+  font-family: var(--font-main);
   font-weight: 400;
   color: white;
   background-color: black;
@@ -16,6 +23,11 @@ body {
 .font-bebas-neue {
   font-family: Bebas Neue;
 }
+
+.font-secondary {
+  font-family: var(--font-secondary);
+}
+
 
 .font-inter {
   font-family: Inter;

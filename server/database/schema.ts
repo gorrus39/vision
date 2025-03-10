@@ -1,14 +1,16 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 
-export const users = sqliteTable("users", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  lastName: text("last_name"),
-  username: text("name"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-});
-
-export const users2 = sqliteTable("users2", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  avatar: text("avatar").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+// Определяем таблицу blog_items
+export const blogItems = sqliteTable("blog_items", {
+  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
+  published_at: integer("published_at", { mode: "timestamp" }).notNull(), // Дата публикации
+  category: text("category").notNull().default("Uncategorized"), // Категория
+  title: text("title").notNull(), // Заголовок
+  img: text("img"), // Ссылка на изображение (может быть null)
+  sub_title: text("sub_title"), // Подзаголовок (может быть null)
+  text: text("text").notNull(), // Основной текст
+  priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
+  order_index: integer("order_index").notNull(), // Индекс порядка
+  // filePath: text("file_path"), // Путь к файлу (если загружается)
+  modified: text("modified", { enum: ["created", "updated", "deleted"] }), // Тип изменения
 });

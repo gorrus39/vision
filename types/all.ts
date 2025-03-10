@@ -1,3 +1,5 @@
+import z from "zod";
+
 export enum ProjectType {
   type,
 }
@@ -11,17 +13,27 @@ export type Project = {
   avatar?: string;
 };
 
-export enum BlogItemCategory {
-  categories,
-}
+const FileSchema = z.instanceof(File);
 
-export type BlogItem = {
-  id: number;
-  date: Date;
-  category: BlogItemCategory;
-  title: string;
-  text: string;
-};
+export const BlogItemSchema = z.object({
+  id: z.coerce.number(), // 🔥 Автоматическое приведение строки к числу
+  published_at: z.coerce.date(), // 🔥 Преобразует строку в Date
+  category: z.string().min(1).max(15),
+  title: z.string().min(3).max(30),
+  img: z.string().nullable(),
+
+  sub_title: z.string().max(20).optional().nullable(),
+  text: z.string().min(10).max(600),
+  priority: z.enum(["High", "Low"]),
+  order_index: z.coerce.number(), // 🔥 Преобразование строки в число
+
+  file: z.instanceof(File).optional().nullable(),
+  modified: z.enum(["created", "updated", "deleted"]).optional().nullable(),
+});
+
+export const BlogItemsSchema = z.array(BlogItemSchema);
+
+export type BlogItem = z.infer<typeof BlogItemSchema>;
 
 export type FAQItem = {
   id: number;

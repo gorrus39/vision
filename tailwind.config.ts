@@ -5,7 +5,18 @@ import type { CSSRuleObject } from "tailwindcss/types/config";
 
 export default <Partial<Config>>{
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        "color-change": "colorChange 10s infinite",
+      },
+      keyframes: {
+        colorChange: {
+          "0%": { color: "white" },
+          // "50%": { color: "green" },
+          "100%": { color: "white" },
+        },
+      },
+    },
   },
   plugins: [
     // добавление vw для 2-х резиновых экранов
