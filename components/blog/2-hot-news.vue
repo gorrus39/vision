@@ -2,13 +2,12 @@
 // import { useBlogStore } from "~/stores/blog";
 // import { storeToRefs } from "pinia";
 
-const { origin_or_preview_items, admin_items, original_items } =
-  storeToRefs(useBlogStore());
+const { items_view, items_admin, items_origin } = storeToRefs(
+  useInitializedBlogStore(),
+);
 
 const origin_or_preview_items_without_deleted = computed(() => {
-  return origin_or_preview_items.value.filter(
-    (item) => item.modified !== "deleted",
-  );
+  return items_view.value.filter((item) => item.modified !== "deleted");
 });
 </script>
 
@@ -20,13 +19,13 @@ const origin_or_preview_items_without_deleted = computed(() => {
         {{ item.id }}
       </p>
       <hr />
-      <p>admin_items:</p>
-      <p v-for="item in admin_items">
+      <p>items_admin:</p>
+      <p v-for="item in items_admin">
         {{ item.id }}
       </p>
       <hr />
-      <p>original_items:</p>
-      <p v-for="item in original_items">
+      <p>items_origin:</p>
+      <p v-for="item in items_origin">
         {{ item.id }}
       </p>
       <hr />

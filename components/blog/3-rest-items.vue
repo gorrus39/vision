@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { items_admin: admin_items } = useBlogStore();
+const { items_admin: admin_items } = useInitializedBlogStore();
 </script>
 
 <template>

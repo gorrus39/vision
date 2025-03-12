@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/all";
+import { getBlogImageUrl } from "~/server/utils/helpers/blog";
 
 const model = defineModel<BlogItem>();
 const handleCancelPhoto = () => {
@@ -81,7 +82,7 @@ const onFileChange = async (event: Event) => {
     <div class="mt-4" v-if="model?.img">
       <img
         class="h-48 w-48 rounded-lg object-cover text-black shadow-md"
-        :src="model?.img"
+        :src="getBlogImageUrl(model?.img)"
         alt="preview photo"
       />
     </div>

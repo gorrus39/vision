@@ -3,12 +3,12 @@ import { BlogItemSchema } from "~/types/all";
 import type { BlogItem } from "~/types/all";
 import type { FormSubmitEvent } from "#ui/types";
 import _ from "lodash";
-const store = useBlogStore();
+const store = useInitializedBlogStore();
 const { items_admin } = storeToRefs(store);
 
 const toast = useToast();
 
-const { create_admin_item, update_admin_item } = useBlogStore();
+const { create_admin_item, update_admin_item } = useInitializedBlogStore();
 
 const props = defineProps<{
   showForm: Boolean;
@@ -89,7 +89,7 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <UInput v-model="state.title" />
     </UFormGroup>
 
-    <UFormGroup label="sub_title" name="sub_title">
+    <UFormGroup v-if="state.sub_title" label="sub_title" name="sub_title">
       <UInput v-model="state.sub_title" />
     </UFormGroup>
 

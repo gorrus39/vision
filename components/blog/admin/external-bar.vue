@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const showMainModal = ref(false);
 
-const store = useBlogStore();
+const store = useInitializedBlogStore();
 const { discard_admin_changes } = store;
 const { previewed } = storeToRefs(store);
 </script>

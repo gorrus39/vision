@@ -12,5 +12,5 @@ export const blogItems = sqliteTable("blog_items", {
   priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
   order_index: integer("order_index").notNull(), // Индекс порядка
   // filePath: text("file_path"), // Путь к файлу (если загружается)
-  modified: text("modified", { enum: ["created", "updated", "deleted"] }), // Тип изменения
+  // modified: text("modified", { enum: ["created", "updated", "deleted"] }), // Тип изменения
 });

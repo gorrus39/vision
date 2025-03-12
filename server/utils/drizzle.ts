@@ -1,21 +1,50 @@
 import { drizzle } from "drizzle-orm/d1";
-export { sql, eq, and, or } from "drizzle-orm";
-
 import * as schema from "../database/schema";
+import { blogItems } from "../database/schema";
+import { BlogItem } from "~/types/all";
+import { eq } from "drizzle-orm";
 
-export const tables = schema;
+// export { sql, eq, and, or } from "drizzle-orm";
 
-export function useDrizzle() {
+function useDrizzle() {
   return drizzle(hubDatabase(), { schema });
 }
 
-// Типизация записи
-export type BlogItem = typeof schema.blogItems.$inferInsert;
+export function queries() {
+  const db = useDrizzle();
+  return {
+    blogQueries: {
+      async getAll() {
+        return await db.select().from(blogItems).orderBy(blogItems.order_index);
+      },
 
-// Функция для добавления записи в таблицу
-// export async function addBlogItem(
-//   db: ReturnType<typeof useDrizzle>,
-//   data: BlogItem,
-// ) {
-//   await db.insert(schema.blogItems).values(data);
-// }
+      async getById(id: number) {
+        return await db
+          .select()
+          .from(blogItems)
+          .where(eq(blogItems.id, id))
+          .limit(1);
+      },
+
+      async create(data: BlogItem) {
+        const { id, ...dataWithoutId } = data; // Удаляем id
+        return await db.insert(blogItems).values(dataWithoutId).returning();
+      },
+
+      async update(id: number, data: BlogItem) {
+        return await db
+          .update(blogItems)
+          .set(data)
+          .where(eq(blogItems.id, id))
+          .returning();
+      },
+
+      async delete(id: number) {
+        return await db
+          .delete(blogItems)
+          .where(eq(blogItems.id, id))
+          .returning();
+      },
+    },
+  };
+}

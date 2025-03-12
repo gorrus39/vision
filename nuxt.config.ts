@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     locales: ["ru", "en", "cn"], // used in URL path prefix
     defaultLocale: "en", // default locale of your project for Nuxt pages and routings
   },
+  runtimeConfig: {},
   googleFonts: {
     download: true,
     families: {

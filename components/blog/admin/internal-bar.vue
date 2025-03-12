@@ -8,7 +8,7 @@ const confirmModalValue = ref<"discard changes" | "pevivew changes">(
   "discard changes",
 );
 
-const store = useBlogStore();
+const store = useInitializedBlogStore();
 const { discard_admin_changes, preview_changes, post_admin_changes_to_remote } =
   store;
 

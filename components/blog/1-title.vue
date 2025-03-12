@@ -1,9 +1,13 @@
 <script setup lang="ts">
-const {} = useBlogStore();
+// import { getBlogImageUrl } from "~/server/utils/helpers/blog";
+
+// const items = ref([])
 </script>
 
 <template>
   <BlogAdminExternalBar />
+
+  <!-- <img :src="getBlogImageUrl('images/2.jpg')" alt="2" /> -->
   <div
     class="font-secondary text-center mt-M-20 mb-M-40 me-D-185 ms-D-185 md:mt-D-20 md:mb-D-40"
   >

@@ -9,8 +9,9 @@ const toast = useToast();
 
 const showConfirmDeleteItem = ref(false);
 
-const store = useBlogStore();
+const store = useInitializedBlogStore();
 const { items_admin, items_origin, items_view } = storeToRefs(store);
+
 const { update_admin_items_order, delete_admin_item } = store;
 
 const selectedItem = ref<BlogItem | null>(null);
@@ -147,32 +148,37 @@ const handleClickEditItem = (item: BlogItem) => {
         </div>
       </template>
     </draggable>
+  </div>
+  <div class="space-y-2 text-black">
+    <div>
+      <h2><b> items_origin</b></h2>
+      <div v-for="item in items_origin">
+        <p>item.img: {{ item.img }}</p>
+        <p>item.file: {{ item.file }}</p>
+        <p>item.order: {{ item.order_index }}</p>
+        <hr />
+      </div>
+    </div>
+    <hr />
+    <div>
+      <h2><b>items_admin</b></h2>
+      <div v-for="item in items_admin">
+        <p>item.img: {{ item.img }}</p>
+        <p>item.file: {{ item.file }}</p>
+        <p>item.order: {{ item.order_index }}</p>
+        <hr />
+      </div>
+    </div>
+    <hr />
 
-    <div class="flex gap-1">
-      <div>
-        <h2>items_admin[0]</h2>
-        <p>{{ items_admin[0] }}</p>
-        <!-- <p v-for="item in items_admin">
-          {{ item.id }} - {{ item.order_index }} -- {{ item.modified }} --
-          {{ item.img }}
-        </p> -->
+    <div>
+      <h2><b>items_view</b></h2>
+      <div v-for="item in items_view">
+        <p>item.img: {{ item.img }}</p>
+        <p>item.file: {{ item.file }}</p>
+        <p>item.order: {{ item.order_index }}</p>
+        <hr />
       </div>
-      <!-- <UDivider type="solid" orientation="vertical" />
-      <div>
-        <h2>items_origin</h2>
-        <p v-for="item in items_origin">
-          {{ item.id }} - {{ item.order_index }} -- {{ item.modified }} --
-          {{ item.img }}
-        </p>
-      </div>
-      <UDivider orientation="vertical" />
-      <div>
-        <h2>items_view</h2>
-        <p v-for="item in items_view">
-          {{ item.id }} - {{ item.order_index }} -- {{ item.modified }} --
-          {{ item.img }}
-        </p>
-      </div> -->
     </div>
   </div>
 </template>

@@ -1,63 +1,53 @@
-import { readMultipartFormData } from "h3";
-import { useDrizzle } from "~/server/utils/drizzle";
 import { BlogItemsSchema } from "~/types/all";
-const db = useDrizzle();
+import { handleBlobImg } from "~/server/utils/helpers/blog";
 
 export default eventHandler(async (event) => {
   console.log("server receive");
 
-  // Считываем multipart form data
-  const formData = await readMultipartFormData(event);
+  const sameFrontendItems = await convertDataFromFront(event);
 
-  if (!formData) return { error: "undefined FormData" };
-
-  // Ищем и распарсим нужные поля
-  let items: any[] = [];
-  let files: any[] = [];
-
-  // Проходим по всем частям формы и распределяем их по массивам
-  formData.forEach((part) => {
-    if (part.name === "items") {
-      const jsonArray = JSON.parse(part.data.toString()); // Преобразуем строку в массив JSON строк
-
-      // Преобразуем каждую строку в объект
-      const parsedItems = jsonArray.map((item: string) => JSON.parse(item));
-
-      console.log(parsedItems);
-
-      // Добавляем каждый объект в items
-      items.push(...parsedItems);
-    } else if (part.name === "files") {
-      // console.log(part);
-      // Добавляем файл в массив файлов
-      files.push(part.data); // Здесь нужно понимать, что это может быть файл или null
-    }
-  });
-  // Теперь у нас есть два массива: items и files
-  const itemsWithFiles = items.map((item, index) => {
-    // Если файл есть (и он представлен как Buffer), создаем объект File
-    const file = files[index];
-    const fileObject =
-      file instanceof Buffer
-        ? new File([file], `file_${index}.bin`, {
-            type: "application/octet-stream",
-          })
-        : null; // или null, если файла нет
-
-    return {
-      ...item,
-      file: fileObject,
-    };
-  });
-
-  const { success, data, error } = BlogItemsSchema.safeParse(itemsWithFiles);
+  const { success, data, error } = BlogItemsSchema.safeParse(sameFrontendItems);
   if (success) {
-    //////////////////////////////////////////
-    for (const item of data) {
+    for (const recievedItem of data) {
       try {
-        // Вставляем данные в БД
-        // await addBlogItem(db, item);
-        return { success: true };
+        const db_item = (
+          await queries().blogQueries.getById(recievedItem.id)
+        )[0];
+
+        const isItemDeleted = recievedItem.modified == "deleted";
+        const isItemCreated = db_item === undefined;
+        const isItemUpdated = !isItemCreated && !isItemDeleted;
+
+        // const file = recievedItem.file
+        // delete recievedItem.file;
+        // delete recievedItem.modified;
+
+        if (isItemDeleted) {
+          await handleBlobImg(recievedItem, db_item, "deleted");
+          await queries().blogQueries.delete(recievedItem.id);
+        } else if (isItemCreated) {
+          const created_db_item = (
+            await queries().blogQueries.create(recievedItem)
+          )[0];
+
+          const img = await handleBlobImg(
+            recievedItem,
+            created_db_item,
+            "created",
+          );
+
+          created_db_item.img = img;
+
+          await queries().blogQueries.update(
+            created_db_item.id,
+            created_db_item,
+          );
+        } else if (isItemUpdated) {
+          const img = await handleBlobImg(recievedItem, db_item, "updated");
+          recievedItem.img = img;
+
+          await queries().blogQueries.update(recievedItem.id, recievedItem);
+        }
       } catch (error) {
         return { error: "Failed to insert data", details: error };
       }
@@ -65,13 +55,11 @@ export default eventHandler(async (event) => {
 
     console.log("success");
     return { success: true };
-
-    //////////////////////////////////////////////
   } else if (error) {
     console.log("error", error);
+    return { success: false };
   } else {
     console.log("unknown situation");
+    return { success: false };
   }
-
-  // Дальше можете использовать itemsWithFiles для обработки данных (например, сохранения в базе)
 });
