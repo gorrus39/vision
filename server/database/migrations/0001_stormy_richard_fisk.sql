@@ -1,1 +1,0 @@
-ALTER TABLE `blog_items` DROP COLUMN `modified`;

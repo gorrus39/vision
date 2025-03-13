@@ -2,7 +2,7 @@
 const showMainModal = ref(false);
 
 const store = useInitializedBlogStore();
-const { discard_admin_changes } = store;
+const { discard_admin_changes, post_preview_changes_to_remote } = store;
 const { previewed } = storeToRefs(store);
 </script>
 
@@ -10,16 +10,17 @@ const { previewed } = storeToRefs(store);
   <ClientOnly>
     <div class="m-4 hidden gap-2 md:flex">
       <UButton
-        @click="showMainModal = true"
         icon="i-pepicons-pencil:wrench-circle-filled"
-        label="Admin - Blog"
         size="sm"
+        @click="showMainModal = true"
+        label="Admin - Blog"
       />
 
       <UButton
         v-if="previewed"
         icon="i-fa-solid:arrow-alt-circle-up"
         size="sm"
+        @click="post_preview_changes_to_remote"
         label="Post previewed changes to remote"
       />
 

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { BlogItemCategory, type BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/all";
+const store = useInitializedBlogStore();
+const { items_view } = storeToRefs(store);
 
 const toast = useToast();
 
-const blogItem: BlogItem = {
-  id: 1,
-  category: BlogItemCategory.categories,
-  date: new Date(),
-  title: "Lorem ipsum dolor ",
-  text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-};
-
-const blogItems = ref(Array(10).fill(blogItem));
+// const blogItem: BlogItem = {
+//   id: 1,
+//   category: BlogItemCategory.categories,
+//   date: new Date(),
+//   title: "Lorem ipsum dolor ",
+//   text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+// };
 
 const goToAllArticles = () => {
   toast.add({ title: "Soon!)" });
@@ -46,10 +46,10 @@ const goToAllArticles = () => {
       </div>
       <div class="border-D-b grid flex-1 grid-cols-3 border-white">
         <div class="border-D-e border-white">
-          <HomeBlogItem :blogItem="blogItems[0]" />
+          <HomeBlogItem :blogItem="items_view[0]" />
         </div>
         <div class="border-D-e border-white">
-          <HomeBlogItem :blogItem="blogItems[1]" />
+          <HomeBlogItem :blogItem="items_view[1]" />
         </div>
         <div class="border-D-e relative flex border-white p-D-29">
           <div
@@ -85,7 +85,7 @@ const goToAllArticles = () => {
         </div>
 
         <div class="border-D-e relative border-white">
-          <HomeBlogItem :blogItem="blogItems[2]" />
+          <HomeBlogItem :blogItem="items_view[2]" />
           <div
             class="border-D-e absolute border-white bottom-D--50 right-D--1 h-D-50"
           ></div>
@@ -98,7 +98,7 @@ const goToAllArticles = () => {
             class="absolute bg-black right-D--5 bottom-D--5 h-D-10 w-D-100"
           ></div>
 
-          <HomeBlogItem :blogItem="blogItems[3]" />
+          <HomeBlogItem :blogItem="items_view[3]" />
         </div>
       </div>
       <div class="w-D-155"></div>
@@ -122,7 +122,7 @@ const goToAllArticles = () => {
     <div class="flex">
       <div class="border-M-e border-white w-M-23"></div>
       <div class="border-M-e border-M-b flex-1 border-white">
-        <HomeBlogItem :blogItem="blogItems[0]" mobile />
+        <HomeBlogItem :blogItem="items_view[0]" mobile />
       </div>
       <div class="border-M-b border-white w-M-24"></div>
     </div>
@@ -140,7 +140,7 @@ const goToAllArticles = () => {
     <div class="flex">
       <div class="border-M-e border-white w-M-23"></div>
       <div class="border-M-e border-M-b flex-1 border-white">
-        <HomeBlogItem :blogItem="blogItems[1]" mobile />
+        <HomeBlogItem :blogItem="items_view[1]" mobile />
       </div>
       <div class="w-M-24"></div>
     </div>

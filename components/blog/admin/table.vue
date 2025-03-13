@@ -10,7 +10,7 @@ const toast = useToast();
 const showConfirmDeleteItem = ref(false);
 
 const store = useInitializedBlogStore();
-const { items_admin, items_origin, items_view } = storeToRefs(store);
+const { items_admin } = storeToRefs(store);
 
 const { update_admin_items_order, delete_admin_item } = store;
 
@@ -149,7 +149,7 @@ const handleClickEditItem = (item: BlogItem) => {
       </template>
     </draggable>
   </div>
-  <div class="space-y-2 text-black">
+  <!-- <div class="space-y-2 text-black">
     <div>
       <h2><b> items_origin</b></h2>
       <div v-for="item in items_origin">
@@ -180,5 +180,5 @@ const handleClickEditItem = (item: BlogItem) => {
         <hr />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>

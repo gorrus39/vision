@@ -89,7 +89,11 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <UInput v-model="state.title" />
     </UFormGroup>
 
-    <UFormGroup v-if="state.sub_title" label="sub_title" name="sub_title">
+    <UFormGroup
+      v-if="typeof state.sub_title == 'string'"
+      label="sub_title"
+      name="sub_title"
+    >
       <UInput v-model="state.sub_title" />
     </UFormGroup>
 

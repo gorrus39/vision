@@ -1,34 +1,32 @@
 <script setup lang="ts">
-// import { useBlogStore } from "~/stores/blog";
-// import { storeToRefs } from "pinia";
+import { getBlogImageUrl } from "~/server/utils/helpers/blog";
 
 const { items_view, items_admin, items_origin } = storeToRefs(
   useInitializedBlogStore(),
 );
 
-const origin_or_preview_items_without_deleted = computed(() => {
-  return items_view.value.filter((item) => item.modified !== "deleted");
+const hot_items = computed(() => {
+  return items_view.value.filter((item) => {
+    const isLocalDeletedByAdmin = item.modified === "deleted";
+    const isHiPriority = item.priority == "High";
+    return isHiPriority && !isLocalDeletedByAdmin;
+  });
 });
 </script>
 
 <template>
-  <div class="flex w-full">
-    <div class="ms-auto">
-      <p>origin_or_preview_items_without_deleted:</p>
-      <p v-for="item in origin_or_preview_items_without_deleted">
-        {{ item.id }}
-      </p>
-      <hr />
-      <p>items_admin:</p>
-      <p v-for="item in items_admin">
-        {{ item.id }}
-      </p>
-      <hr />
-      <p>items_origin:</p>
-      <p v-for="item in items_origin">
-        {{ item.id }}
-      </p>
-      <hr />
+  <h1>hot_items.length: {{ hot_items.length }}</h1>
+  <div class="flex w-full flex-wrap">
+    <div v-for="item in hot_items">
+      <p>{{ item.title }}</p>
+      <p>{{ item.text }}</p>
+
+      <img
+        class="w-D-100 h-D-100"
+        v-if="item.img"
+        :src="getBlogImageUrl(item.img)"
+        alt=""
+      />
     </div>
   </div>
 </template>

@@ -129,15 +129,17 @@ export const useBlogStore = defineStore("blogStore", {
       this.items_view = _.cloneDeep(this.items_admin);
       this.previewed = true;
     },
-    async post_admin_changes_to_remote() {
+    async post_admin_changes_to_remote(type_changes?: "preview-changes") {
       const formData = new FormData();
 
       // Массив для хранения данных всех айтемов
       const itemsData: any[] = [];
       // Массив для хранения файлов
-      const filesData: any[] = [];
 
-      this.items_admin.forEach((item, index) => {
+      const items =
+        type_changes == "preview-changes" ? this.items_view : this.items_admin;
+
+      items.forEach((item, index) => {
         // Создаём объект данных для каждого айтема
         const itemData = {
           id: item.id,
@@ -183,7 +185,9 @@ export const useBlogStore = defineStore("blogStore", {
       }
     },
 
-    post_preview_changes_to_remote() {},
+    post_preview_changes_to_remote() {
+      this.post_admin_changes_to_remote("preview-changes");
+    },
   },
   getters: {},
 });

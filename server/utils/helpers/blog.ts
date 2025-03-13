@@ -77,17 +77,16 @@ export const handleBlobImg = async (
   db_item: BlogItem | undefined,
   frontendAction: "deleted" | "updated" | "created",
 ): Promise<string | null> => {
-  if (frontendAction == "deleted" && db_item) {
-    try {
-      await hubBlob().del(getBlogImageUrl(`${db_item.id}__${db_item.img}`));
-    } catch (error) {}
+  const file = frontend_item.file;
+
+  if (frontendAction == "deleted" && db_item && db_item.img) {
+    await hubBlob().del(db_item.img);
     return null;
   }
 
-  if (frontendAction == "created") {
-    const file = frontend_item.file;
+  if (frontendAction == "created" && db_item) {
     if (file) {
-      const res = await hubBlob().put(file.name, file, {
+      const res = await hubBlob().put(`${db_item.id}__${file.name}`, file, {
         addRandomSuffix: false,
         prefix: "blog-items",
       });
@@ -95,21 +94,40 @@ export const handleBlobImg = async (
     } else return null;
   }
 
+  // await hubBlob().del(getBlogImageUrl(`${db_item.id}__${db_item.img}`));
+
+  // варианты update (4)
+  // фотка не поменялась(была или null или фотка)
+  // была, но стала null
+  // было null, стала фотка
+  // была одна, стала другая фотка
   if (frontendAction == "updated" && db_item) {
-    if (frontend_item.img === null) {
-      await hubBlob().del(getBlogImageUrl(`${db_item.id}__${db_item.img}`));
+    // фотка не поменялась
+    if (db_item.img == frontend_item.img) return db_item.img;
+    // была, но стала null
+    else if (db_item.img && frontend_item.img === null) {
+      await hubBlob().del(db_item.img);
       return null;
-    } else if (frontend_item.img && frontend_item.file) {
-      const file = frontend_item.file;
-      if (file) {
-        const res = await hubBlob().put(file.name, file, {
-          addRandomSuffix: false,
-          prefix: "blog-items",
-        });
-        return res.pathname;
-      }
-    } else if (frontend_item.img == db_item.img) {
-      return frontend_item.img;
+      // было null, стала фотка
+    } else if (db_item.img === null && frontend_item.img && file) {
+      const res = await hubBlob().put(`${db_item.id}__${file.name}`, file, {
+        addRandomSuffix: false,
+        prefix: "blog-items",
+      });
+      return res.pathname;
+      // была одна, стала другая фотка
+    } else if (
+      db_item.img &&
+      frontend_item.img &&
+      db_item.img !== frontend_item.img &&
+      file
+    ) {
+      await hubBlob().del(db_item.img);
+      const res = await hubBlob().put(`${db_item.id}__${file.name}`, file, {
+        addRandomSuffix: false,
+        prefix: "blog-items",
+      });
+      return res.pathname;
     }
   }
 

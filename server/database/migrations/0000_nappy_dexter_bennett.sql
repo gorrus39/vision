@@ -7,6 +7,5 @@ CREATE TABLE `blog_items` (
 	`sub_title` text,
 	`text` text NOT NULL,
 	`priority` text NOT NULL,
-	`order_index` integer NOT NULL,
-	`modified` text
+	`order_index` integer NOT NULL
 );

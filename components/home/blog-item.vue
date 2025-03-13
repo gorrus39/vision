@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BlogItemCategory, type BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/all";
 
 const toast = useToast();
 
@@ -8,8 +8,8 @@ const props = defineProps<{
   mobile?: true;
 }>();
 
-const day = String(props.blogItem.date.getDay()).padStart(2, "0");
-const month = String(props.blogItem.date.getMonth()).padStart(2, "0");
+const day = String(props.blogItem.published_at.getDay()).padStart(2, "0");
+const month = String(props.blogItem.published_at.getMonth()).padStart(2, "0");
 
 const handleClickShowMore = () => {
   toast.add({ title: "Soon!)" });
@@ -30,7 +30,7 @@ const handleClickShowMore = () => {
             : 'border-D rounded-[2vw] ps-D-10 pe-D-10 text-D-18',
         ]"
       >
-        {{ BlogItemCategory[blogItem.category] }}
+        {{ blogItem.category }}
       </div>
     </div>
 
