@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const showMobileNavigation = ref(false);
 const localePath = useLocalePath();
+debugger;
 
 const homeLink = { label: "VISION", path: localePath("/") };
 const navLinks = [
   { label: "CATALOGUE", path: "#" },
-  { label: "BLOG", path: localePath("blog") },
+  { label: "BLOG", path: localePath("/blog") },
   { label: "F.A.Q.", path: "#" },
   { label: "ABOUT FRAUDVISION", path: "#" },
   { label: "CONTACT US", path: "#" },

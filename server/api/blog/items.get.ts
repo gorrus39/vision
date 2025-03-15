@@ -1,5 +1,8 @@
+let counter = 0;
+
 export default eventHandler(async (event) => {
-  console.log("server receive get blog items");
+  counter++;
+  console.log(`server receive get blog items. counter: ${counter}`);
 
   return await queries().blogQueries.getAll();
 });

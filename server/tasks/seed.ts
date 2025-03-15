@@ -18,7 +18,7 @@ export default defineTask({
 
     for (let i = 0; i < itemsAmount; i++) {
       blogItems.push({
-        id: i + 1,
+        // id: i + 1,
         published_at: new Date(),
         category: `Category ${i + 1}`,
         title: `Main TITLE ${i + 1}`,

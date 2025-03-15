@@ -52,6 +52,8 @@ const test_items: BlogItem[] = [
   },
 ];
 
+let counter = 0;
+
 export const useBlogStore = defineStore("blogStore", {
   state: () => ({
     items_origin: [] as BlogItem[], //_.cloneDeep(test_items), // изначальные, для отмены превью
@@ -81,6 +83,8 @@ export const useBlogStore = defineStore("blogStore", {
           this.has_admin_changes = false;
           this.previewed = false;
           this.initialized = true;
+          counter++;
+          console.log(`initialized blog-items. counter: ${counter}`);
         }
       } catch (error) {
         console.log("init state blog items ERROR", error);
