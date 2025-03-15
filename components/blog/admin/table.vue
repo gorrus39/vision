@@ -80,74 +80,76 @@ const handleClickEditItem = (item: BlogItem) => {
       <div>Sub Title</div>
       <div>Text</div>
     </div>
-    <draggable
-      v-model="items_admin"
-      item-key="id"
-      @end="update_admin_items_order"
-    >
-      <template
-        #item="{ element: item, index }: { element: BlogItem; index: number }"
+    <div class="max-h-[80vh] overflow-auto">
+      <draggable
+        v-model="items_admin"
+        item-key="id"
+        @end="update_admin_items_order"
       >
-        <div
-          class="grid items-center gap-4 p-1 font-medium text-black"
-          :class="[
-            index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
-            { hidden: item.modified === 'deleted' },
-          ]"
-          :style="{
-            gridTemplateColumns:
-              '50px 50px 100px 100px 100px 100px 50px 100px auto',
-          }"
+        <template
+          #item="{ element: item, index }: { element: BlogItem; index: number }"
         >
-          <div class="flex justify-evenly">
-            <UIcon
-              class="on-hover"
-              name="i-mdi-light:delete"
-              @click="handleClickDeleteIcon(item)"
-            />
-            <UIcon
-              class="on-hover"
-              name="i-heroicons-pencil-square"
-              @click="handleClickEditItem(item)"
-            />
+          <div
+            class="grid items-center gap-4 p-1 font-medium text-black"
+            :class="[
+              index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
+              { hidden: item.modified === 'deleted' },
+            ]"
+            :style="{
+              gridTemplateColumns:
+                '50px 50px 100px 100px 100px 100px 50px 100px auto',
+            }"
+          >
+            <div class="flex justify-evenly">
+              <UIcon
+                class="on-hover"
+                name="i-mdi-light:delete"
+                @click="handleClickDeleteIcon(item)"
+              />
+              <UIcon
+                class="on-hover"
+                name="i-heroicons-pencil-square"
+                @click="handleClickEditItem(item)"
+              />
+            </div>
+            <div class="p-1">
+              <UChip v-if="item.modified"> {{ item.id }} </UChip>
+              <span v-else>{{ item.id }}</span>
+            </div>
+            <div class="p-1">
+              {{
+                item.priority == "High" ? `🔥 ${item.priority}` : item.priority
+              }}
+            </div>
+            <div class="p-1">{{ item.title }}</div>
+            <div class="p-1">
+              {{ formatDate(item.published_at) }}
+            </div>
+            <div class="p-1">{{ item.category }}</div>
+            <div class="flex items-center justify-center px-2 py-2">
+              <span class="font-bold text-green-600" v-if="item.img">✔</span>
+              <span class="font-bold text-red-600" v-else>✘</span>
+            </div>
+            <div class="p-1">{{ item.sub_title }}</div>
+            <div class="relative truncate p-1">
+              <span
+                class="block overflow-hidden text-ellipsis whitespace-nowrap"
+                style="
+                  mask-image: linear-gradient(to right, black 80%, transparent);
+                  -webkit-mask-image: linear-gradient(
+                    to right,
+                    black 80%,
+                    transparent
+                  );
+                "
+              >
+                {{ item.text }}
+              </span>
+            </div>
           </div>
-          <div class="p-1">
-            <UChip v-if="item.modified"> {{ item.id }} </UChip>
-            <span v-else>{{ item.id }}</span>
-          </div>
-          <div class="p-1">
-            {{
-              item.priority == "High" ? `🔥 ${item.priority}` : item.priority
-            }}
-          </div>
-          <div class="p-1">{{ item.title }}</div>
-          <div class="p-1">
-            {{ formatDate(item.published_at) }}
-          </div>
-          <div class="p-1">{{ item.category }}</div>
-          <div class="flex items-center justify-center px-2 py-2">
-            <span class="font-bold text-green-600" v-if="item.img">✔</span>
-            <span class="font-bold text-red-600" v-else>✘</span>
-          </div>
-          <div class="p-1">{{ item.sub_title }}</div>
-          <div class="relative truncate p-1">
-            <span
-              class="block overflow-hidden text-ellipsis whitespace-nowrap"
-              style="
-                mask-image: linear-gradient(to right, black 80%, transparent);
-                -webkit-mask-image: linear-gradient(
-                  to right,
-                  black 80%,
-                  transparent
-                );
-              "
-            >
-              {{ item.text }}
-            </span>
-          </div>
-        </div>
-      </template>
-    </draggable>
+        </template>
+      </draggable>
+    </div>
   </div>
   <!-- <div class="space-y-2 text-black">
     <div>

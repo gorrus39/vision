@@ -6,7 +6,9 @@ import { eq } from "drizzle-orm";
 
 // export { sql, eq, and, or } from "drizzle-orm";
 
-function useDrizzle() {
+export const tables = schema;
+
+export function useDrizzle() {
   return drizzle(hubDatabase(), { schema });
 }
 

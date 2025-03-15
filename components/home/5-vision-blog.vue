@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/all";
-const store = useInitializedBlogStore();
-const { items_view } = storeToRefs(store);
+
+// const store = useInitializedBlogStore();
+// const { items_view } = storeToRefs(store);
 
 const toast = useToast();
 
-// const blogItem: BlogItem = {
-//   id: 1,
-//   category: BlogItemCategory.categories,
-//   date: new Date(),
-//   title: "Lorem ipsum dolor ",
-//   text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-// };
+const blogItem: BlogItem = {
+  id: 1,
+  category: "category",
+  published_at: new Date(),
+  title: "Lorem ipsum dolor ",
+  text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+  img: null,
+  priority: "High",
+  order_index: 0,
+};
+
+const items_view = ref(Array(4).fill(blogItem));
 
 const goToAllArticles = () => {
   toast.add({ title: "Soon!)" });

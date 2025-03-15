@@ -38,6 +38,7 @@ body {
   border-style: solid;
 }
 
+
 .border-M {
   border-width: var(--border-mobile-size);
   border-style: solid;

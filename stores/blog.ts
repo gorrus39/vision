@@ -66,10 +66,11 @@ export const useBlogStore = defineStore("blogStore", {
   actions: {
     async init() {
       try {
-        const { data } = await useFetch("/api/blog/items");
+        const data = await $fetch("/api/blog/items");
+        // const { data } = await useFetch("/api/blog/items");
 
-        if (data.value) {
-          const items = data.value.map((item) => ({
+        if (data) {
+          const items = data.map((item) => ({
             ...item,
             published_at: new Date(item.published_at), // Конвертация в Date
           })) as BlogItem[];

@@ -2,7 +2,7 @@
 const showMobileNavigation = ref(false);
 const localePath = useLocalePath();
 
-const homeLink = { label: "VISION", path: "/" };
+const homeLink = { label: "VISION", path: localePath("/") };
 const navLinks = [
   { label: "CATALOGUE", path: "#" },
   { label: "BLOG", path: localePath("blog") },
@@ -25,10 +25,10 @@ const toggle = ref(true);
     <div class="border-D-e border-white w-D-154"></div>
 
     <NuxtLink
-      class="border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686"
+      class="on-hover border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686"
       :to="homeLink.path"
     >
-      <span class="on-hover"> {{ homeLink.label }} </span>
+      {{ homeLink.label }}
     </NuxtLink>
 
     <nav class="flex items-center ps-D-22 gap-D-70">
@@ -59,7 +59,7 @@ const toggle = ref(true);
           class="on-hover text-M-14"
           v-for="link in navLinks"
           :to="link.path"
-          @click="toast.add({ title: 'Soon!)' })"
+          @click="showMobileNavigation = false"
           >{{ link.label }}</NuxtLink
         >
       </nav>
@@ -78,7 +78,9 @@ const toggle = ref(true);
         @click="showMobileNavigation = true"
       />
 
-      <span class="m-auto text-center text-M-18"> VISION </span>
+      <NuxtLink class="m-auto text-center text-M-18" :to="homeLink.path">{{
+        homeLink.label
+      }}</NuxtLink>
 
       <Language />
     </div>

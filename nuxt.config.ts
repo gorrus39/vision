@@ -51,9 +51,10 @@ export default defineNuxtConfig({
   },
   nitro: {
     experimental: {
-      // openAPI: true,
+      tasks: true,
     },
   },
+
   hub: {
     database: true,
     // remote: true,
