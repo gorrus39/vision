@@ -83,6 +83,7 @@ const handlePostAdminChanges = async () => {
   <div class="flex gap-2 text-black">
     <UButton
       @click="showForm = true"
+      :disabled="post_changes_loading"
       icon="i-ep:circle-plus-filled"
       label="Add item"
     />
@@ -90,6 +91,7 @@ const handlePostAdminChanges = async () => {
     <UButton
       v-if="has_admin_changes"
       @click="openConfirmPreview"
+      :disabled="post_changes_loading"
       icon="i-bytesize:eye"
       label="Preview changes"
     />
@@ -108,6 +110,7 @@ const handlePostAdminChanges = async () => {
       variant="outline"
       color="red"
       @click="openConfirmDiscard"
+      :disabled="post_changes_loading"
       icon="bytesize:close"
       label="Discard changes"
     />
@@ -116,6 +119,7 @@ const handlePostAdminChanges = async () => {
       variant="outline"
       color="red"
       @click="showMainModal = false"
+      :disabled="post_changes_loading"
       icon="bytesize:close"
       :label="has_admin_changes ? 'Close without preview' : 'Close'"
     />

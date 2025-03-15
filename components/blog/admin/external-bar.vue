@@ -22,6 +22,7 @@ const handlePostReviewedChanges = async () => {
       <UButton
         icon="i-pepicons-pencil:wrench-circle-filled"
         size="sm"
+        :disabled="post_changes_loading"
         @click="showMainModal = true"
         label="Admin - Blog"
       />
@@ -41,6 +42,7 @@ const handlePostReviewedChanges = async () => {
         color="red"
         size="sm"
         icon="bytesize:close"
+        :disabled="post_changes_loading"
         @click="discard_admin_changes"
         label="Discard changes"
       />
