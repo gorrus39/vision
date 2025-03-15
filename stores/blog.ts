@@ -186,8 +186,8 @@ export const useBlogStore = defineStore("blogStore", {
       }
     },
 
-    post_preview_changes_to_remote() {
-      this.post_admin_changes_to_remote("preview-changes");
+    async post_preview_changes_to_remote() {
+      await this.post_admin_changes_to_remote("preview-changes");
     },
   },
   getters: {},

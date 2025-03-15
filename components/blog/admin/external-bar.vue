@@ -1,9 +1,19 @@
 <script setup lang="ts">
 const showMainModal = ref(false);
 
+const post_changes_loading = ref(false);
+
 const store = useInitializedBlogStore();
 const { discard_admin_changes, post_preview_changes_to_remote } = store;
 const { previewed } = storeToRefs(store);
+
+const handlePostReviewedChanges = async () => {
+  if (post_changes_loading.value === false) {
+    post_changes_loading.value = true;
+    await post_preview_changes_to_remote();
+    post_changes_loading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -20,7 +30,8 @@ const { previewed } = storeToRefs(store);
         v-if="previewed"
         icon="i-fa-solid:arrow-alt-circle-up"
         size="sm"
-        @click="post_preview_changes_to_remote"
+        :loading="post_changes_loading"
+        @click="handlePostReviewedChanges"
         label="Post previewed changes to remote"
       />
 

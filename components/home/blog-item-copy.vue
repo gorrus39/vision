@@ -9,10 +9,6 @@ const props = defineProps<{
   mobile?: true;
   hotItem?: true;
 }>();
-
-const handleClickShowMore = () => {
-  // toast.add({ title: "Soon!)" });
-};
 </script>
 
 <template>
@@ -69,23 +65,18 @@ const handleClickShowMore = () => {
       :src="getBlogImageUrl(blogItem.img)"
     />
 
-    <NuxtLink
-      :to="`/blog/${props.blogItem.id}`"
-      :class="[hotItem ? '' : 'mt-auto']"
-    >
-      <button
-        :class="[
-          'on-hover button-gradient w-full text-center',
-
-          mobile
-            ? 'rounded-[1vw] p-M-5 text-M-16'
-            : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
-        ]"
-        @click="handleClickShowMore"
-      >
-        show more
-      </button>
-    </NuxtLink>
+    <UButton
+      :class="[
+        'button-gradient on-hover',
+        hotItem ? '' : 'mt-auto',
+        mobile
+          ? 'rounded-[1vw] p-M-5 text-M-16'
+          : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
+      ]"
+      :to="localePath(`/blog/${props.blogItem.id}`)"
+      label="show more"
+      block
+    />
   </div>
 </template>
 

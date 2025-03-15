@@ -3,6 +3,8 @@ const showMainModal = defineModel<boolean>();
 const showForm = ref(false);
 const toast = useToast();
 
+const post_changes_loading = ref(false);
+
 const showConfirmModal = ref(false);
 const confirmModalValue = ref<"discard changes" | "pevivew changes">(
   "discard changes",
@@ -19,8 +21,8 @@ const handleConfirmDiscardChanges = () => {
   showConfirmModal.value = false;
 };
 
-const handlePreviewChanges = () => {
-  preview_changes();
+const handlePreviewChanges = async () => {
+  await preview_changes();
   showConfirmModal.value = false;
   showMainModal.value = false;
 };
@@ -36,8 +38,13 @@ const openConfirmPreview = () => {
 };
 
 const handlePostAdminChanges = async () => {
-  const response = await post_admin_changes_to_remote();
-  if (response?.success) toast.add({ title: "POST Success! " });
+  if (post_changes_loading.value === false) {
+    post_changes_loading.value = true;
+
+    const response = await post_admin_changes_to_remote();
+    if (response?.success) toast.add({ title: "POST Success! " });
+    post_changes_loading.value = false;
+  }
 };
 </script>
 
@@ -84,13 +91,14 @@ const handlePostAdminChanges = async () => {
       v-if="has_admin_changes"
       @click="openConfirmPreview"
       icon="i-bytesize:eye"
-      label=" Preview changes"
+      label="Preview changes"
     />
 
     <UButton
       v-if="has_admin_changes"
       icon="i-fa-solid:arrow-alt-circle-up"
       size="sm"
+      :loading="post_changes_loading"
       @click="handlePostAdminChanges"
       label="Post changes to remote"
     />
