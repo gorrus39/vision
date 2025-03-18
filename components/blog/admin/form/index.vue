@@ -116,6 +116,5 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
         >Close form</UButton
       >
     </div>
-    {{ state.text }}
   </UForm>
 </template>

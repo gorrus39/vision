@@ -15,7 +15,7 @@ const editor = useEditor({
       openOnClick: false,
       autolink: true,
       HTMLAttributes: {
-        class: "text-blue-500 underline",
+        class: "text-white underline",
       },
     }),
   ],
@@ -205,7 +205,7 @@ watch(
         />
       </div>
     </div>
-    <EditorContent :editor="editor" />
+    <EditorContent class="rounded-lg bg-black" :editor="editor" />
   </div>
 </template>
 
@@ -223,8 +223,11 @@ watch(
 /* Применяем стили к ProseMirror внутри Tiptap */
 ::v-deep(.ProseMirror) {
   padding: 10px;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 10px;
+  color: white;
+  outline: none;
+
   /* min-height: 150px; */
 }
 

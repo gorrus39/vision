@@ -22,7 +22,7 @@ export const BlogItemSchema = z.object({
   title: z.string().min(1).max(30),
   img: z.string().nullable(),
 
-  sub_title: z.string().min(1).max(50).optional().nullable(),
+  sub_title: z.string().max(50).optional().nullable(),
   text: z.string().min(1).max(600),
   priority: z.enum(["High", "Low"]),
   order_index: z.coerce.number(), // 🔥 Преобразование строки в число

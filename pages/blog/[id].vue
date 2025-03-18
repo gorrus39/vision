@@ -76,4 +76,8 @@ const item = ref(items_view.value.find((item) => item.id === +id));
     border-right-width: var(--border-mobile-size);
   }
 }
+
+a {
+  color: white;
+}
 </style>
