@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@pinia/nuxt",
+    "nuxt-tiptap-editor",
   ],
   i18n: {
     strategy: "prefix",
@@ -54,7 +55,9 @@ export default defineNuxtConfig({
       tasks: true,
     },
   },
-
+  tiptap: {
+    prefix: "Tiptap", //prefix for Tiptap imports, composables not included
+  },
   hub: {
     database: true,
     // remote: true,

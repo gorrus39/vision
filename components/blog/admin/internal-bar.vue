@@ -124,7 +124,7 @@ const handlePostAdminChanges = async () => {
       :label="has_admin_changes ? 'Close without preview' : 'Close'"
     />
   </div>
-  <USlideover v-model="showForm">
+  <USlideover v-model="showForm" :ui="{ width: 'max-w-xl' }">
     <BlogAdminForm v-model:showForm="showForm" />
   </USlideover>
 </template>

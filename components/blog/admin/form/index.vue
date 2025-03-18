@@ -97,9 +97,12 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <UInput v-model="state.sub_title" />
     </UFormGroup>
 
-    <UFormGroup required label="text" name="text">
-      <UTextarea v-model="state.text" resize />
-    </UFormGroup>
+    <ClientOnly>
+      <UFormGroup required label="text" name="text">
+        <ChanksTextEditor v-model="state.text" />
+        <!-- <UTextarea v-model="state.text" resize /> -->
+      </UFormGroup>
+    </ClientOnly>
 
     <UFormGroup required label="priority" name="priority">
       <USelect v-model="state.priority" :options="priorityOptions" />
@@ -113,6 +116,6 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
         >Close form</UButton
       >
     </div>
-    <!-- {{ selectedItem }} -->
+    {{ state.text }}
   </UForm>
 </template>

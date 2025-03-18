@@ -45,6 +45,7 @@ const props = defineProps<{
     </p>
 
     <p
+      v-html="blogItem.text"
       :class="[
         'formatted-text',
         mobile
@@ -55,9 +56,9 @@ const props = defineProps<{
         mask-image: linear-gradient(to bottom, black 10%, transparent);
         -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent);
       "
-    >
-      {{ blogItem.text }}
-    </p>
+    />
+    <!-- {{ blogItem.text }}
+    </p> -->
 
     <img
       class="mb-M-10 md:mb-D-20"

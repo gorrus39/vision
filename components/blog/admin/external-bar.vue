@@ -20,7 +20,7 @@ const handlePostReviewedChanges = async () => {
   <ClientOnly>
     <div class="m-4 hidden gap-2 md:flex">
       <UButton
-        icon="i-pepicons-pencil:wrench-circle-filled"
+        icon="i-lucide:settings"
         size="sm"
         :disabled="post_changes_loading"
         @click="showMainModal = true"

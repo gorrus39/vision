@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const showMobileNavigation = ref(false);
 const localePath = useLocalePath();
-debugger;
 
 const homeLink = { label: "VISION", path: localePath("/") };
 const navLinks = [
@@ -13,10 +12,6 @@ const navLinks = [
 ];
 
 const toast = useToast();
-
-const handleClick = () => {
-  console.log("asdf");
-};
 
 const toggle = ref(true);
 </script>

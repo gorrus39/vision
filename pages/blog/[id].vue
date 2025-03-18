@@ -45,7 +45,8 @@ const item = ref(items_view.value.find((item) => item.id === +id));
         >
           {{ item.sub_title }}
         </p>
-        <p class="text-M-16 md:text-D-24">{{ item.text }}</p>
+        <p class="text-M-16 md:text-D-24" v-html="item.text" />
+        <!-- <p class="text-M-16 md:text-D-24">{{ item.text }}</p> -->
       </div>
     </div>
   </div>
