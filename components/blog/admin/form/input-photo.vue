@@ -6,7 +6,7 @@ const model = defineModel<BlogItem>();
 const handleCancelPhoto = () => {
   if (!model.value) return;
 
-  model.value.img = null;
+  model.value.image_paths = null;
   delete model.value.file;
 
   // Очищаем инпут, чтобы можно было загрузить тот же файл снова
@@ -35,22 +35,8 @@ const onFileChange = async (event: Event) => {
   // Создаем превью
   // preview.value = URL.createObjectURL(file);
 
-  model.value.img = URL.createObjectURL(file);
+  model.value.image_paths = URL.createObjectURL(file);
   model.value.file = file;
-  // // Подготовка FormData
-  // const formData = new FormData();
-  // formData.append("file", file);
-  // formData.append("fileName", "home/1-title");
-
-  // try {
-  //   const response = await $fetch("/api/photo", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  //   console.log("Upload success:", response);
-  // } catch (error) {
-  //   console.error("Upload failed:", error);
-  // }
 };
 </script>
 
@@ -70,7 +56,7 @@ const onFileChange = async (event: Event) => {
       </label>
 
       <UButton
-        v-if="model?.img"
+        v-if="model?.image_paths"
         color="red"
         variant="outline"
         @click="handleCancelPhoto"
@@ -79,10 +65,10 @@ const onFileChange = async (event: Event) => {
       </UButton>
     </div>
 
-    <div class="mt-4" v-if="model?.img">
+    <div class="mt-4" v-if="model?.image_paths">
       <img
         class="h-48 w-48 rounded-lg object-cover text-black shadow-md"
-        :src="getBlogImageUrl(model?.img)"
+        :src="getBlogImageUrl(model?.image_paths)"
         alt="preview photo"
       />
     </div>

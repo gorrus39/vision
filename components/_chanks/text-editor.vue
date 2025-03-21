@@ -32,12 +32,7 @@ const setLink = () => {
     return;
   }
 
-  editor.value
-    .chain()
-    .focus()
-    .extendMarkRange("link")
-    .setLink({ href: url })
-    .run();
+  editor.value.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
 };
 
 onBeforeUnmount(() => {
@@ -57,14 +52,7 @@ watch(
     <div v-if="editor">
       <div class="flex flex-wrap gap-2">
         <!-- Добавить ссылку -->
-        <UButton
-          icon="i-heroicons-link"
-          size="sm"
-          color="primary"
-          square
-          variant="outline"
-          @click="setLink"
-        />
+        <UButton icon="i-heroicons-link" size="sm" color="primary" square variant="outline" @click="setLink" />
 
         <!-- Удалить ссылку -->
         <UButton
@@ -233,7 +221,7 @@ watch(
 
 /* Стили для ссылок */
 ::v-deep(a) {
-  color: #3b82f6;
+  /* color: #3b82f6; */
   text-decoration: underline;
 }
 </style>

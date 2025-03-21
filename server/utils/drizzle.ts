@@ -21,31 +21,30 @@ export function queries() {
       },
 
       async getById(id: number) {
-        return await db
-          .select()
-          .from(blogItems)
-          .where(eq(blogItems.id, id))
-          .limit(1);
+        return await db.select().from(blogItems).where(eq(blogItems.id, id)).limit(1);
       },
 
       async create(data: BlogItem) {
+        const image_paths = JSON.stringify(data.image_paths);
+
         const { id, ...dataWithoutId } = data; // Удаляем id
-        return await db.insert(blogItems).values(dataWithoutId).returning();
+        return await db
+          .insert(blogItems)
+          .values({ ...dataWithoutId, image_paths })
+          .returning();
       },
 
       async update(id: number, data: BlogItem) {
+        const image_paths = JSON.stringify(data.image_paths);
         return await db
           .update(blogItems)
-          .set(data)
+          .set({ ...data, image_paths })
           .where(eq(blogItems.id, id))
           .returning();
       },
 
       async delete(id: number) {
-        return await db
-          .delete(blogItems)
-          .where(eq(blogItems.id, id))
-          .returning();
+        return await db.delete(blogItems).where(eq(blogItems.id, id)).returning();
       },
     },
   };

@@ -2,5 +2,6 @@
   "plugins": [
     "prettier-plugin-organize-attributes",
     "prettier-plugin-tailwindcss"
-  ]
+  ],
+  "printWidth": 120
 }

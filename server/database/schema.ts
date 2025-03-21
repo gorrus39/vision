@@ -6,7 +6,7 @@ export const blogItems = sqliteTable("blog_items", {
   published_at: integer("published_at", { mode: "timestamp" }).notNull(), // Дата публикации
   category: text("category").notNull().default("Uncategorized"), // Категория
   title: text("title").notNull(), // Заголовок
-  img: text("img"), // Ссылка на изображение (может быть null)
+  image_paths: text("image_paths").default("[null,null,null,null,null]"), // Ссылка на изображение (может быть null)
   sub_title: text("sub_title"), // Подзаголовок (может быть null)
   text: text("text").notNull(), // Основной текст
   priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)

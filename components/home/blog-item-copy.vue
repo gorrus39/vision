@@ -9,6 +9,12 @@ const props = defineProps<{
   mobile?: true;
   hotItem?: true;
 }>();
+
+const image_path_validation = computed(() => {
+  if (props.hotItem) return null;
+
+  return props.blogItem.image_paths[0];
+});
 </script>
 
 <template>
@@ -35,12 +41,7 @@ const props = defineProps<{
       </div>
     </div>
 
-    <p
-      :class="[
-        'font-bebas-neue',
-        mobile ? 'mb-M-10 text-M-32' : 'mb-D-38 text-D-52',
-      ]"
-    >
+    <p :class="['font-bebas-neue', mobile ? 'mb-M-10 text-M-32' : 'mb-D-38 text-D-52']">
       {{ blogItem.title }}
     </p>
 
@@ -60,19 +61,15 @@ const props = defineProps<{
     <!-- {{ blogItem.text }}
     </p> -->
 
-    <img
-      class="mb-M-10 md:mb-D-20"
-      v-if="!hotItem && blogItem.img"
-      :src="getBlogImageUrl(blogItem.img)"
-    />
+    <div class="flex flex-col gap-2" v-if="image_path_validation">
+      <img class="mb-M-10 md:mb-D-20" :src="getBlogImageUrl(image_path_validation)" />
+    </div>
 
     <UButton
       :class="[
         'button-gradient on-hover',
         hotItem ? '' : 'mt-auto',
-        mobile
-          ? 'rounded-[1vw] p-M-5 text-M-16'
-          : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
+        mobile ? 'rounded-[1vw] p-M-5 text-M-16' : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
       ]"
       :to="localePath(`/blog/${props.blogItem.id}`)"
       label="show more"
@@ -84,13 +81,7 @@ const props = defineProps<{
 <style scoped>
 /* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
 .button-gradient {
-  background: linear-gradient(
-    to left,
-    #c6c6c6,
-    #ffffff 15%,
-    #c6c6c6 26%,
-    #848181
-  );
+  background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
 }
 
 .formatted-text {

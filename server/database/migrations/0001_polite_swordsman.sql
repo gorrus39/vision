@@ -1,0 +1,1 @@
+ALTER TABLE `blog_items` RENAME COLUMN "img" TO "image_paths";

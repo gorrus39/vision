@@ -35,11 +35,12 @@ const initModel = props.selectedItem
       published_at: new Date(),
       category: "",
       title: "",
-      img: null,
+      image_paths: [null, null, null, null, null],
       sub_title: "",
       text: "",
       priority: priorityOptions[1],
       order_index: -1,
+      files: [null, null, null, null, null],
     };
 const state: Ref<BlogItem> = ref(initModel);
 
@@ -53,6 +54,15 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
 }
 </script>
 <template>
+  <!-- <div class="text-black">
+    <p>state.image_paths:</p>
+    <ul>
+      <li v-for="path in state.image_paths">- {{ path }}</li>
+    </ul>
+    <hr />
+
+    <p>state.files: {{ state.files }}</p>
+  </div> -->
   <UForm
     class="max-h-[100vh] space-y-4 overflow-auto p-4 text-black"
     :schema="BlogItemSchema"
@@ -66,16 +76,9 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
     <div class="flex gap-4">
       <UFormGroup label="published_at" name="published_at">
         <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton
-            icon="i-heroicons-calendar-days-20-solid"
-            :label="format(state.published_at, 'd MMM, yyy')"
-          />
+          <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.published_at, 'd MMM, yyy')" />
           <template #panel="{ close }">
-            <BlogAdminFormDatePicker
-              v-model="state.published_at"
-              is-required
-              @close="close"
-            />
+            <BlogAdminFormDatePicker v-model="state.published_at" is-required @close="close" />
           </template>
         </UPopover>
       </UFormGroup>
@@ -89,11 +92,7 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <UInput v-model="state.title" />
     </UFormGroup>
 
-    <UFormGroup
-      v-if="typeof state.sub_title == 'string'"
-      label="sub_title"
-      name="sub_title"
-    >
+    <UFormGroup v-if="typeof state.sub_title == 'string'" label="sub_title" name="sub_title">
       <UInput v-model="state.sub_title" />
     </UFormGroup>
 
@@ -108,13 +107,11 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <USelect v-model="state.priority" :options="priorityOptions" />
     </UFormGroup>
 
-    <BlogAdminFormInputPhoto v-model="state" />
+    <BlogAdminFormInputPhotos v-model="state" />
 
     <div class="flex gap-4">
       <UButton type="submit">{{ selectedItem ? "Update" : "Create" }}</UButton>
-      <UButton variant="outline" color="red" size="sm" @click="closeSlideover"
-        >Close form</UButton
-      >
+      <UButton variant="outline" color="red" size="sm" @click="closeSlideover">Close form</UButton>
     </div>
   </UForm>
 </template>

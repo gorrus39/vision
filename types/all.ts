@@ -20,14 +20,32 @@ export const BlogItemSchema = z.object({
   published_at: z.coerce.date(), // 🔥 Преобразует строку в Date
   category: z.string().min(1).max(15),
   title: z.string().min(1).max(30),
-  img: z.string().nullable(),
+  // image_paths: z.string().nullable(),
+
+  image_paths: z.union([z.string(), z.array(z.string().nullable())]).transform((val) => {
+    if (typeof val === "string") {
+      try {
+        return JSON.parse(val) as (string | null)[];
+      } catch {
+        return [];
+      }
+    }
+    return val; // Теперь если val уже массив, просто возвращаем его
+  }),
+  // image_paths: z.string().refine((val) => {
+  //   try {
+  //     return JSON.parse(val) as (string | null)[];
+  //   } catch {
+  //     return [];
+  //   }
+  // }),
 
   sub_title: z.string().max(50).optional().nullable(),
   text: z.string().min(1).max(600),
   priority: z.enum(["High", "Low"]),
   order_index: z.coerce.number(), // 🔥 Преобразование строки в число
 
-  file: z.instanceof(File).optional().nullable(),
+  files: z.array(z.instanceof(File).nullable()).optional(),
   modified: z.enum(["created", "updated", "deleted"]).optional().nullable(),
 });
 
