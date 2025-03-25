@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/all";
+const { locale } = useI18n();
 
 // const store = useInitializedBlogStore();
 // const { items_view } = storeToRefs(store);
@@ -79,7 +80,7 @@ const goToAllArticles = () => {
               </p>
               <NuxtImg class="on-hover rotate-180 w-D-124" @click="goToAllArticles" src="images/home/arrow-link.svg" />
             </div>
-            <p class="font-bebas-neue text-D-150 leading-D-180">
+            <p :class="['font-bebas-neue leading-D-180', locale == 'ru' ? 'text-D-120' : 'text-D-150']">
               {{ $t("home.vision_blog.articles") }}
             </p>
           </div>

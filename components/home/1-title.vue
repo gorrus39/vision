@@ -7,7 +7,7 @@ const toast = useToast();
     <div class="border-D-e border-white w-D-154"></div>
     <div class="border-D-b flex flex-1 border-white">
       <div class="relative ps-D-28 w-D-732">
-        <p class="font-bebas-neue absolute z-10 w-max text-D-62 leading-D-75 top-D-144">
+        <p class="font-bebas-neue absolute z-10 text-D-62 leading-D-75 top-D-144 md:w-[39vw]">
           {{ $t("home.title.vision_save__") }}
         </p>
       </div>

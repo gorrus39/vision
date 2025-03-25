@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { locale } = useI18n();
+</script>
 
 <template>
   <div class="border-D-b relative hidden h-[60vw] min-h-[60vw] overflow-hidden border-white md:block">
@@ -9,13 +11,13 @@
 
     <div class="absolute top-0 flex h-full">
       <div class="border-D-e border-white w-D-154"></div>
-      <div class="font-bebas-neue flex flex-col text-D-300 leading-D-360 w-D-1054">
-        <!-- <span class="ms-D-29">F</span>
-        <span class="ms-D-29">A</span>
-        <span class="ms-D-29">Q</span> -->
-
+      <p
+        class="font-bebas-neue flex w-min flex-col ms-D-40 mt-D-120"
+        style="word-break: break-all"
+        :class="[locale == 'cn' ? 'text-D-200 leading-D-230' : 'text-D-300 leading-D-300']"
+      >
         {{ $t("home.faq.faq") }}
-      </div>
+      </p>
     </div>
   </div>
 

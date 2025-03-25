@@ -1,7 +1,7 @@
 
 :root {
   --font-main: Poppins, Roboto ;
-  --font-secondary: Bebas Neue, Liter;
+  --font-secondary: Bebas Neue, Bebas Neue Cirillic, Liter;
 }
 
 
@@ -10,6 +10,8 @@ body {
   font-weight: 400;
   color: white;
   background-color: black;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 * {
@@ -21,7 +23,7 @@ body {
 }
 
 .font-bebas-neue {
-  font-family: Bebas Neue, var(--font-secondary)
+  font-family: var(--font-secondary)
 }
 
 .font-secondary {

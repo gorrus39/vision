@@ -1,7 +1,3 @@
 export default {
-  home: {
-    faq: {
-      faq: "faq".toUpperCase(),
-    },
-  },
+  faq: "faq".toUpperCase(),
 };
