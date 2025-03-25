@@ -13,7 +13,26 @@ const { create_admin_item, update_admin_item } = useInitializedBlogStore();
 const props = defineProps<{
   showForm: Boolean;
   selectedItem?: BlogItem | null;
+  adminItemsLang?: "en" | "ru" | "cn";
 }>();
+
+const languages = [
+  {
+    label: "Russian",
+    icon: "i-cif:ru",
+    value: "ru",
+  },
+  {
+    label: "Chinese",
+    icon: "i-cif:cn",
+    value: "cn",
+  },
+  {
+    label: "English",
+    icon: "i-cif:us",
+    value: "en",
+  },
+];
 
 const emit = defineEmits(["update:showForm"]); // Создаём событие
 
@@ -41,6 +60,7 @@ const initModel = props.selectedItem
       priority: priorityOptions[1],
       order_index: -1,
       files: [null, null, null, null, null],
+      lang: props.adminItemsLang || "en",
     };
 const state: Ref<BlogItem> = ref(initModel);
 
@@ -103,9 +123,22 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       </UFormGroup>
     </ClientOnly>
 
-    <UFormGroup required label="priority" name="priority">
-      <USelect v-model="state.priority" :options="priorityOptions" />
-    </UFormGroup>
+    <div class="flex gap-2">
+      <UFormGroup class="flex-1" required label="priority" name="priority">
+        <USelect v-model="state.priority" :options="priorityOptions" />
+      </UFormGroup>
+
+      <UFormGroup class="flex-1" required label="language" name="lang">
+        <USelect v-model="state.lang" :options="languages">
+          <template #option="{ option }">
+            <span class="mt-px h-2 w-2 flex-shrink-0 rounded-full" :style="{ background: `#${option.color}` }" />
+            <UIcon class="h-5 w-5" :name="option.icon" />
+
+            <span class="truncate">{{ option.label }}</span>
+          </template>
+        </USelect>
+      </UFormGroup>
+    </div>
 
     <BlogAdminFormInputPhotos v-model="state" />
 

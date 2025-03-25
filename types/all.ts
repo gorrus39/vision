@@ -32,18 +32,11 @@ export const BlogItemSchema = z.object({
     }
     return val; // Теперь если val уже массив, просто возвращаем его
   }),
-  // image_paths: z.string().refine((val) => {
-  //   try {
-  //     return JSON.parse(val) as (string | null)[];
-  //   } catch {
-  //     return [];
-  //   }
-  // }),
-
   sub_title: z.string().max(50).optional().nullable(),
   text: z.string().min(1).max(600),
   priority: z.enum(["High", "Low"]),
   order_index: z.coerce.number(), // 🔥 Преобразование строки в число
+  lang: z.enum(["en", "ru", "cn"]),
 
   files: z.array(z.instanceof(File).nullable()).optional(),
   modified: z.enum(["created", "updated", "deleted"]).optional().nullable(),

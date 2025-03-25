@@ -1,7 +1,7 @@
 
 :root {
-  --font-main: Poppins;
-  --font-secondary: Bebas Neue;
+  --font-main: Poppins, Roboto ;
+  --font-secondary: Bebas Neue, Liter;
 }
 
 
@@ -21,7 +21,7 @@ body {
 }
 
 .font-bebas-neue {
-  font-family: Bebas Neue;
+  font-family: Bebas Neue, var(--font-secondary)
 }
 
 .font-secondary {

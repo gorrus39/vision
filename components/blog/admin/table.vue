@@ -7,6 +7,10 @@ const showSlideover = ref(false);
 
 const toast = useToast();
 
+const props = defineProps<{
+  adminItemsLang: "ru" | "en" | "cn";
+}>();
+
 const showConfirmDeleteItem = ref(false);
 
 const store = useInitializedBlogStore();
@@ -37,6 +41,12 @@ const handleClickEditItem = (item: BlogItem) => {
   selectedItem.value = item;
   showSlideover.value = true;
 };
+
+const items_admin_by_lang = computed(() => {
+  return items_admin.value.filter((item) => {
+    return item.lang === props.adminItemsLang;
+  });
+});
 </script>
 
 <template>
@@ -73,7 +83,7 @@ const handleClickEditItem = (item: BlogItem) => {
       <div>Text</div>
     </div>
     <div class="max-h-[80vh] overflow-auto">
-      <draggable v-model="items_admin" item-key="id" @end="update_admin_items_order">
+      <draggable v-model="items_admin_by_lang" item-key="id" @end="update_admin_items_order">
         <template #item="{ element: item, index }: { element: BlogItem; index: number }">
           <div
             class="grid items-center gap-4 p-1 font-medium text-black"
@@ -119,36 +129,4 @@ const handleClickEditItem = (item: BlogItem) => {
       </draggable>
     </div>
   </div>
-  <!-- <div class="space-y-2 text-black">
-    <div>
-      <h2><b> items_origin</b></h2>
-      <div v-for="item in items_origin">
-        <p>item.img: {{ item.img }}</p>
-        <p>item.file: {{ item.file }}</p>
-        <p>item.order: {{ item.order_index }}</p>
-        <hr />
-      </div>
-    </div>
-    <hr />
-    <div>
-      <h2><b>items_admin</b></h2>
-      <div v-for="item in items_admin">
-        <p>item.img: {{ item.img }}</p>
-        <p>item.file: {{ item.file }}</p>
-        <p>item.order: {{ item.order_index }}</p>
-        <hr />
-      </div>
-    </div>
-    <hr />
-
-    <div>
-      <h2><b>items_view</b></h2>
-      <div v-for="item in items_view">
-        <p>item.img: {{ item.img }}</p>
-        <p>item.file: {{ item.file }}</p>
-        <p>item.order: {{ item.order_index }}</p>
-        <hr />
-      </div>
-    </div>
-  </div> -->
 </template>

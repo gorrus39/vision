@@ -103,47 +103,12 @@ export default eventHandler(async (event) => {
             updated_image_paths[index] = path;
           }
 
-          // ensure блоб
-          // for (let i = 0; i < db_images_paths_sorted.length; i++) {
-          //   const db_path = db_images_paths_sorted[i];
-          //   const frontend_path = frontend_images_paths_origin[i];
-
-          //   if (db_path === frontend_path) {
-          //     // одинаковые null или путь
-          //     updated_image_paths.push(db_path);
-          //   } else if (db_path === null && frontend_path) {
-          //     // был null стал путь
-          //     const files = frontend_item.files;
-          //     const file = files ? files[i] : null;
-          //     if (!file) throw new Error("file must present");
-
-          //     const pathname = await putBlobItem(db_item, file);
-          //     updated_image_paths.push(pathname);
-          //   } else if (frontend_path === null && db_path) {
-          //     // был путь стал null
-          //     await deleteBlobItem(db_path);
-          //     updated_image_paths.push(null);
-          //   } else if (frontend_path !== db_path) {
-          //     // изменился путь
-          //     if (!db_path) throw new Error("db_path must present");
-
-          //     await deleteBlobItem(db_path);
-
-          //     const files = frontend_item.files;
-          //     const file = files ? files[i] : null;
-          //     if (!file) throw new Error("file must present");
-
-          //     const pathname = await putBlobItem(db_item, file);
-          //     updated_image_paths.push(pathname);
-          //   }
-          // }
-
           // изменяем в бд
           const data = { ...frontend_item, image_paths: updated_image_paths, id: db_item.id };
           await queries().blogQueries.update(db_item.id, data);
         }
       } catch (error) {
-        console.error(error);
+        console.error("error");
         return { error: "Failed to insert data", details: error };
       }
     }

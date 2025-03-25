@@ -23,16 +23,13 @@ const handleClickShowMore = () => {
 </script>
 
 <template>
-  <div class="h-D-1350 relative hidden mb-D-40 md:flex">
-    <NuxtImg
-      class="w-D-1400 absolute bottom-0 z-10 left-D-50"
-      src="images/home/figure-3.png"
-    />
+  <div class="relative hidden mb-D-40 h-D-1350 md:flex">
+    <NuxtImg class="absolute bottom-0 z-10 left-D-50 w-D-1400" src="images/home/figure-3.png" />
     <div class="border-D-e flex flex-1 border-white">
       <div
         class="font-bebas-neue border-D-b border-D-b border-D-e relative h-max border-white text-D-150 leading-D-180 w-D-723"
       >
-        <p class="relative left-D-183">TOP <br />PROJECTS</p>
+        <p class="relative left-D-183">{{ $t("home.top_projects.top_projects") }}</p>
       </div>
 
       <div class="flex flex-col ms-D-120">
@@ -49,7 +46,7 @@ const handleClickShowMore = () => {
           class="on-hover border-D relative z-20 w-full rounded-[.5vw] border-white text-D-22"
           @click="handleClickShowMore"
         >
-          show more
+          {{ $t("home.top_projects.show_more") }}
         </button>
       </div>
     </div>
@@ -58,11 +55,9 @@ const handleClickShowMore = () => {
   </div>
 
   <div class="relative flex flex-col me-M-30 ms-M-30 mb-M-44 md:hidden">
-    <div
-      class="border-M-e absolute border-white top-M--90 right-M--6 h-M-490"
-    ></div>
+    <div class="border-M-e absolute border-white top-M--90 right-M--6 h-M-490"></div>
 
-    <p class="font-bebas-neue mb-M-32 text-M-50">TOP PROJECTS</p>
+    <p class="font-bebas-neue mb-M-32 text-M-50">{{ $t("home.top_projects.top_projects") }}</p>
 
     <div class="flex flex-col gap-M-19 mb-M-19">
       <HomeProjectCard
@@ -73,11 +68,8 @@ const handleClickShowMore = () => {
       />
     </div>
 
-    <button
-      class="on-hover border-M w-full rounded-[.5vw] border-white text-M-16"
-      @click="handleClickShowMore"
-    >
-      show more
+    <button class="on-hover border-M w-full rounded-[.5vw] border-white text-M-16" @click="handleClickShowMore">
+      {{ $t("home.top_projects.show_more") }}
     </button>
   </div>
 </template>

@@ -13,6 +13,7 @@ const test_items: BlogItem[] = [
     text: "text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text ",
     priority: "High",
     order_index: 0,
+    lang: "en",
   },
   {
     id: 2,
@@ -25,6 +26,7 @@ const test_items: BlogItem[] = [
     text: "text text text text text text text text text text text text text text text text ",
     priority: "High",
     order_index: 1,
+    lang: "en",
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ const test_items: BlogItem[] = [
     text: "text text text text text text text text text text text text text text text text ",
     priority: "High",
     order_index: 2,
+    lang: "en",
   },
   {
     id: 4,
@@ -49,6 +52,7 @@ const test_items: BlogItem[] = [
     text: "text text text text text text text text text text text text text text text text ",
     priority: "High",
     order_index: 3,
+    lang: "en",
   },
 ];
 
@@ -156,6 +160,7 @@ export const useBlogStore = defineStore("blogStore", {
           sub_title: item.sub_title || null,
           modified: item.modified || null,
           image_paths: item.image_paths || null,
+          lang: item.lang,
         };
 
         // Добавляем JSON-строку айтема в массив

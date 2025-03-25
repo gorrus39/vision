@@ -72,7 +72,7 @@ const image_path_validation = computed(() => {
         mobile ? 'rounded-[1vw] p-M-5 text-M-16' : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
       ]"
       :to="localePath(`/blog/${props.blogItem.id}`)"
-      label="show more"
+      :label="$t('home.vision_blog.show_more')"
       block
     />
   </div>

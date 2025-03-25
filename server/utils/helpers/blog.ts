@@ -3,6 +3,7 @@ import type { EventHandlerRequest } from "h3";
 // import { Buffer } from "node:buffer";
 import { Buffer } from "buffer";
 import { BlogItem } from "~/types/all";
+import { Ref } from "vue";
 
 // export const convertDataFromFront = async (
 //   event: H3Event<EventHandlerRequest>,
@@ -219,7 +220,30 @@ export const putBlobItem = async (db_item: BlogItem, file: File): Promise<string
   });
   return res.pathname;
 };
+export const get_hot_items_by_lang = (items_view: Ref<BlogItem[]>, locale: Ref<"ru" | "en" | "cn">) => {
+  return items_view.value.filter((item) => {
+    const isLocalDeletedByAdmin = item.modified === "deleted";
+    const isHiPriority = item.priority == "High";
+    const correspondingLang = locale.value == item.lang;
+    return isHiPriority && !isLocalDeletedByAdmin && correspondingLang;
+  });
+};
+export const get_items_by_lang = (items_view: Ref<BlogItem[]>, locale: Ref<"ru" | "en" | "cn">) => {
+  return items_view.value.filter((item) => {
+    const isLocalDeletedByAdmin = item.modified === "deleted";
+    const isHiPriority = item.priority == "Low";
+    const correspondingLang = locale.value == item.lang;
+    return isHiPriority && !isLocalDeletedByAdmin && correspondingLang;
+  });
+};
 
+export const get_all_items_by_lang = (items_view: Ref<BlogItem[]>, locale: Ref<"ru" | "en" | "cn">) => {
+  return items_view.value.filter((item) => {
+    const isLocalDeletedByAdmin = item.modified === "deleted";
+    const correspondingLang = locale.value == item.lang;
+    return !isLocalDeletedByAdmin && correspondingLang;
+  });
+};
 // export const handleBlobImages = async (
 //   frontend_item: BlogItem,
 //   db_item: BlogItem,

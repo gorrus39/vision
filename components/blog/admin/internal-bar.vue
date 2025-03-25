@@ -1,18 +1,20 @@
 <script setup lang="ts">
-const showMainModal = defineModel<boolean>();
+import { get_all_items_by_lang } from "~/server/utils/helpers/blog";
+
+const showMainModal = defineModel<boolean>("showMainModal");
+const adminItemsLang = defineModel<"ru" | "en" | "cn">("adminItemsLang");
+
 const showForm = ref(false);
 const toast = useToast();
+const { availableLocales } = useI18n();
 
 const post_changes_loading = ref(false);
 
 const showConfirmModal = ref(false);
-const confirmModalValue = ref<"discard changes" | "pevivew changes">(
-  "discard changes",
-);
+const confirmModalValue = ref<"discard changes" | "pevivew changes">("discard changes");
 
 const store = useInitializedBlogStore();
-const { discard_admin_changes, preview_changes, post_admin_changes_to_remote } =
-  store;
+const { discard_admin_changes, preview_changes, post_admin_changes_to_remote } = store;
 
 const { has_admin_changes } = storeToRefs(store);
 
@@ -42,7 +44,11 @@ const handlePostAdminChanges = async () => {
     post_changes_loading.value = true;
 
     const response = await post_admin_changes_to_remote();
-    if (response?.success) toast.add({ title: "POST Success! " });
+    if (response?.success) {
+      toast.add({ title: "POST Success! " });
+    } else {
+      toast.add({ title: `Error! ${JSON.stringify(response)}`, color: "red" });
+    }
     post_changes_loading.value = false;
   }
 };
@@ -54,28 +60,15 @@ const handlePostAdminChanges = async () => {
       <h1>Are you sure {{ confirmModalValue }} ?</h1>
 
       <div class="space-x-2" v-if="confirmModalValue == 'discard changes'">
-        <UButton
-          color="red"
-          @click="handleConfirmDiscardChanges"
-          label="Discard"
-        />
+        <UButton color="red" @click="handleConfirmDiscardChanges" label="Discard" />
 
-        <UButton
-          variant="outline"
-          @click="showConfirmModal = false"
-          label="Cancel"
-        />
+        <UButton variant="outline" @click="showConfirmModal = false" label="Cancel" />
       </div>
 
       <div class="space-x-2" v-if="confirmModalValue == 'pevivew changes'">
         <UButton @click="handlePreviewChanges" label="Preview" />
 
-        <UButton
-          color="red"
-          variant="outline"
-          @click="showConfirmModal = false"
-          label="Cancel"
-        />
+        <UButton color="red" variant="outline" @click="showConfirmModal = false" label="Cancel" />
       </div>
     </div>
   </UModal>
@@ -124,7 +117,10 @@ const handlePostAdminChanges = async () => {
       :label="has_admin_changes ? 'Close without preview' : 'Close'"
     />
   </div>
+
+  <BlogAdminLangTabs v-model="adminItemsLang" />
+
   <USlideover v-model="showForm" :ui="{ width: 'max-w-xl' }">
-    <BlogAdminForm v-model:showForm="showForm" />
+    <BlogAdminForm v-model:showForm="showForm" :adminItemsLang="adminItemsLang" />
   </USlideover>
 </template>

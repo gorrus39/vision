@@ -26,8 +26,10 @@ export default defineNuxtConfig({
   ],
   i18n: {
     strategy: "prefix",
-    vueI18n: "./i18n.config.ts", // if you are using custom path, default
-    locales: ["ru", "en", "cn"], // used in URL path prefix
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
+    locales: ["en", "ru", "cn"], // used in URL path prefix
     defaultLocale: "en", // default locale of your project for Nuxt pages and routings
   },
   runtimeConfig: {},
@@ -39,8 +41,14 @@ export default defineNuxtConfig({
       //   wght: [400, 600, 700],
       //   // ital: [],
       // },
+      Roboto: {
+        wght: [400, 600, 700],
+      },
+      Liter: {
+        wght: [400, 700],
+      },
       "Bebas Neue": {
-        wght: [400],
+        wght: [400, 700],
       },
       Inter: {
         wght: [300],

@@ -9,6 +9,7 @@ export const blogItems = sqliteTable("blog_items", {
   image_paths: text("image_paths").default("[null,null,null,null,null]"), // Ссылка на изображение (может быть null)
   sub_title: text("sub_title"), // Подзаголовок (может быть null)
   text: text("text").notNull(), // Основной текст
-  priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
   order_index: integer("order_index").notNull(), // Индекс порядка
+  priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
+  lang: text("lang", { enum: ["en", "ru", "cn"] }).default("en"),
 });

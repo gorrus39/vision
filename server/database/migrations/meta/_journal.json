@@ -22,6 +22,13 @@
       "when": 1742477034166,
       "tag": "0002_right_darwin",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1742541485149,
+      "tag": "0003_add_lang_to_blog_items",
+      "breakpoints": true
     }
   ]
 }

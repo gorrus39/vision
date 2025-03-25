@@ -1,0 +1,1 @@
+ALTER TABLE `blog_items` ADD `lang` text DEFAULT 'en';
