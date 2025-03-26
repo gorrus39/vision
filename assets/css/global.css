@@ -1,13 +1,15 @@
 @font-face {
   font-family: 'Bebas Neue Cirillic';
-  src: url('~/assets/fonts/bebas_neue_cirillic/ofont.ru_Bebas Neue.ttf') format('truetype');
+  src: url('fonts/bebas_neue_cirillic/ofont.ru_Bebas Neue.ttf') format('truetype');
   /* font-weight: 900; */
 }
 
 
 :root {
-  --font-main: Poppins, Roboto ;
-  --font-secondary: Bebas Neue, Bebas Neue Cirillic, Liter;
+  --font-main: Poppins;
+  /* , Roboto ; */
+  --font-secondary: Bebas Neue, 'Bebas Neue Cirillic';
+  /* , Liter; */
 }
 
 
