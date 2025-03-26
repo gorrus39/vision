@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Bebas Neue Cirillic';
-  src: url('fonts/bebas_neue_cirillic/ofont.ru_Bebas Neue.ttf') format('truetype');
+  src: url('/fonts/bebas_neue_cirillic/bebas_neue_cirillic.ttf') format('truetype');
   /* font-weight: 900; */
 }
 
