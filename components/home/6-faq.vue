@@ -7,10 +7,10 @@ const { locale } = useI18n();
     <HomeFaqSwiper class="pt-D-200 ms-D-600 w-D-700" />
 
     <NuxtImg class="absolute bottom-D--160 right-D--20 w-D-1225" src="images/home/figure-4.png" />
-    <HomeButtonGoUp class="absolute bottom-D-50 right-D-100" />
+    <ChanksButtonGoUp class="absolute bottom-D-50 right-D-100" />
 
-    <div class="absolute top-0 flex h-full">
-      <div class="border-D-e border-white w-D-154"></div>
+    <div class="border-D-s absolute top-0 flex h-full border-white left-D-154">
+      <!-- <div class="border-D-e border-white w-D-154"></div> -->
       <p
         class="font-bebas-neue flex w-min flex-col ms-D-40 mt-D-120"
         style="word-break: break-all"
@@ -34,7 +34,7 @@ const { locale } = useI18n();
     <HomeFaqSwiper class="m-auto w-[70vw] mb-M-20" mobile />
 
     <div class="f-full flex">
-      <HomeButtonGoUp class="ms-auto me-M-30 mb-M-30" mobile />
+      <ChanksButtonGoUp class="ms-auto me-M-30 mb-M-30" />
     </div>
   </div>
 </template>

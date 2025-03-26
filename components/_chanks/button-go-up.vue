@@ -5,11 +5,12 @@ const toast = useToast();
 
 const props = defineProps<{
   class?: string;
-  mobile?: true;
 }>();
 
 const handleClick = () => {
-  toast.add({ title: "Soon!)" });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // toast.add({ title: "Soon!)" });
 };
 </script>
 
@@ -19,14 +20,11 @@ const handleClick = () => {
       twMerge(
         'on-hover flex items-center justify-center rounded-[.5vw] border-[.1vw] border-black bg-white',
         props.class,
-        mobile ? 'w-M-30 h-M-30' : 'w-D-80 h-D-80',
+        'w-M-30 h-M-30 md:w-D-80 md:h-D-80',
       ),
     ]"
     @click="handleClick"
   >
-    <NuxtImg
-      :class="[mobile ? 'h-M-20' : 'h-D-40']"
-      src="images/home/arrow-to-up.svg"
-    />
+    <NuxtImg class="h-M-20 md:h-D-40" src="images/home/arrow-to-up.svg" />
   </div>
 </template>

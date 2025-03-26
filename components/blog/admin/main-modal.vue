@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const showMainModal = defineModel<boolean>();
-
-const adminItemsLang = ref<"en" | "ru" | "cn">("en");
+const { locale } = useI18n();
+const adminItemsLang = ref<"en" | "ru" | "cn">(locale.value);
 </script>
 
 <template>
