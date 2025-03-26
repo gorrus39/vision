@@ -6,8 +6,7 @@
 
 
 :root {
-  --font-main: Poppins;
-  /* , Roboto ; */
+  --font-main: Poppins, Roboto ;
   --font-secondary: Bebas Neue, 'Bebas Neue Cirillic';
   /* , Liter; */
 }
