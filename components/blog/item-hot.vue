@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/all";
 const localePath = useLocalePath();
-const toast = useToast();
-import { getBlogImageUrl } from "~/server/utils/helpers/blog";
 
-const props = defineProps<{
+defineProps<{
   item: BlogItem;
   mobile?: true;
 }>();
@@ -37,7 +35,7 @@ const props = defineProps<{
       {{ item.title }}
     </p>
 
-    <p
+    <div
       v-html="item.text"
       :class="[
         'formatted-text',
@@ -49,16 +47,14 @@ const props = defineProps<{
         mask-image: linear-gradient(to bottom, black 10%, transparent);
         -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent);
       "
-    />
-    <!-- {{ blogItem.text }}
-    </p> -->
+    ></div>
 
     <UButton
       :class="[
         'button-gradient on-hover',
         mobile ? 'rounded-[1vw] p-M-5 text-M-16' : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
       ]"
-      :to="localePath(`/blog/${props.item.id}`)"
+      :to="localePath(`/blog/${item.id}`)"
       :label="$t('home.vision_blog.show_more')"
       block
     />
@@ -66,7 +62,6 @@ const props = defineProps<{
 </template>
 
 <style scoped>
-/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
 .button-gradient {
   background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
 }

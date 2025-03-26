@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { locale } = useI18n();
 
-const props = defineProps<{
+defineProps<{
   withInfoItems?: true;
 }>();
 

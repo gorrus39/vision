@@ -4,7 +4,7 @@ import type { BlogItem } from "~/types/all";
 
 const randAmount = () => {
   const rand = Math.floor(Math.random() * 10);
-  return rand % 2 == 0 ? 2 : 2;
+  return rand % 2 == 0 ? 2 : 1;
 };
 
 const reqursiveMakeGroup = (origin: BlogItem[], resultGroup: BlogItem[][] = [], nextIndex: number = 0) => {

@@ -49,11 +49,10 @@ const image_paths = computed(() => {
         <p class="font-bebas-neue mb-M-5 text-M-26 md:mb-D-48 md:text-D-52" v-if="item.sub_title">
           {{ item.sub_title }}
         </p>
-        <ClientOnly>
-          <p class="text-M-16 md:text-D-24" v-html="item.text" />
-        </ClientOnly>
+        <div class="text-M-16 md:text-D-24" v-html="item.text"></div>
       </div>
     </div>
+
     <div class="border-M-s border-M-e border-M-t block border-white md:hidden">
       <div class="p-M-11 md:p-D-63">
         <img
@@ -65,8 +64,7 @@ const image_paths = computed(() => {
         <p class="font-bebas-neue mb-M-5 text-M-26 md:mb-D-48 md:text-D-52" v-if="item.sub_title">
           {{ item.sub_title }}
         </p>
-        <p class="text-M-16 md:text-D-24" v-html="item.text" />
-        <!-- <p class="text-M-16 md:text-D-24">{{ item.text }}</p> -->
+        <div class="text-M-16 md:text-D-24" v-html="item.text"></div>
       </div>
     </div>
 
