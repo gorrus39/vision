@@ -2,6 +2,6 @@
 
 <template>
   <Blog1Title />
-  <Blog2HotNews />
-  <Blog3RestItems />
+  <Blog2ItemsHot />
+  <Blog3ItemsNormal />
 </template>

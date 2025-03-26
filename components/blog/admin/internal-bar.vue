@@ -13,7 +13,7 @@ const post_changes_loading = ref(false);
 const showConfirmModal = ref(false);
 const confirmModalValue = ref<"discard changes" | "pevivew changes">("discard changes");
 
-const store = useInitializedBlogStore();
+const store = await useInitializedBlogStore();
 const { discard_admin_changes, preview_changes, post_admin_changes_to_remote } = store;
 
 const { has_admin_changes } = storeToRefs(store);

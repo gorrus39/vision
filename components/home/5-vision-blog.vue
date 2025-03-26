@@ -2,9 +2,6 @@
 import type { BlogItem } from "~/types/all";
 const { locale } = useI18n();
 
-// const store = useInitializedBlogStore();
-// const { items_view } = storeToRefs(store);
-
 const toast = useToast();
 
 const blogItem: BlogItem = {

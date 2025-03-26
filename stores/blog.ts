@@ -247,10 +247,10 @@ export const useBlogStore = defineStore("blogStore", {
 });
 
 // Автоматический вызов init() при первом использовании стора
-export const useInitializedBlogStore = () => {
+export const useInitializedBlogStore = async () => {
   const store = useBlogStore();
   if (!store.initialized) {
-    store.init();
+    await store.init();
   }
   return store;
 };

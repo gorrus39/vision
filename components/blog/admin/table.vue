@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const showConfirmDeleteItem = ref(false);
 
-const store = useInitializedBlogStore();
+const store = await useInitializedBlogStore();
 const { items_admin } = storeToRefs(store);
 
 const { update_admin_items_order, delete_admin_item } = store;

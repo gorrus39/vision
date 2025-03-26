@@ -3,12 +3,12 @@ import { BlogItemSchema } from "~/types/all";
 import type { BlogItem } from "~/types/all";
 import type { FormSubmitEvent } from "#ui/types";
 import _ from "lodash";
-const store = useInitializedBlogStore();
+const store = await useInitializedBlogStore();
 const { items_admin } = storeToRefs(store);
 
 const toast = useToast();
 
-const { create_admin_item, update_admin_item } = useInitializedBlogStore();
+const { create_admin_item, update_admin_item } = await useInitializedBlogStore();
 
 const props = defineProps<{
   showForm: Boolean;

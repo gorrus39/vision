@@ -3,7 +3,7 @@ const showMainModal = ref(false);
 
 const post_changes_loading = ref(false);
 
-const store = useInitializedBlogStore();
+const store = await useInitializedBlogStore();
 const { discard_admin_changes, post_preview_changes_to_remote } = store;
 const { previewed } = storeToRefs(store);
 
