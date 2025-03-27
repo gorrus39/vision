@@ -182,44 +182,6 @@ export const useBlogStore = defineStore("blogStore", {
             }
           });
         }
-
-        // const itemFiles = item.files;
-        // const itemIndex = index;
-        // if (itemFiles) {
-        //   for (let i = 0; itemFiles.length > i; i++) {
-        //     const currentFile = itemFiles[i];
-        //     const fileIndex = i;
-
-        //     if (currentFile) {
-        //       formData.append(
-        //         `files[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         currentFile,
-        //       );
-        //       formData.append(
-        //         `fileNames[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         currentFile.name,
-        //       );
-        //       formData.append(
-        //         `fileTypes[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         currentFile.type,
-        //       );
-        //       // ✅ Отправляем MIME type
-        //     } else {
-        //       formData.append(
-        //         `files[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         "null",
-        //       );
-        //       formData.append(
-        //         `fileNames[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         "null",
-        //       );
-        //       formData.append(
-        //         `fileTypes[item_index:${itemIndex}][file_index:${fileIndex}]`,
-        //         "null",
-        //       );
-        //     }
-        //   }
-        // }
       });
 
       // Добавляем оба массива в formData

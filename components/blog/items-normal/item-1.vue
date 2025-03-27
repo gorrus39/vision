@@ -10,8 +10,8 @@ const props = defineProps<{
 
 <template>
   <div class="border-D-e border-D-s border-D-b flex border-white gap-D-20 p-D-29">
-    <div :class="['flex flex-1 flex-col']">
-      <div :class="['flex justify-between mb-D-34']">
+    <div class="flex flex-1 flex-col">
+      <div class="flex flex-wrap justify-between mb-D-34">
         <div class="text-D-22">
           {{ formatDate(item.published_at) }}
         </div>
@@ -33,24 +33,14 @@ const props = defineProps<{
         "
       />
 
-      <UButton
-        :class="['button-gradient on-hover mt-auto rounded-[.5vw] p-D-10 text-D-22']"
-        :to="localePath(`/blog/${props.item.id}`)"
-        :label="$t('home.vision_blog.show_more')"
-        block
-      />
+      <ChanksButtonShowMore :path="`/blog/${item.id}`" />
     </div>
 
-    <img class="max-w-[30vw]" v-if="item.image_paths[0]" :src="getBlogImageUrl(item.image_paths[0])" />
+    <img class="max-w-[30vw] object-cover" v-if="item.image_paths[0]" :src="getBlogImageUrl(item.image_paths[0])" />
   </div>
 </template>
 
 <style scoped>
-/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
-.button-gradient {
-  background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
-}
-
 .formatted-text {
   white-space: pre-wrap;
 }

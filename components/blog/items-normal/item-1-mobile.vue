@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
   <div :class="['border-M-b border-D-b flex flex-col border-white p-M-7']">
-    <div :class="['flex justify-between mb-M-21']">
+    <div :class="['flex flex-wrap justify-between mb-M-21']">
       <div :class="['text-M-16']">
         {{ formatDate(item.published_at) }}
       </div>
@@ -38,21 +38,11 @@ const props = defineProps<{
       <img class="mb-M-10 md:mb-D-20" :src="getBlogImageUrl(item.image_paths[0])" />
     </div>
 
-    <UButton
-      :class="['button-gradient on-hover mt-auto rounded-[1vw] p-M-5 text-M-16']"
-      :to="localePath(`/blog/${props.item.id}`)"
-      :label="$t('home.vision_blog.show_more')"
-      block
-    />
+    <ChanksButtonShowMore :path="`/blog/${item.id}`" />
   </div>
 </template>
 
 <style scoped>
-/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
-.button-gradient {
-  background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
-}
-
 .formatted-text {
   white-space: pre-wrap;
 }

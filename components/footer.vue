@@ -12,7 +12,10 @@
         </p>
         <nav class="flex flex-col text-right text-D-20 gap-D-20 mb-D-37 mt-D-37">
           <p class="on-hover">{{ $t("header.catalogue") }}</p>
-          <p class="on-hover">{{ $t("header.blog") }}</p>
+
+          <NuxtLinkLocale to="/blog">
+            <p class="on-hover">{{ $t("header.blog") }}</p>
+          </NuxtLinkLocale>
           <p class="on-hover">{{ $t("header.faq") }}</p>
           <p class="on-hover">{{ $t("header.about_fraudvision") }}</p>
           <p class="on-hover">{{ $t("header.contact_us") }}</p>
@@ -31,7 +34,11 @@
     <p class="text-center text-M-16">{{ $t("footer.thats_the_vision") }}</p>
     <UDivider />
     <p class="text-center text-M-14">{{ $t("header.catalogue") }}</p>
-    <p class="text-center text-M-14">{{ $t("header.blog") }}</p>
+
+    <NuxtLinkLocale to="/blog">
+      <p class="text-center text-M-14">{{ $t("header.blog") }}</p>
+    </NuxtLinkLocale>
+
     <p class="text-center text-M-14">{{ $t("header.faq") }}</p>
     <p class="text-center text-M-14">{{ $t("header.about_fraudvision") }}</p>
     <p class="text-center text-M-14">{{ $t("header.contact_us") }}</p>

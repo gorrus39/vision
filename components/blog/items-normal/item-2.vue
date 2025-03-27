@@ -41,12 +41,12 @@ if (props.width) {
       :src="getBlogImageUrl(item.image_paths[0])"
     />
 
-    <div :class="['flex flex-1 flex-col']">
-      <div :class="['flex justify-between mb-D-34']">
+    <div class="flex flex-1 flex-col">
+      <div class="flex flex-wrap justify-between gap-D-10 mb-D-34">
         <div class="text-D-22">
           {{ formatDate(item.published_at) }}
         </div>
-        <div :class="['border-D rounded-[2vw] border-white pt-D-2 ps-D-10 pe-D-10 text-D-18']">
+        <div :class="['border-D w-max rounded-[2vw] border-white pt-D-2 ps-D-10 pe-D-10 text-D-18']">
           {{ item.category }}
         </div>
       </div>
@@ -63,12 +63,7 @@ if (props.width) {
           -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent);
         "
       />
-      <UButton
-        :class="['button-gradient on-hover mt-auto rounded-[.5vw] p-D-10 text-D-22']"
-        :to="localePath(`/blog/${props.item.id}`)"
-        :label="$t('home.vision_blog.show_more')"
-        block
-      />
+      <ChanksButtonShowMore :path="`/blog/${item.id}`" />
     </div>
 
     <img
@@ -81,11 +76,6 @@ if (props.width) {
 </template>
 
 <style scoped>
-/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
-.button-gradient {
-  background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
-}
-
 .formatted-text {
   white-space: pre-wrap;
 }

@@ -15,7 +15,7 @@ defineProps<{
       mobile ? 'border-M-b p-M-7' : 'border-D-e p-D-29',
     ]"
   >
-    <div :class="['flex justify-between', mobile ? 'mb-M-21' : 'mb-D-34']">
+    <div :class="['flex flex-wrap justify-between', mobile ? 'mb-M-21' : 'mb-D-34']">
       <div :class="[mobile ? 'text-M-16' : 'text-D-22']">
         {{ formatDate(item.published_at) }}
       </div>
@@ -48,24 +48,22 @@ defineProps<{
         -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent);
       "
     ></div>
-
-    <UButton
+    <!-- поменять это на что-то другое -->
+    <!-- <NuxtLinkLocale
+      :to="`/blog/${item.id}`"
       :class="[
-        'button-gradient on-hover',
+        'button-gradient on-hover w-full text-center',
         mobile ? 'rounded-[1vw] p-M-5 text-M-16' : 'mt-auto rounded-[.5vw] p-D-10 text-D-22',
       ]"
-      :to="localePath(`/blog/${item.id}`)"
-      :label="$t('home.vision_blog.show_more')"
-      block
-    />
+    >
+      {{ $t("home.vision_blog.show_more") }}
+    </NuxtLinkLocale> -->
+
+    <ChanksButtonShowMore :path="`/blog/${item.id}`" />
   </div>
 </template>
 
 <style scoped>
-.button-gradient {
-  background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
-}
-
 .formatted-text {
   white-space: pre-wrap;
 }
