@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 const localePath = useLocalePath();
 import { getBlogImageUrl } from "~/server/utils/helpers/blog";
 

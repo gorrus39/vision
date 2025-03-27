@@ -2,7 +2,7 @@ import { readMultipartFormData, H3Event } from "h3";
 import type { EventHandlerRequest } from "h3";
 // import { Buffer } from "node:buffer";
 import { Buffer } from "buffer";
-import { BlogItem } from "~/types/all";
+import { BlogItem } from "~/types/blog";
 import { Ref } from "vue";
 
 // export const convertDataFromFront = async (

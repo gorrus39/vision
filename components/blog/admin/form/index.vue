@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BlogItemSchema } from "~/types/all";
-import type { BlogItem } from "~/types/all";
+import { BlogItemSchema } from "~/types/blog";
+import type { BlogItem } from "~/types/blog";
 import type { FormSubmitEvent } from "#ui/types";
 import _ from "lodash";
 const store = await useInitializedBlogStore();

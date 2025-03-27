@@ -2,7 +2,7 @@
 import type { Swiper as SwiperType } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectCards, Autoplay } from "swiper/modules";
-import type { FAQItem } from "~/types/all";
+import type { FAQItem } from "~/types/blog";
 import "swiper/css";
 import "swiper/css/effect-cards";
 
@@ -83,20 +83,10 @@ const handleClick = () => {
             @click="handleClick"
             src="images/home/arrow-link.svg"
           />
-          <p
-            :class="[
-              'font-bebas-neue',
-              mobile ? 'text-M-30 leading-M-40' : 'text-D-70 leading-D-80',
-            ]"
-          >
+          <p :class="['font-bebas-neue', mobile ? 'text-M-30 leading-M-40' : 'text-D-70 leading-D-80']">
             {{ item.title }}
           </p>
-          <p
-            :class="[
-              '',
-              mobile ? 'text-M-14 leading-M-20' : 'text-D-28 leading-D-36',
-            ]"
-          >
+          <p :class="['', mobile ? 'text-M-14 leading-M-20' : 'text-D-28 leading-D-36']">
             {{ item.text }}
           </p>
         </div>

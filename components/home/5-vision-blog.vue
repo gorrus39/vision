@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 const { locale } = useI18n();
 
 const toast = useToast();

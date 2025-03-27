@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProjectType, type Project } from "~/types/all";
+import { ProjectType, type Project } from "~/types/blog";
 const toast = useToast();
 
 let id = 1;

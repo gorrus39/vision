@@ -2,7 +2,7 @@
 import { UChip } from "#components";
 import { storeToRefs } from "pinia";
 import draggable from "vuedraggable";
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 const showSlideover = ref(false);
 
 const toast = useToast();
@@ -42,11 +42,20 @@ const handleClickEditItem = (item: BlogItem) => {
   showSlideover.value = true;
 };
 
-const items_admin_by_lang = computed(() => {
-  return items_admin.value.filter((item) => {
-    return item.lang === props.adminItemsLang;
-  });
-});
+const handleChangeOrder = () => {
+  // const acc: { [key: number]: number } = {};
+  // const list: { [key: number]: number } = items_admin_by_lang.value.reduce((acc, item, index) => {
+  //   acc[item.id] = index;
+  //   return acc;
+  // }, acc);
+
+  update_admin_items_order();
+  // update_admin_items_order(list);
+  // items_admin_by_lang.value = filteredItems();
+};
+// const filteredItems = () => items_admin.value.filter((item) => item.lang === props.adminItemsLang);
+
+// const items_admin_by_lang = ref(filteredItems());
 </script>
 
 <template>
@@ -83,11 +92,15 @@ const items_admin_by_lang = computed(() => {
       <div>Text</div>
     </div>
     <div class="max-h-[80vh] overflow-auto">
-      <draggable v-model="items_admin_by_lang" item-key="id" @end="update_admin_items_order">
+      <draggable v-model="items_admin" item-key="id" @end="handleChangeOrder">
         <template #item="{ element: item, index }: { element: BlogItem; index: number }">
           <div
             class="grid items-center gap-4 p-1 font-medium text-black"
-            :class="[index % 2 === 0 ? 'bg-white' : 'bg-gray-50', { hidden: item.modified === 'deleted' }]"
+            :class="[
+              index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
+              { hidden: item.modified === 'deleted' },
+              { hidden: item.lang !== adminItemsLang },
+            ]"
             :style="{
               gridTemplateColumns: '50px 50px 100px 100px 100px 100px 80px 100px auto',
             }"

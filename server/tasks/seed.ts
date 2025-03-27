@@ -1,4 +1,4 @@
-import { BlogItem } from "~/types/all";
+import { BlogItem } from "~/types/blog";
 import { readFile } from "fs/promises";
 import path from "path";
 import { faker } from "@faker-js/faker";

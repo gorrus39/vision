@@ -19,7 +19,7 @@ export const BlogItemSchema = z.object({
   id: z.coerce.number(), // 🔥 Автоматическое приведение строки к числу
   published_at: z.coerce.date(), // 🔥 Преобразует строку в Date
   category: z.string().min(1).max(15),
-  title: z.string().min(1).max(30),
+  title: z.string().min(1).max(60),
   // image_paths: z.string().nullable(),
 
   image_paths: z.union([z.string(), z.array(z.string().nullable())]).transform((val) => {

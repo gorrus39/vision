@@ -1,4 +1,4 @@
-import { BlogItemSchema, BlogItemsSchema } from "~/types/all";
+import { BlogItemSchema, BlogItemsSchema } from "~/types/blog";
 import { deleteBlobItem, putBlobItem } from "~/server/utils/helpers/blog";
 
 function diffImages(backendImages: (string | null)[], frontendImages: (string | null)[]) {

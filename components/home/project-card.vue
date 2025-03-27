@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProjectType, type Project } from "~/types/all";
+import { ProjectType, type Project } from "~/types/blog";
 const toast = useToast();
 
 const props = defineProps<{
@@ -32,28 +32,15 @@ const isEven = props.index % 2 == 0;
         {{ ProjectType[props.project.type] }}
       </div>
       <NuxtImg
-        :class="[
-          'on-hover',
-          { 'w-D-30': screen == 'desktop' },
-          { 'w-M-30': screen == 'mobile' },
-        ]"
+        :class="['on-hover', { 'w-D-30': screen == 'desktop' }, { 'w-M-30': screen == 'mobile' }]"
         @click="toast.add({ title: 'Soon!)' })"
         src="images/home/arrow-link.svg"
       />
     </div>
 
-    <div
-      :class="[
-        'flex items-start',
-        { 'gap-D-19': screen == 'desktop' },
-        { 'gap-M-7': screen == 'mobile' },
-      ]"
-    >
+    <div :class="['flex items-start', { 'gap-D-19': screen == 'desktop' }, { 'gap-M-7': screen == 'mobile' }]">
       <NuxtImg
-        :class="[
-          { 'w-D-48': screen == 'desktop' },
-          { 'w-M-34': screen == 'mobile' },
-        ]"
+        :class="[{ 'w-D-48': screen == 'desktop' }, { 'w-M-34': screen == 'mobile' }]"
         src="images/home/avatar.svg"
       />
       <div class="flex flex-col">
@@ -67,13 +54,7 @@ const isEven = props.index % 2 == 0;
           {{ project.title.toUpperCase() }}
         </p>
 
-        <div
-          :class="[
-            'flex',
-            { 'gap-D-4 mb-D-16': screen == 'desktop' },
-            { 'gap-M-4 mb-M-16': screen == 'mobile' },
-          ]"
-        >
+        <div :class="['flex', { 'gap-D-4 mb-D-16': screen == 'desktop' }, { 'gap-M-4 mb-M-16': screen == 'mobile' }]">
           <p
             :class="[
               'font-bold text-[#FFE72E]',
@@ -84,19 +65,13 @@ const isEven = props.index % 2 == 0;
             {{ project.starsAmount }}
           </p>
           <NuxtImg
-            :class="[
-              { 'w-D-20': screen == 'desktop' },
-              { 'w-M-20': screen == 'mobile' },
-            ]"
+            :class="[{ 'w-D-20': screen == 'desktop' }, { 'w-M-20': screen == 'mobile' }]"
             src="images/home/star.svg"
           />
         </div>
 
         <p
-          :class="[
-            { 'text-D-18 leading-D-27': screen == 'desktop' },
-            { 'text-M-14 leading-M-21': screen == 'mobile' },
-          ]"
+          :class="[{ 'text-D-18 leading-D-27': screen == 'desktop' }, { 'text-M-14 leading-M-21': screen == 'mobile' }]"
         >
           {{ project.text }}
         </p>

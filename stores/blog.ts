@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { defineStore } from "pinia";
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 
 const test_items: BlogItem[] = [
   {
@@ -97,13 +97,16 @@ export const useBlogStore = defineStore("blogStore", {
       }
     },
     update_admin_items_order() {
+      // update_admin_items_order(list: { [key: number]: number } = {}) {
       // изменяет порядок в массиве draggable
       // иногда, когда там же всё осталось.
       let hasChanges = false;
 
       this.items_admin.forEach((item, index) => {
+        // if (item.id in list) {
         if (item.order_index !== index) {
           item.order_index = index;
+          // item.order_index = list[item.id]; //index;
           hasChanges = true;
         }
       });

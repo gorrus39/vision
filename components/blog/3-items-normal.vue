@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { get_items_by_lang } from "~/server/utils/helpers/blog";
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 
 const randAmount = () => {
   const rand = Math.floor(Math.random() * 10);

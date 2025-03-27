@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/all";
+import type { BlogItem } from "~/types/blog";
 import { getBlogImageUrl } from "~/server/utils/helpers/blog";
 
 const model = defineModel<BlogItem>();
@@ -10,9 +10,7 @@ const handleCancelPhoto = () => {
   delete model.value.file;
 
   // Очищаем инпут, чтобы можно было загрузить тот же файл снова
-  const input = document.querySelector(
-    "input[type='file']",
-  ) as HTMLInputElement;
+  const input = document.querySelector("input[type='file']") as HTMLInputElement;
   if (input) input.value = "";
 
   // preview.value = null;
@@ -44,23 +42,11 @@ const onFileChange = async (event: Event) => {
   <div class="space-y-4">
     <div class="flex gap-2">
       <label class="block cursor-pointer">
-        <UButton as="span" color="primary" variant="solid"
-          >Choose photo</UButton
-        >
-        <input
-          class="hidden"
-          type="file"
-          accept="image/*"
-          @change="onFileChange"
-        />
+        <UButton as="span" color="primary" variant="solid">Choose photo</UButton>
+        <input class="hidden" type="file" accept="image/*" @change="onFileChange" />
       </label>
 
-      <UButton
-        v-if="model?.image_paths"
-        color="red"
-        variant="outline"
-        @click="handleCancelPhoto"
-      >
+      <UButton v-if="model?.image_paths" color="red" variant="outline" @click="handleCancelPhoto">
         cancel photo
       </UButton>
     </div>

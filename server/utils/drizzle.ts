@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/d1";
 import * as schema from "../database/schema";
 import { blogItems } from "../database/schema";
-import { BlogItem } from "~/types/all";
+import { BlogItem } from "~/types/blog";
 import { eq } from "drizzle-orm";
 
 // export { sql, eq, and, or } from "drizzle-orm";
