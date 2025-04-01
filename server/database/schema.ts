@@ -13,3 +13,10 @@ export const blogItems = sqliteTable("blog_items", {
   priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
   lang: text("lang", { enum: ["en", "ru", "cn"] }).default("en"),
 });
+
+export const rewards = sqliteTable("rewards", {
+  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
+  img_path: text("img_path").notNull(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+});

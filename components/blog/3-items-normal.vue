@@ -2,6 +2,10 @@
 import { get_items_by_lang } from "~/server/utils/helpers/blog";
 import type { BlogItem } from "~/types/blog";
 
+const randBool = (): boolean => {
+  return Math.random() > 0.5;
+};
+
 const randAmount = () => {
   const rand = Math.floor(Math.random() * 10);
   return rand % 2 == 0 ? 2 : 1;
@@ -58,13 +62,24 @@ const cardsWidth = () => {
   const minWidth = 35;
   const value = Math.floor(Math.random() * 25 + minWidth);
   return `${value}vw`;
-  // const values = [1, 2, 3];
-
-  // // Перемешиваем массив и выбираем первые два элемента
-  // const shuffled = values.sort(() => Math.random() - 0.5);
-
-  // return shuffled[0];
 };
+
+// 1
+// imgPosition: left | right
+// imgWidth 40vw - 60vw
+// itemWidth: flex-1
+
+// 2
+// imgPosition: left | right
+// imgWidth 20vw - 30vw
+// itemWidth: flex-1 | vw
+
+// 3
+// imgPosition: left | right | bottom
+// imgWidth 20vw - 30vw
+// itemWidth: flex-1 | vw
+// flex col with bottom img
+// flex reverse?
 </script>
 
 <template>

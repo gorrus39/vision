@@ -3,6 +3,7 @@ import * as schema from "../database/schema";
 import { blogItems } from "../database/schema";
 import { BlogItem } from "~/types/blog";
 import { eq } from "drizzle-orm";
+import { Reward } from "~/types/catalog";
 
 // export { sql, eq, and, or } from "drizzle-orm";
 
@@ -45,6 +46,27 @@ export function queries() {
 
       async delete(id: number) {
         return await db.delete(blogItems).where(eq(blogItems.id, id)).returning();
+      },
+    },
+    catalogRewards: {
+      async getAll() {
+        return await db.select().from(schema.rewards);
+      },
+
+      async getById(id: number) {
+        return await db.select().from(schema.rewards).where(eq(schema.rewards.id, id)).limit(1);
+      },
+
+      async create(data: Reward) {
+        return await db.insert(schema.rewards).values(data).returning();
+      },
+
+      async update(id: number, data: Reward) {
+        return await db.update(schema.rewards).set(data).where(eq(schema.rewards.id, id)).returning();
+      },
+
+      async delete(id: number) {
+        return await db.delete(schema.rewards).where(eq(schema.rewards.id, id)).returning();
       },
     },
   };

@@ -22,14 +22,20 @@ const image_paths = computed(() => {
         {{ formatDate(item.published_at) }}
       </div>
 
+      <!-- <div
+        class="ms-auto hidden rounded-[5vw] border border-white ps-M-10 pe-M-10 text-M-14 md:flex md:rounded-[2vw] md:pt-D-2 md:ps-D-10 md:pe-D-10 md:text-D-18"
+      >
+        <span class="border-M block md:hidden">{{ item.category }}</span>
+        <span class="border-D hidden md:block">{{ item.category }}</span>
+      </div> -->
       <div
-        class="border-D md:block, ms-auto hidden rounded-[5vw] border-white ps-M-10 pe-M-10 text-M-14 md:rounded-[2vw] md:pt-D-2 md:ps-D-10 md:pe-D-10 md:text-D-18"
+        class="border-D ms-auto hidden rounded-[5vw] border-white ps-M-10 pe-M-10 text-M-14 md:block md:rounded-[2vw] md:pt-D-2 md:ps-D-10 md:pe-D-10 md:text-D-18"
       >
         {{ item.category }}
       </div>
 
       <div
-        class="'block border-M', ms-auto rounded-[5vw] border-white ps-M-10 pe-M-10 text-M-14 md:hidden md:rounded-[2vw] md:pt-D-2 md:ps-D-10 md:pe-D-10 md:text-D-18"
+        class="border-M ms-auto block rounded-[5vw] border-white ps-M-10 pe-M-10 text-M-14 md:hidden md:rounded-[2vw] md:pt-D-2 md:ps-D-10 md:pe-D-10 md:text-D-18"
       >
         {{ item.category }}
       </div>

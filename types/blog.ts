@@ -13,8 +13,6 @@ export type Project = {
   avatar?: string;
 };
 
-const FileSchema = z.instanceof(File);
-
 export const BlogItemSchema = z.object({
   id: z.coerce.number(), // 🔥 Автоматическое приведение строки к числу
   published_at: z.coerce.date(), // 🔥 Преобразует строку в Date
@@ -45,9 +43,3 @@ export const BlogItemSchema = z.object({
 export const BlogItemsSchema = z.array(BlogItemSchema);
 
 export type BlogItem = z.infer<typeof BlogItemSchema>;
-
-export type FAQItem = {
-  id: number;
-  title: string;
-  text: string;
-};

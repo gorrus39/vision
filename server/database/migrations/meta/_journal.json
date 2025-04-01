@@ -29,6 +29,13 @@
       "when": 1742541485149,
       "tag": "0003_add_lang_to_blog_items",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1743492560755,
+      "tag": "0004_brainy_quasar",
+      "breakpoints": true
     }
   ]
 }
