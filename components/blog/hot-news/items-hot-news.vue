@@ -31,16 +31,16 @@ const hot_items_slice = computed(() => hot_items_by_lang.value.slice(0, 4));
 </script>
 <template>
   <div class="border-D-t border-D-s hidden flex-wrap md:flex">
-    <BlogItemText v-if="withInfoItems" />
+    <BlogHotNewsItemText v-if="withInfoItems" />
 
-    <BlogItemHot v-for="item in hot_items_slice" :item="item" />
+    <BlogHotNewsItemHot v-for="item in hot_items_slice" :item="item" />
 
-    <BlogItemAllArticles v-if="withInfoItems" />
+    <BlogHotNewsItemAllArticles v-if="withInfoItems" />
   </div>
 
   <div :class="[`border-M-s border-M-t border-M-e flex flex-col border-white md:hidden`]">
-    <BlogItemAllArticles v-if="withInfoItems" />
+    <BlogHotNewsItemAllArticles v-if="withInfoItems" />
 
-    <BlogItemHot v-for="item in hot_items_slice" :item="item" mobile />
+    <BlogHotNewsItemHot v-for="item in hot_items_slice" :item="item" mobile />
   </div>
 </template>

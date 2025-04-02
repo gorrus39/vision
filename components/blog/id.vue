@@ -74,7 +74,7 @@ const image_paths = computed(() => {
       </div>
     </div>
 
-    <BlogItemsHotNews withInfoItems />
+    <BlogHotNewsItemsHotNews withInfoItems />
 
     <ChanksButtonGoUp class="ms-auto mt-M-10 md:mt-D-20" />
   </div>

@@ -45,7 +45,7 @@ const items_view = ref(Array(4).fill(blogItem));
         {{ $t("home.vision_blog.vision_blog") }}
       </p>
 
-      <BlogItemsHotNews withInfoItems />
+      <BlogHotNewsItemsHotNews withInfoItems />
     </div>
 
     <!-- <div class="flex">
@@ -69,7 +69,7 @@ const items_view = ref(Array(4).fill(blogItem));
     <!-- <div class="flex">
       <div class="border-D-e border-white w-D-154"></div>
       <div class="border-D-b grid flex-1 grid-cols-3 border-white">
-        <BlogItemAllArticles />
+        <BlogItemsHotItemAllArticles />
 
         <div class="border-D-e relative border-white">
           <HomeBlogItem :blogItem="items_view[2]" />
@@ -106,7 +106,7 @@ const items_view = ref(Array(4).fill(blogItem));
       <div class="border-M-b border-white w-M-24"></div>
     </div>
 
-    <BlogItemText />
+    <BlogHotNewsItemText />
 
     <div class="flex">
       <div class="border-M-e border-white w-M-23"></div>
@@ -121,7 +121,7 @@ const items_view = ref(Array(4).fill(blogItem));
         <div class="absolute bottom-0 bg-black right-M--5 w-M-10 h-M-50"></div>
       </div>
 
-      <BlogItemAllArticles />
+      <BlogHotNewsItemAllArticles />
 
       <div class="w-M-24"></div>
     </div>

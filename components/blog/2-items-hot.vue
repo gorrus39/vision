@@ -9,6 +9,6 @@
       <NuxtImg class="w-M-18 md:w-D-34" src="images/blog/fire.svg" />
     </div>
 
-    <BlogItemsHotNews />
+    <BlogHotNewsItemsHotNews />
   </div>
 </template>

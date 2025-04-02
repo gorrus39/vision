@@ -33,7 +33,10 @@
     <UDivider />
     <p class="text-center text-M-16">{{ $t("footer.thats_the_vision") }}</p>
     <UDivider />
-    <p class="text-center text-M-14">{{ $t("header.catalogue") }}</p>
+
+    <NuxtLinkLocale to="/catalog">
+      <p class="text-center text-M-14">{{ $t("header.catalogue") }}</p>
+    </NuxtLinkLocale>
 
     <NuxtLinkLocale to="/blog">
       <p class="text-center text-M-14">{{ $t("header.blog") }}</p>

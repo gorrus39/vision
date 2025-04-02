@@ -5,7 +5,7 @@ const showMobileNavigation = ref(false);
 
 const homeLink = { label: "VISION", path: "/" };
 const navLinks = [
-  { labelPath: "header.catalogue", path: "#" },
+  { labelPath: "header.catalogue", path: "/catalog" },
   { labelPath: "header.blog", path: "/blog" },
   { labelPath: "header.faq", path: "#" },
   { labelPath: "header.about_fraudvision", path: "#" },
