@@ -1,9 +1,14 @@
 <script setup lang="ts">
-const showModal = ref<boolean>(false);
+const showModalRewards = ref<boolean>(false);
+const showModalCatalogAdmins = ref<boolean>(false);
 </script>
 
 <template>
-  <UButton icon="i-lucide:settings" @click="showModal = true" label="Rewards" />
+  <div class="space-x-2 p-2">
+    <UButton icon="i-lucide:settings" @click="showModalRewards = true" label="Rewards" />
+    <UButton icon="i-lucide:settings" @click="showModalCatalogAdmins = true" label="Admins" />
+  </div>
 
-  <CatalogRewardsList v-model="showModal" />
+  <CatalogRewardsList v-model="showModalRewards" />
+  <CatalogAdminsList v-model="showModalCatalogAdmins" />
 </template>

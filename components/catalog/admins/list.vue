@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useInitializedRewardsStore } from "~/stores/rewards";
-import { getRewardImageUrl } from "~/server/utils/helpers/catalog";
+import { getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
+
 const showModal = defineModel<boolean>();
 const showForm = ref(false);
 
 const showConfirmation = ref(false);
 const selectedId = ref<number | undefined>(undefined);
 
-const store = await useInitializedRewardsStore();
-const { items } = storeToRefs(store);
+const store = await useInitializedCatalogAdminStore();
+const { items: rows } = storeToRefs(store);
 const { delete_item_remote } = store;
 const toast = useToast();
 
@@ -23,18 +23,20 @@ const delete_item = async () => {
   }
   showConfirmation.value = false;
 };
-const columns = [
-  { key: "actions", label: "actions", class: "w-5" },
-  { key: "id", label: "id", class: "w-5", sortable: true },
-  { key: "img_path", label: "image" },
-  { key: "name", label: "name", class: "w-10", sortable: true },
-  { key: "description", label: "description", class: "" },
-];
 
 const try_delete_item = (id: number | undefined) => {
   selectedId.value = id;
   showConfirmation.value = true;
 };
+
+const columns = [
+  { key: "actions", label: "actions", class: "w-5" },
+  { key: "id", label: "id", class: "w-5", sortable: true },
+  { key: "avatar_path", label: "image", class: "w-10" },
+  { key: "name", label: "name", class: "w-10", sortable: true },
+  { key: "link", label: "link" },
+  { key: "description", label: "description", class: "" },
+];
 
 const try_edit_item = (id: number | undefined) => {
   selectedId.value = id;
@@ -50,7 +52,7 @@ const try_add_item = () => {
 <template>
   <UModal v-model="showModal" fullscreen>
     <USlideover v-model="showForm">
-      <CatalogRewardsForm v-model="showForm" :selectedId="selectedId" />
+      <CatalogAdminsForm v-model="showForm" :selectedId="selectedId" />
     </USlideover>
 
     <ChanksAreYouShure v-model="showConfirmation">
@@ -66,7 +68,7 @@ const try_add_item = () => {
       <UButton @click="showModal = false" label="close" color="red" variant="outline" />
     </div>
 
-    <UTable class="m-2 rounded-[5px] border-[1px] border-solid border-gray-400" :rows="items" :columns="columns">
+    <UTable class="m-2 rounded-[5px] border-[1px] border-solid border-gray-400" :rows="rows" :columns="columns">
       <template #actions-data="{ row }">
         <div class="flex gap-2">
           <UIcon class="on-hover h-5 w-5" name="i-heroicons-pencil-square-20-solid" @click="try_edit_item(row.id)" />
@@ -80,9 +82,9 @@ const try_add_item = () => {
         </div>
       </template>
 
-      <template #img_path-data="{ row }">
+      <template #avatar_path-data="{ row }">
         <div>
-          <img :src="getRewardImageUrl(row.img_path)" alt="img" width="100" />
+          <img :src="getCatalogAdminImageUrl(row.avatar_path)" alt="img" width="50" />
         </div>
       </template>
     </UTable>

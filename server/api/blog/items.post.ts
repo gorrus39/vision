@@ -55,7 +55,7 @@ export default eventHandler(async (event) => {
   if (success) {
     for (const frontend_item of data) {
       try {
-        const db_item_raw = (await queries().blogQueries.getById(frontend_item.id))[0];
+        const [db_item_raw] = await queries().blogQueries.getById(frontend_item.id);
         const { success, data: db_data, error } = BlogItemSchema.safeParse(db_item_raw);
         let db_item = db_data;
 
@@ -70,9 +70,11 @@ export default eventHandler(async (event) => {
         } else {
           // создаём в бд, если не было
           if (db_item == undefined) {
-            const created_db_item = (
-              await queries().blogQueries.create({ ...frontend_item, image_paths: [null, null, null, null, null] })
-            )[0];
+            const [created_db_item] = await queries().blogQueries.create({
+              ...frontend_item,
+              image_paths: [null, null, null, null, null],
+            });
+
             const { success, data: created_data, error } = BlogItemSchema.safeParse(created_db_item);
             if (!created_data) throw new Error("unexpected situation, when saveParse created blog item");
 

@@ -1,11 +1,10 @@
-import { putBlobReward } from "~/server/utils/helpers/catalog";
-import { Reward, rewardSchema } from "~/types/catalog";
+import { CatalogAdmin, catalogAdminSchema } from "~/types/catalog";
 
-export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: Reward }> => {
+export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: CatalogAdmin }> => {
   const formData = await readMultipartFormData(event);
   if (!formData) return { error: "undefined FormData" };
 
-  let item: Reward | {} = {};
+  let item: CatalogAdmin | {} = {};
 
   let fileBuffer: Buffer<ArrayBufferLike> | null = null;
   let fileName: string | null = null;
@@ -13,7 +12,7 @@ export default eventHandler(async (event): Promise<{ error?: string; success?: b
 
   formData.forEach((part) => {
     if (part.name == "item") {
-      item = JSON.parse(part.data.toString()) as Reward;
+      item = JSON.parse(part.data.toString()) as CatalogAdmin;
     } else if (part.name == "frontendFile") {
       fileBuffer = part.data;
     } else if (part.name == "frontendFile.name") {
@@ -23,38 +22,38 @@ export default eventHandler(async (event): Promise<{ error?: string; success?: b
     }
   });
 
-  const { success, data, error } = rewardSchema.safeParse(item);
+  const { success, data, error } = catalogAdminSchema.safeParse(item);
   if (error) return { error: "undefined FormData" };
 
   let db_item;
   if (data.id) {
     // update
-    db_item = (await queries().catalogRewards.getById(data.id))[0];
+    db_item = (await queries().catalogAdmin.getById(data.id))[0];
 
-    const img_path_changed = db_item.img_path !== data.img_path;
-    let img_path;
+    const img_path_changed = db_item.avatar_path !== data.avatar_path;
+    let avatar_path;
     if (img_path_changed) {
       if (!fileBuffer || !fileName || !fileType) return { error: "!fileBuffer || !fileName || !fileType" };
 
-      await deleteBlobItem(db_item.img_path);
+      await deleteBlobItem(db_item.avatar_path);
       const file = new File([fileBuffer], fileName, { type: fileType });
-      img_path = await putBlobReward(db_item, file);
+      avatar_path = await putBlobCatalogAmin(db_item, file);
     } else {
-      img_path = data.img_path;
+      avatar_path = data.avatar_path;
     }
 
-    db_item = (await queries().catalogRewards.update(db_item.id, { ...data, img_path }))[0];
+    db_item = (await queries().catalogAdmin.update(db_item.id, { ...data, avatar_path: avatar_path }))[0];
     return { success: true, data: db_item };
   } else {
     // create
-    db_item = (await queries().catalogRewards.create(data))[0];
+    db_item = (await queries().catalogAdmin.create(data))[0];
 
     if (!fileBuffer || !fileName || !fileType) return { error: "!fileBuffer || !fileName || !fileType" };
 
     const file = new File([fileBuffer], fileName, { type: fileType });
-    const img_path = await putBlobReward(db_item, file);
+    const avatar_path = await putBlobCatalogAmin(db_item, file);
 
-    db_item = (await queries().catalogRewards.update(db_item.id, { ...db_item, img_path }))[0];
+    db_item = (await queries().catalogAdmin.update(db_item.id, { ...db_item, avatar_path }))[0];
     return { success: true, data: db_item };
   }
 });
