@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { getRewardImageUrl, getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
+import type { FullCatalogItem } from "~/types/catalog";
+import { viewLast3Reitings } from "~/utils/all";
 
 const showListItemsModal = defineModel<boolean>();
 const showForm = ref(false);
@@ -13,9 +14,11 @@ const { items: rows } = storeToRefs(store);
 const columns = [
   { key: "actions", label: "actions", class: "w-5" },
   { key: "id", label: "id" },
-  { key: "title", label: "title" },
+  { key: "title", label: "title", sortable: true },
   { key: "rewards", label: "rewards" },
   { key: "admins", label: "admins" },
+  { key: "tags", label: "tags" },
+  { key: "reitings", label: "reitings", sortable: true },
 ];
 
 const try_delete_item = (id: number | undefined) => {
@@ -57,7 +60,7 @@ const delete_item = async () => {
     </ChanksAreYouShure>
 
     <div class="space-y-2 p-2 text-black">
-      {{ rows }}
+      <!-- {{ rows[0].reitings }} -->
       <div class="space-x-2">
         <UButton @click="try_add_item" icon="i-ep:circle-plus-filled" label="Add item" />
 
@@ -107,7 +110,18 @@ const delete_item = async () => {
             </span>
           </div>
         </template>
+
+        <template #reitings-data="{ row }: { row: FullCatalogItem }">
+          <div v-html="viewLast3Reitings(row.reitings)" />
+        </template>
+
+        <template #tags-data="{ row }: { row: FullCatalogItem }">
+          <div>
+            <b>{{ JSON.parse(row.tags).length }}</b> tag{{ JSON.parse(row.tags).length > 1 ? "`s" : "" }}
+          </div>
+        </template>
       </UTable>
+      {{ rows[rows.length - 1] }}
     </div>
 
     <CatalogAdminPanelItemsForm v-model="showForm" :selectedId="selectedId" />

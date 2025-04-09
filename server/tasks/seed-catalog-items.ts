@@ -14,6 +14,7 @@ export default defineTask({
     const catalogItemAmount = 3;
     const catalogAdminsToItemsAmount = 2;
     const caralogRewardsToItem = 4;
+    const caralogReitingsAmount = 4;
 
     const adminIds = (await queries().catalogAdmin.getAll()).map((item) => item.id);
     if (adminIds.length === 0) return { result: "fail", message: "has no one catalog-admin" };
@@ -22,19 +23,24 @@ export default defineTask({
 
     for (let i = 0; i < catalogItemAmount; i++) {
       const [catalogItem] = await drizzle.catalogItem.create({ title: faker.company.name() });
+      const catalog_item_id = catalogItem.id;
 
       for (let j = 0; j < catalogAdminsToItemsAmount; j++) {
         await drizzle.catalogAdminsToItems.create({
           catalog_admin_id: randElement(adminIds),
-          catalog_item_id: catalogItem.id,
+          catalog_item_id,
         });
       }
 
       for (let z = 0; z < caralogRewardsToItem; z++) {
         await drizzle.catalogRewardsToItems.create({
-          catalog_item_id: catalogItem.id,
+          catalog_item_id,
           catalog_reward_id: randElement(rewardIds),
         });
+      }
+
+      for (let i = 0; i < caralogReitingsAmount; i++) {
+        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 10 + 90) });
       }
     }
     return { result: "success" };

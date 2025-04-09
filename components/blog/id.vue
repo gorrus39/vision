@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getBlogImageUrl } from "~/server/utils/helpers/blog";
+import { getBlogImageUrl } from "~/utils/blog";
 
 const route = useRoute();
 

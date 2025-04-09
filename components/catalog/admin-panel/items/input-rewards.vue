@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getRewardImageUrl } from "~/server/utils/helpers/catalog";
+// import { getRewardImageUrl } from "~/server/utils/helpers/catalog";
 import type { Reward } from "~/types/catalog";
 
 const store = await useInitializedRewardsStore();

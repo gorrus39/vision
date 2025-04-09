@@ -1,4 +1,4 @@
-import { FullCatalogItem, fullCatalogItemSchema } from "~/types/catalog";
+import { FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
 
 const createCorrespondingRewardsToItems = async (itemId: number, rewardIds: number[]) => {
   for (const rewardId of rewardIds) {
@@ -9,6 +9,13 @@ const createCorrespondingRewardsToItems = async (itemId: number, rewardIds: numb
 const createCorrespondingAdminsToItems = async (itemId: number, adminIds: number[]) => {
   for (const adminId of adminIds) {
     await queries().catalogAdminsToItems.create({ catalog_item_id: itemId, catalog_admin_id: adminId });
+  }
+};
+
+const createCorrespondingReitings = async (catalog_item_id: number, reitings: Reiting[]) => {
+  for (const reiteing of reitings) {
+    const value = reiteing.value;
+    await queries().reitings.create({ catalog_item_id, value });
   }
 };
 
@@ -28,6 +35,8 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
   if (error) return { error: JSON.stringify(error.errors[0]) };
 
   const [db_item] = await queries().catalogItem.create(data);
+
+  createCorrespondingReitings(db_item.id, data.reitings);
 
   createCorrespondingRewardsToItems(
     db_item.id,

@@ -21,6 +21,7 @@ export const blogItems = sqliteTable("blog_items", {
 export const catalogItems = sqliteTable("catalogItems", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   title: text("title").notNull(),
+  tags: text("tags").notNull().default("[]"),
 });
 ////////////////
 export const catalogAdmins = sqliteTable("catalogAdmins", {
@@ -57,45 +58,7 @@ export const catalogRewardsToItems = sqliteTable("catalogRewardsToItems", {
     .notNull()
     .references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
 });
-////////////////
-export const catalogTagsLine1 = sqliteTable("catalogTagsLine1", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  name: text("name").notNull(),
-});
 
-export const catalogTagsLine1ToItems = sqliteTable("catalogTagsLine1ToItems", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  catalog_tags_line_1_id: integer("catalog_tags_line_1_id").references(() => catalogTagsLine1.id, {
-    onDelete: "cascade",
-  }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-});
-///
-export const catalogTagsLine2 = sqliteTable("catalogTagsLine2", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  name: text("name").notNull(),
-});
-
-export const catalogTagsLine2ToItems = sqliteTable("catalogTagsLine2ToItems", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  catalog_tags_line_2_id: integer("catalog_tags_line_2_id").references(() => catalogTagsLine2.id, {
-    onDelete: "cascade",
-  }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-});
-///
-export const catalogTagsLine3 = sqliteTable("catalogTagsLine3", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  name: text("name").notNull(),
-});
-
-export const catalogTagsLine3ToItems = sqliteTable("catalogTagsLine3ToItems", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  catalog_tags_line_3_id: integer("catalog_tags_line_3_id").references(() => catalogTagsLine3.id, {
-    onDelete: "cascade",
-  }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-});
 ////////////////
 export const catalogLinks = sqliteTable("catalogLinks", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
@@ -110,7 +73,7 @@ export const catalogLinks = sqliteTable("catalogLinks", {
 export const reitings = sqliteTable("reitings", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  value: integer("value"),
+  value: integer("value").notNull(),
   created_at: text("created_at")
     .notNull()
     .default(sql`(current_timestamp)`),

@@ -1,8 +1,7 @@
 import { readMultipartFormData, H3Event } from "h3";
 import type { EventHandlerRequest } from "h3";
 import { Buffer } from "buffer";
-import { BlogItem } from "~/types/blog";
-import { Ref } from "vue";
+import type { BlogItem } from "~/types/blog";
 
 export const convertDataFromFront = async (event: H3Event<EventHandlerRequest>) => {
   const formData = await readMultipartFormData(event);

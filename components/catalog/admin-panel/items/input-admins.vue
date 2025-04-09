@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
+// import { getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
 import type { CatalogAdmin } from "~/types/catalog";
 
 const store = await useInitializedCatalogAdminStore();

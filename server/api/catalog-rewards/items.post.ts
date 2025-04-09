@@ -1,5 +1,6 @@
-import { putBlobReward } from "~/server/utils/helpers/catalog";
 import { Reward, rewardSchema } from "~/types/catalog";
+import { putBlobReward } from "~/utils/all";
+import { deleteBlobItem } from "~/utils/blog";
 
 export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: Reward }> => {
   const formData = await readMultipartFormData(event);

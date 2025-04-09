@@ -33,12 +33,6 @@ export const catalogAdminSchema = z.object({
 export type CatalogAdmin = z.infer<typeof catalogAdminSchema>;
 /////////////////////////////////////////////////////////////////////////////
 
-// export const catalogItemSchema = z.object({
-//   id: z.number().optional(),
-//   name: z.string().min(1).max(40),
-// });
-// export type CatalogItem = z.infer<typeof catalogItemSchema>;
-/////////////////////////////////////////////////////////////////////////////
 export const catalogAdminsToItemsSchema = z.object({
   id: z.number().optional(),
   catalog_admin_id: z.number(),
@@ -46,43 +40,24 @@ export const catalogAdminsToItemsSchema = z.object({
 });
 export type CatalogAdminsToItems = z.infer<typeof catalogAdminsToItemsSchema>;
 /////////////////////////////////////////////////////////////////////////////
-export const tagsLine1Schema = z.object({
-  id: z.number().optional(),
-  name: z.string().min(1).max(20),
-});
-export type TagsLine1 = z.infer<typeof tagsLine1Schema>;
-
-export const tagsLine2Schema = z.object({
-  id: z.number().optional(),
-  name: z.string().min(1).max(20),
-});
-export type TagsLine2 = z.infer<typeof tagsLine2Schema>;
-export const tagsLine3Schema = z.object({
-  id: z.number().optional(),
-  name: z.string().min(1).max(20),
-});
-export type TagsLine3 = z.infer<typeof tagsLine3Schema>;
-///
-export const catalogTagsLine1ToItemsSchema = z.object({
-  id: z.number().optional(),
-  catalog_tags_line_1_id: z.number(),
-  catalog_item_id: z.number(),
-});
-export type CatalogTagsLine1ToItems = z.infer<typeof catalogTagsLine1ToItemsSchema>;
-///
-export const catalogTagsLine2ToItemsSchema = z.object({
-  id: z.number().optional(),
-  catalog_tags_line_2_id: z.number(),
-  catalog_item_id: z.number(),
-});
-export type CatalogTagsLine2ToItems = z.infer<typeof catalogTagsLine2ToItemsSchema>;
-///
-export const catalogTagsLine3ToItemsSchema = z.object({
-  id: z.number().optional(),
-  catalog_tags_line_3_id: z.number(),
-  catalog_item_id: z.number(),
-});
-export type CatalogTagsLine3ToItems = z.infer<typeof catalogTagsLine3ToItemsSchema>;
+export const tagsSchema = z.enum([
+  "kozmap",
+  "oracle",
+  //
+  "english",
+  "russian",
+  "chinese",
+  "spanish",
+  "french",
+  //
+  "chat",
+  "markets",
+  "forums",
+  "top sellers",
+  "essentials",
+  "others",
+]);
+export type Tag = z.infer<typeof tagsSchema>;
 /////////////////////////////////////////////////////////////////////////////
 
 export const catalogLinkSchema = z.object({
@@ -101,7 +76,7 @@ export type CatalogLink = z.infer<typeof catalogLinkSchema>;
 /////////////
 export const reitingSchema = z.object({
   id: z.number().optional(),
-  catalog_item_id: z.number(),
+  catalog_item_id: z.number().nullable().optional(),
   value: z.number().min(0).max(100),
   created_at: z.string().optional(),
 });
@@ -111,6 +86,7 @@ export type Reiting = z.infer<typeof reitingSchema>;
 export const catalogItemSchema = z.object({
   id: z.number().optional(),
   title: z.string().min(1),
+  tags: z.string(),
 
   // img_short_path: z.string().min(1, { message: "must present" }),
   // img_large_path: z.string().min(1, { message: "must present" }),
@@ -139,14 +115,10 @@ export const catalogItemSchema = z.object({
 export type CatalogItem = z.infer<typeof catalogItemSchema>;
 
 export const fullCatalogItemSchema = catalogItemSchema.extend({
-  // tags_line1: z.array(catalogTagsLine1ToItemsSchema),
-  // tags_line2: z.array(catalogTagsLine2ToItemsSchema),
-  // tags_line3: z.array(catalogTagsLine3ToItemsSchema),
-
   // links: z.array(catalogLinkSchema),
   admins: z.array(catalogAdminSchema),
   rewards: z.array(rewardSchema),
-  // reiting: z.array(reitingSchema),
+  reitings: z.array(reitingSchema),
 
   // frontendFileShort: z.instanceof(File).optional(),
   // frontendFileLarge: z.instanceof(File).optional(),

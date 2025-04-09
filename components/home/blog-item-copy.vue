@@ -2,7 +2,7 @@
 import type { BlogItem } from "~/types/blog";
 const localePath = useLocalePath();
 const toast = useToast();
-import { getBlogImageUrl } from "~/server/utils/helpers/blog";
+import { getBlogImageUrl } from "~/utils/blog";
 
 const props = defineProps<{
   blogItem: BlogItem;

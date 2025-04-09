@@ -1,4 +1,4 @@
-import { FullCatalogItem, fullCatalogItemSchema } from "~/types/catalog";
+import { FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
 
 const ensureCorrespondingRewardsToItems = async (itemId: number, rewardIds: number[]) => {
   // то что лежит в бд
@@ -36,6 +36,14 @@ const ensureCorrespondingAdminsToItems = async (catalog_item_id: number, adminId
   }
 };
 
+const ensureCorrespondingReitings = async (catalog_item_id: number, reitings: Reiting[]) => {
+  const newReitings = reitings.filter((r) => r.id == undefined);
+  for (const reiteing of newReitings) {
+    const value = reiteing.value;
+    await queries().reitings.create({ catalog_item_id, value });
+  }
+};
+
 export default eventHandler(async (event): Promise<{ success?: boolean; error?: string }> => {
   const formData = await readMultipartFormData(event);
   if (!formData) return { error: "undefined FormData 1" };
@@ -54,6 +62,8 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
   /////////////////////
   /////////////////////
   const [db_item] = await queries().catalogItem.getById(data.id);
+
+  ensureCorrespondingReitings(db_item.id, data.reitings);
 
   ensureCorrespondingRewardsToItems(
     db_item.id,

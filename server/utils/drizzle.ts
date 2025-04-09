@@ -9,14 +9,8 @@ import {
   CatalogItem,
   CatalogLink,
   CatalogRewardsToItems,
-  CatalogTagsLine1ToItems,
-  CatalogTagsLine2ToItems,
-  CatalogTagsLine3ToItems,
   Reiting,
   Reward,
-  TagsLine1,
-  TagsLine2,
-  TagsLine3,
 } from "~/types/catalog";
 
 // export { sql, eq, and, or } from "drizzle-orm";
@@ -166,40 +160,6 @@ export function queries() {
       },
     },
 
-    //////////////
-    catalogTagsLine1: {
-      async create(data: TagsLine1) {
-        return await db.insert(schema.catalogTagsLine1).values(data).returning();
-      },
-    },
-    catalogTagsLine1ToItems: {
-      async create(data: CatalogTagsLine1ToItems) {
-        return await db.insert(schema.catalogTagsLine1ToItems).values(data).returning();
-      },
-    },
-    ///
-    catalogTagsLine2: {
-      async create(data: TagsLine2) {
-        return await db.insert(schema.catalogTagsLine2).values(data).returning();
-      },
-    },
-    catalogTagsLine2ToItems: {
-      async create(data: CatalogTagsLine2ToItems) {
-        return await db.insert(schema.catalogTagsLine2ToItems).values(data).returning();
-      },
-    },
-    ///
-    catalogTagsLine3: {
-      async create(data: TagsLine3) {
-        return await db.insert(schema.catalogTagsLine3).values(data).returning();
-      },
-    },
-    catalogTagsLine3ToItems: {
-      async create(data: CatalogTagsLine3ToItems) {
-        return await db.insert(schema.catalogTagsLine3ToItems).values(data).returning();
-      },
-    },
-    //////////////
     catalogLinks: {
       async create(data: CatalogLink) {
         return await db.insert(schema.catalogLinks).values(data).returning();
@@ -207,6 +167,9 @@ export function queries() {
     },
     //////////
     reitings: {
+      async getAll() {
+        return await db.select().from(schema.reitings).orderBy(schema.reitings.created_at);
+      },
       async create(data: Reiting) {
         return await db.insert(schema.reitings).values(data).returning();
       },

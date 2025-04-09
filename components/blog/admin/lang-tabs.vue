@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { get_all_items_by_lang } from "~/server/utils/helpers/blog";
+import { get_all_items_by_lang } from "~/utils/blog";
 
 const store = await useInitializedBlogStore();
 const { items_admin } = storeToRefs(store);

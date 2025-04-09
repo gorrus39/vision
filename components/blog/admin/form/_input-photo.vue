@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/blog";
-import { getBlogImageUrl } from "~/server/utils/helpers/blog";
+import { getBlogImageUrl } from "~/utils/blog";
 
 const model = defineModel<BlogItem>();
 const handleCancelPhoto = () => {

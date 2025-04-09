@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BlogItem } from "~/types/blog";
 const localePath = useLocalePath();
-import { getBlogImageUrl } from "~/server/utils/helpers/blog";
+import { getBlogImageUrl } from "~/utils/blog";
 
 const props = defineProps<{
   item: BlogItem;

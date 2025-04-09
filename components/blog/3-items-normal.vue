@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { get_items_by_lang } from "~/server/utils/helpers/blog";
+import { get_items_by_lang } from "~/utils/blog";
 import type { BlogItem } from "~/types/blog";
 
 const randBool = (): boolean => {
