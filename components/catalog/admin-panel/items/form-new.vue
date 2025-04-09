@@ -53,7 +53,7 @@ const handleSubmit = async () => {
           <UInput v-model="state.title" />
         </UFormGroup>
 
-        <!-- <div class="flex gap-2">
+        <div class="flex gap-2">
           <UFormGroup name="rewards" label="rewards">
             <CatalogAdminPanelItemsInputRewards v-model="state.rewards" />
           </UFormGroup>
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
           <UFormGroup name="admins" label="admins">
             <CatalogAdminPanelItemsInputAdmins v-model="state.admins" />
           </UFormGroup>
-        </div> -->
+        </div>
 
         <UFormGroup name="tags" label="tags">
           <CatalogAdminPanelItemsInputTags v-model="state.tags" />

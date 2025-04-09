@@ -7,12 +7,12 @@ const { items: options } = storeToRefs(store);
 
 const selected = defineModel<CatalogAdmin[]>();
 
-watchEffect(() => {
-  if (selected.value?.length && options.value?.length) {
-    // Сопоставляем объекты из selected с объектами из options по id
-    selected.value = selected.value.map((sel) => options.value.find((opt) => opt.id === sel.id) || sel);
-  }
-});
+// watchEffect(() => {
+//   if (selected.value?.length && options.value?.length) {
+//     // Сопоставляем объекты из selected с объектами из options по id
+//     selected.value = selected.value.map((sel) => options.value.find((opt) => opt.id === sel.id) || sel);
+//   }
+// });
 </script>
 
 <template>
