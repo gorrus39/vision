@@ -121,9 +121,10 @@ const delete_item = async () => {
           </div>
         </template>
       </UTable>
-      {{ rows[rows.length - 1] }}
+      {{ rows[0] }}
     </div>
 
-    <CatalogAdminPanelItemsForm v-model="showForm" :selectedId="selectedId" />
+    <CatalogAdminPanelItemsFormEdit v-if="selectedId !== undefined" v-model="showForm" :selectedId="selectedId" />
+    <CatalogAdminPanelItemsFormNew v-else v-model="showForm" />
   </UModal>
 </template>

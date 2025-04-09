@@ -1,31 +1,14 @@
 import _ from "lodash";
 import { defineStore } from "pinia";
 import { z } from "zod";
-import {
-  catalogItemSchema,
-  fullCatalogItemSchema,
-  rewardSchema,
-  type CatalogItem,
-  type FullCatalogItem,
-  type Reward,
-} from "~/types/catalog";
+import { fullCatalogItemSchema, type FullCatalogItem, type Reward } from "~/types/catalog";
 
-const create_updata_item = async (state: Ref<Reward>) => {
-  try {
-    const formData = new FormData();
-    const { frontendFile, ...withouteFrontendFile } = state.value;
-
-    formData.append("item", JSON.stringify(withouteFrontendFile));
-    if (state.value.frontendFile && state.value.frontendFile) {
-      formData.append("frontendFile", state.value.frontendFile);
-      formData.append("frontendFile.name", state.value.frontendFile.name);
-      formData.append("frontendFile.type", state.value.frontendFile.type);
-    }
-
-    const { success, data, error } = await $fetch("/api/catalog-rewards/items", { method: "POST", body: formData });
-    return { success, data, error };
-  } catch (error) {
-    return { error };
+const getData = async (initialized: boolean): Promise<FullCatalogItem[]> => {
+  if (initialized) {
+    return await $fetch<FullCatalogItem[]>("/api/catalog/items");
+  } else {
+    const { data } = await useAsyncData<FullCatalogItem[]>("catalog-items", () => $fetch("/api/catalog/items"));
+    return data.value || [];
   }
 };
 
@@ -38,8 +21,9 @@ const useCatalogItemsStore = defineStore("catalogItemsStore", {
   actions: {
     async init() {
       try {
-        const { data } = await useAsyncData(() => $fetch("/api/catalog/items"));
-        const { data: items, success, error } = z.array(fullCatalogItemSchema).safeParse(data.value);
+        const data = await getData(this.initialized);
+        // const { data } = await useAsyncData(() => $fetch("/api/catalog/items"));
+        const { data: items, success, error } = z.array(fullCatalogItemSchema).safeParse(data);
 
         if (!items) throw new Error("error, when parse catalog-items data from backend in store init");
 
@@ -49,13 +33,13 @@ const useCatalogItemsStore = defineStore("catalogItemsStore", {
         console.log("init state catalog-rewards ERROR", error);
       }
     },
-    async create_or_update_item_remote(state: Ref<FullCatalogItem>) {
+    async create_or_update_item_remote(state: FullCatalogItem) {
       const formData = new FormData();
 
-      formData.append("itemJson", JSON.stringify(state.value));
+      formData.append("itemJson", JSON.stringify(state));
 
       try {
-        const method = state.value.id ? "PUT" : "POST";
+        const method = state.id ? "PUT" : "POST";
         const { success, error } = await $fetch("/api/catalog/items", { method, body: formData });
         await this.init();
 
