@@ -161,8 +161,25 @@ export function queries() {
     },
 
     catalogLinks: {
+      async getAll() {
+        return await db.select().from(schema.catalogLinks);
+      },
+
+      async getAllByCatalogItemId(catalog_item_id: number) {
+        return await db
+          .select()
+          .from(schema.catalogLinks)
+          .where(eq(schema.catalogLinks.catalog_item_id, catalog_item_id));
+      },
       async create(data: CatalogLink) {
         return await db.insert(schema.catalogLinks).values(data).returning();
+      },
+      async update(id: number, data: CatalogLink) {
+        return await db.update(schema.catalogLinks).set(data).where(eq(schema.catalogLinks.id, id)).returning();
+      },
+
+      async delete(id: number) {
+        return await db.delete(schema.catalogLinks).where(eq(schema.catalogLinks.id, id)).returning();
       },
     },
     //////////

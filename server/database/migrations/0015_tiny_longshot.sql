@@ -1,0 +1,1 @@
+ALTER TABLE `catalogItems` ADD `description_short` text NOT NULL;

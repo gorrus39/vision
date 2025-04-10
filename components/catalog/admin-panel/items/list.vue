@@ -19,6 +19,7 @@ const columns = [
   { key: "admins", label: "admins" },
   { key: "tags", label: "tags" },
   { key: "reitings", label: "reitings", sortable: true },
+  { key: "links", label: "links" },
 ];
 
 const try_delete_item = (id: number | undefined) => {
@@ -50,7 +51,7 @@ const delete_item = async () => {
 </script>
 
 <template>
-  <UModal v-model="showListItemsModal" fullscreen>
+  <UModal v-model="showListItemsModal" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
     <ChanksAreYouShure v-model="showConfirmation">
       <p class="text-center">Delete item id: {{ selectedId }}</p>
       <div class="flex justify-center gap-2">
@@ -72,7 +73,7 @@ const delete_item = async () => {
           label="Close"
         />
       </div>
-
+      <hr />
       <UTable :rows="rows" :columns="columns">
         <template #actions-data="{ row }">
           <div class="flex gap-2">
@@ -115,13 +116,16 @@ const delete_item = async () => {
           <div v-html="viewLast3Reitings(row.reitings)" />
         </template>
 
+        <template #links-data="{ row }: { row: FullCatalogItem }">
+          <div>{{ row.links.length }} link{{ row.links.length > 1 ? "`s" : "" }}</div>
+        </template>
+
         <template #tags-data="{ row }: { row: FullCatalogItem }">
           <div>
             <b>{{ JSON.parse(row.tags).length }}</b> tag{{ JSON.parse(row.tags).length > 1 ? "`s" : "" }}
           </div>
         </template>
       </UTable>
-      {{ rows[0] }}
     </div>
 
     <CatalogAdminPanelItemsFormEdit v-if="selectedId !== undefined" v-model="showForm" :selectedId="selectedId" />

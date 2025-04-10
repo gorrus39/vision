@@ -22,6 +22,10 @@ export const catalogItems = sqliteTable("catalogItems", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   title: text("title").notNull(),
   tags: text("tags").notNull().default("[]"),
+  brief: text("brief").notNull().default("{}"),
+  description_short: text("description_short").notNull().default(""),
+  description_large: text("description_large").notNull().default(""),
+  rules: text("rules").notNull().default(""),
 });
 ////////////////
 export const catalogAdmins = sqliteTable("catalogAdmins", {
@@ -63,11 +67,11 @@ export const catalogRewardsToItems = sqliteTable("catalogRewardsToItems", {
 export const catalogLinks = sqliteTable("catalogLinks", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  img_path: text("img_path").notNull(),
+  // img_path: text("img_path").notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   link: text("link").notNull(),
-  src_platform: text("src_platform"),
+  src_platform: text("src_platform").notNull(),
 });
 /////
 export const reitings = sqliteTable("reitings", {

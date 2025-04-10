@@ -1,4 +1,4 @@
-import { FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
+import { CatalogLink, FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
 
 const ensureCorrespondingRewardsToItems = async (itemId: number, rewardIds: number[]) => {
   // то что лежит в бд
@@ -44,6 +44,31 @@ const ensureCorrespondingReitings = async (catalog_item_id: number, reitings: Re
   }
 };
 
+const ensureCorrespondingLinks = async (catalog_item_id: number, links: CatalogLink[]) => {
+  const initAcc: { items_before: CatalogLink[]; items_new: CatalogLink[] } = { items_before: [], items_new: [] };
+  const { items_before, items_new } = links.reduce((acc, item) => {
+    if (item.id) acc.items_before.push(item);
+    else acc.items_new.push(item);
+    return acc;
+  }, initAcc);
+
+  // delete, update
+  const db_links_before = await queries().catalogLinks.getAllByCatalogItemId(catalog_item_id);
+  const items_ids_before = items_before.map((i) => i.id);
+  for (const db_link_before of db_links_before) {
+    if (!items_ids_before.includes(db_link_before.id)) {
+      await queries().catalogLinks.delete(db_link_before.id);
+    } else {
+      const item = items_before.find((i) => i.id == db_link_before.id);
+      if (item) await queries().catalogLinks.update(db_link_before.id, item);
+    }
+  }
+  // create
+  for (const link of items_new) {
+    await queries().catalogLinks.create({ ...link, catalog_item_id });
+  }
+};
+
 export default eventHandler(async (event): Promise<{ success?: boolean; error?: string }> => {
   const formData = await readMultipartFormData(event);
   if (!formData) return { error: "undefined FormData 1" };
@@ -62,6 +87,8 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
   /////////////////////
   /////////////////////
   const [db_item] = await queries().catalogItem.getById(data.id);
+
+  ensureCorrespondingLinks(db_item.id, data.links);
 
   ensureCorrespondingReitings(db_item.id, data.reitings);
 

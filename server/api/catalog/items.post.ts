@@ -1,4 +1,4 @@
-import { FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
+import { CatalogLink, FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
 
 const createCorrespondingRewardsToItems = async (itemId: number, rewardIds: number[]) => {
   for (const rewardId of rewardIds) {
@@ -19,6 +19,12 @@ const createCorrespondingReitings = async (catalog_item_id: number, reitings: Re
   }
 };
 
+const createCorrespondingLinks = async (catalog_item_id: number, links: CatalogLink[]) => {
+  for (const link of links) {
+    await queries().catalogLinks.create({ ...link, catalog_item_id });
+  }
+};
+
 export default eventHandler(async (event): Promise<{ success?: boolean; error?: string }> => {
   const formData = await readMultipartFormData(event);
   if (!formData) return { error: "undefined FormData 1" };
@@ -35,6 +41,8 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
   if (error) return { error: JSON.stringify(error.errors[0]) };
 
   const [db_item] = await queries().catalogItem.create(data);
+
+  createCorrespondingLinks(db_item.id, data.links);
 
   createCorrespondingReitings(db_item.id, data.reitings);
 

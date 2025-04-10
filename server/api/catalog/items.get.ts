@@ -1,4 +1,4 @@
-import { CatalogItem, FullCatalogItem, Reiting } from "~/types/catalog";
+import { CatalogItem, CatalogLink, FullCatalogItem, Reiting } from "~/types/catalog";
 
 export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
   const items: CatalogItem[] = await queries().catalogItem.getAll();
@@ -11,6 +11,8 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
   const db_adminsToItems = await queries().catalogAdminsToItems.getAll();
 
   const db_reitings = await queries().reitings.getAll();
+
+  const db_links = await queries().catalogLinks.getAll();
 
   const map_rewardsToItems = new Map<number, number[]>();
   db_rewardsToItems.forEach((db_rewardToItem) => {
@@ -46,6 +48,19 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
     }
   });
 
+  const map_links = new Map<number, CatalogLink[]>();
+  db_links.forEach((db_link) => {
+    const item_id = db_link.catalog_item_id;
+
+    if (item_id) {
+      if (map_links.has(item_id)) {
+        (map_links.get(item_id) as CatalogLink[]).push(db_link);
+      } else {
+        map_links.set(item_id, [db_link]);
+      }
+    }
+  });
+
   // Создаём массив FullCatalogItem
   const fullItems: FullCatalogItem[] = items.map((item) => {
     const rewardIds = map_rewardsToItems.get(item.id!) || [];
@@ -56,11 +71,13 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
 
     const reitings = map_reitings.get(item.id!) || [];
 
+    const links = map_links.get(item.id!) || [];
     return {
       ...item,
       reitings,
       rewards,
       admins,
+      links,
     };
   });
 

@@ -1,0 +1,1 @@
+ALTER TABLE `catalogItems` ADD `brief` text DEFAULT '{}' NOT NULL;
