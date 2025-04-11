@@ -68,7 +68,9 @@ export const getBlogImageUrl = (imgPath: string) => {
 export const deleteBlobItem = async (pathname: string) => {
   try {
     await hubBlob().del(pathname);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const putBlobItem = async (db_item: BlogItem, file: File): Promise<string> => {

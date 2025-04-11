@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
-
 const showModal = defineModel<boolean>();
 const showForm = ref(false);
 

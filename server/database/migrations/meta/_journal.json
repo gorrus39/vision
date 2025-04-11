@@ -127,6 +127,20 @@
       "when": 1744306500982,
       "tag": "0017_new_madame_web",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1744308432196,
+      "tag": "0018_add_img_path_short_to_catalog_items",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1744363144868,
+      "tag": "0019_shocking_mystique",
+      "breakpoints": true
     }
   ]
 }

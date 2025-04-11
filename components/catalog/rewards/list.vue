@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useInitializedRewardsStore } from "~/stores/rewards";
-import { getRewardImageUrl } from "~/server/utils/helpers/catalog";
 const showModal = defineModel<boolean>();
 const showForm = ref(false);
 

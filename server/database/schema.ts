@@ -26,6 +26,9 @@ export const catalogItems = sqliteTable("catalogItems", {
   description_short: text("description_short").notNull().default(""),
   description_large: text("description_large").notNull().default(""),
   rules: text("rules").notNull().default(""),
+
+  img_short_path: text("img_short_path"), // Ссылка на изображение (может быть null)
+  img_large_path: text("img_large_path"), // Ссылка на изображение (может быть null)
 });
 ////////////////
 export const catalogAdmins = sqliteTable("catalogAdmins", {

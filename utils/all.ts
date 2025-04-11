@@ -1,7 +1,22 @@
-import type { CatalogAdmin, Reward } from "~/types/catalog";
+import type { CatalogAdmin, CatalogItem, Reward } from "~/types/catalog";
 import { z } from "zod";
 import { tagsSchema, type Reiting, type Tag } from "~/types/catalog";
 
+const randElement = <T>(arr: T[]): T => {
+  const length = arr.length;
+  const index = Math.floor(Math.random() * length);
+  if (index >= arr.length) console.error("randElement()", "arr.length", arr.length, "index", index);
+  return arr[index];
+};
+
+const randNumber = ({ start, end }: { start: number; end: number }): number => {
+  const amount = end - start;
+  if (amount <= 0) return 0;
+
+  const arr = Array(amount).map((_el, index) => start + index);
+
+  return randElement(arr);
+};
 function formatDate(date: Date) {
   const dd = String(date.getDate()).padStart(2, "0");
   const mm = String(date.getMonth() + 1).padStart(2, "0"); // Январь — 0
@@ -53,6 +68,30 @@ const getRewardImageUrl = (imgPath: string) => {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+const putBlobCatalogItem = async (db_item: CatalogItem, file: File): Promise<string> => {
+  const rand = Math.floor(Math.random() * 100);
+  const res = await hubBlob().put(`${db_item.id}__${rand}__${file.name}`, file, {
+    addRandomSuffix: false,
+    prefix: "catalog-items",
+  });
+  return res.pathname;
+};
+
+const getCatalogItemImageUrl = (imgPath: string) => {
+  // plug
+  if (!imgPath) return;
+
+  // из папки public для seed
+  if (imgPath.startsWith("/")) return imgPath;
+
+  // для браузерных залитых на фронте
+  if (imgPath.includes("blob")) return imgPath;
+
+  // Формируем полный путь к изображению через API
+  return `/api/blob/catalog-items/${imgPath}`;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 const getCatalogAdminImageUrl = (imgPath: string) => {
   // для браузерных залитых на фронте
@@ -82,4 +121,8 @@ export {
   getRewardImageUrl,
   getCatalogAdminImageUrl,
   putBlobCatalogAmin,
+  getCatalogItemImageUrl,
+  putBlobCatalogItem,
+  randElement,
+  randNumber,
 };

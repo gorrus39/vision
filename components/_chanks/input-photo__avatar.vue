@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { CatalogAdmin } from "~/types/catalog";
-import { getCatalogAdminImageUrl } from "~/server/utils/helpers/catalog";
 const item = defineModel<CatalogAdmin>();
 
 const inputRef = ref<null | HTMLInputElement>(null);

@@ -1,4 +1,5 @@
 import { CatalogItem, CatalogLink, FullCatalogItem, Reiting } from "~/types/catalog";
+import { randElement } from "~/utils/all";
 
 export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
   const items: CatalogItem[] = await queries().catalogItem.getAll();

@@ -1,0 +1,1 @@
+ALTER TABLE `catalogItems` ADD `img_large_path` text;

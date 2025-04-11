@@ -13,7 +13,7 @@ const { delete_item_remote } = store;
 const { items: rows } = storeToRefs(store);
 const columns = [
   { key: "actions", label: "actions", class: "w-5" },
-  { key: "id", label: "id" },
+  { key: "id", label: "id", sortable: true },
   { key: "title", label: "title", sortable: true },
   { key: "rewards", label: "rewards" },
   { key: "admins", label: "admins" },

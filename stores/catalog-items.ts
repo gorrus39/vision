@@ -25,7 +25,7 @@ const useCatalogItemsStore = defineStore("catalogItemsStore", {
         // const { data } = await useAsyncData(() => $fetch("/api/catalog/items"));
         const { data: items, success, error } = z.array(fullCatalogItemSchema).safeParse(data);
 
-        if (!items) throw new Error("error, when parse catalog-items data from backend in store init");
+        if (!items) throw new Error("error, when parse catalog-items data from backend in store init", error);
 
         this.items = _.cloneDeep(items);
         this.initialized = true;
@@ -36,7 +36,25 @@ const useCatalogItemsStore = defineStore("catalogItemsStore", {
     async create_or_update_item_remote(state: FullCatalogItem) {
       const formData = new FormData();
 
-      formData.append("itemJson", JSON.stringify(state));
+      const { frontendFileLarge, frontendFileShort, ...dataWithoutFile } = state;
+
+      formData.append("itemJson", JSON.stringify(dataWithoutFile));
+
+      if (frontendFileShort) {
+        ///
+        formData.append("frontendFileShort", frontendFileShort);
+        formData.append("frontendFileShort.name", frontendFileShort.name);
+        formData.append("frontendFileShort.type", frontendFileShort.type);
+        ///
+      }
+
+      if (frontendFileLarge) {
+        ///
+        formData.append("frontendFileLarge", frontendFileLarge);
+        formData.append("frontendFileLarge.name", frontendFileLarge.name);
+        formData.append("frontendFileLarge.type", frontendFileLarge.type);
+        ///
+      }
 
       try {
         const method = state.id ? "PUT" : "POST";

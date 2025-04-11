@@ -1,4 +1,6 @@
 import { CatalogAdmin, catalogAdminSchema } from "~/types/catalog";
+import { putBlobCatalogAmin } from "~/utils/all";
+import { deleteBlobItem } from "~/utils/blog";
 
 export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: CatalogAdmin }> => {
   const formData = await readMultipartFormData(event);

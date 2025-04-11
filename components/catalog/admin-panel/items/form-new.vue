@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ChanksTextEditor } from "#components";
 import _ from "lodash";
 import { emptyBriefString, fullCatalogItemSchema, type BriefItemJson, type FullCatalogItem } from "~/types/catalog";
 const store = await useInitializedCatalogItemsStore();
@@ -11,7 +12,7 @@ const descriptionShortError = ref<null | string>(null);
 const showForm = defineModel<boolean>();
 
 const emptyItem: FullCatalogItem = {
-  title: "empty",
+  title: "",
   rewards: [],
   admins: [],
   reitings: [],
@@ -19,8 +20,15 @@ const emptyItem: FullCatalogItem = {
   links: [],
   brief: emptyBriefString,
   description_short: "",
+  // JSON.stringify({
+  //   ru: "test",
+  //   en: "test",
+  //   cn: "test",
+  // }),
   description_large: "",
   rules: "",
+  img_short_path: "",
+  img_large_path: "",
 };
 
 const state = ref<FullCatalogItem>(emptyItem);
@@ -102,7 +110,10 @@ const invalidBrief = () => {
 
 const handleSubmit = async () => {
   if (invalidBrief()) return;
-  if (invalidDescriptionShort()) return;
+  if (invalidDescriptionShort()) {
+    console.error("invalidDescriptionShort()");
+    return;
+  }
 
   isLoading.value = true;
   const { error, success } = await create_or_update_item_remote(state.value);
@@ -117,59 +128,18 @@ const handleSubmit = async () => {
 };
 </script>
 <template>
-  <UModal v-model="showForm" fullscreen>
+  <UModal v-model="showForm" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
     <div class="space-y-2 p-2 text-black">
-      <UForm class="space-y-2" @submit.prevent="handleSubmit" :state="state" :schema="fullCatalogItemSchema">
-        <h2>Add item</h2>
-        <hr />
-        <!-- <div class="ga2 flex">
-          <div v-for="q in Object.values(JSON.parse(state.brief))">
-            <p v-for="i in q" v-if="Object.values(JSON.parse(state.brief))[0]">
-              {{ i }}
-            </p>
-          </div>
-        </div> -->
-        <!-- <UFormGroup name="title" label="title" required>
-          <UInput v-model="state.title" :autofocus="false" />
-        </UFormGroup> -->
-
-        <!-- <div class="flex gap-2">
-          <UFormGroup name="rewards" label="rewards">
-            <CatalogAdminPanelItemsInputRewards v-model="state.rewards" />
-          </UFormGroup>
-
-          <UFormGroup name="admins" label="admins">
-            <CatalogAdminPanelItemsInputAdmins v-model="state.admins" />
-          </UFormGroup>
-        </div> -->
-
-        <!-- <UFormGroup name="tags" label="tags">
-          <CatalogAdminPanelItemsInputTags v-model="state.tags" />
-        </UFormGroup> -->
-
-        <!-- <UFormGroup name="links">
-          <CatalogAdminPanelItemsInputLinks v-model="state.links" />
-        </UFormGroup> -->
-
-        <!-- <UFormGroup name="reitings" label="reitings">
-          <CatalogAdminPanelItemsInputReitings v-model="state.reitings" :isLoading="isLoading" />
-        </UFormGroup> -->
-
-        <!-- <UFormGroup name="brief" required>
-          <CatalogAdminPanelItemsInputBrief v-model="state.brief" @updateError="briefError = $event" />
-          <p class="text-red-500" v-if="briefError">{{ briefError }}</p>
-        </UFormGroup> -->
-
-        <UFormGroup name="description_short">
-          <CatalogAdminPanelItemsInputDescriptionShord
-            v-model="state.description_short"
-            @updateError="descriptionShortError = $event"
-          />
-
-          <p class="text-red-500" v-if="descriptionShortError">{{ descriptionShortError }}</p>
-        </UFormGroup>
-        <hr />
+      <UForm
+        class="space-y-2"
+        v-slot="{ errors }"
+        @submit.prevent="handleSubmit"
+        :state="state"
+        :schema="fullCatalogItemSchema"
+      >
         <div class="space-x-2">
+          <h2>Add item</h2>
+
           <UButton type="submit" icon="i-ep:circle-plus-filled" label="Create" :loading="isLoading" />
 
           <UButton
@@ -181,6 +151,74 @@ const handleSubmit = async () => {
             label="Close"
           />
         </div>
+        <hr />
+        <div class="flex gap-2">
+          <UFormGroup name="img_short_path" label="img-short" required>
+            <ChanksInputPhotoCatalogItem v-model="state" photoShort />
+          </UFormGroup>
+
+          <UFormGroup name="img_large_path" label="img-large" required>
+            <ChanksInputPhotoCatalogItem v-model="state" />
+          </UFormGroup>
+        </div>
+
+        <hr />
+        <UFormGroup name="title" label="title" required>
+          <UInput v-model="state.title" :autofocus="false" />
+        </UFormGroup>
+
+        <hr />
+
+        <div class="flex gap-2">
+          <UFormGroup name="rewards" label="rewards">
+            <CatalogAdminPanelItemsInputRewards v-model="state.rewards" />
+          </UFormGroup>
+
+          <UFormGroup name="admins" label="admins">
+            <CatalogAdminPanelItemsInputAdmins v-model="state.admins" />
+          </UFormGroup>
+        </div>
+        <hr />
+
+        <UFormGroup name="tags" label="tags">
+          <CatalogAdminPanelItemsInputTags v-model="state.tags" />
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="links">
+          <CatalogAdminPanelItemsInputLinks v-model="state.links" />
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="reitings" label="reitings">
+          <CatalogAdminPanelItemsInputReitings v-model="state.reitings" :isLoading="isLoading" />
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="brief" required>
+          <CatalogAdminPanelItemsInputBrief v-model="state.brief" @updateError="briefError = $event" />
+          <p class="text-red-500" v-if="briefError">{{ briefError }}</p>
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="description_short">
+          <CatalogAdminPanelItemsInputDescriptionShord
+            v-model="state.description_short"
+            @updateError="descriptionShortError = $event"
+          />
+
+          <p class="text-red-500" v-if="descriptionShortError">{{ descriptionShortError }}</p>
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="description_large" label="description_large" required>
+          <ChanksTextEditorCatalogItemField v-model="state.description_large" />
+        </UFormGroup>
+        <hr />
+
+        <UFormGroup name="rules" label="rules" required>
+          <ChanksTextEditorCatalogItemField v-model="state.rules" />
+        </UFormGroup>
       </UForm>
     </div>
   </UModal>

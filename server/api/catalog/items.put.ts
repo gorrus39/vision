@@ -1,4 +1,6 @@
 import { CatalogLink, FullCatalogItem, fullCatalogItemSchema, Reiting } from "~/types/catalog";
+import { putBlobCatalogItem } from "~/utils/all";
+import { deleteBlobItem } from "~/utils/blog";
 
 const ensureCorrespondingRewardsToItems = async (itemId: number, rewardIds: number[]) => {
   // то что лежит в бд
@@ -75,9 +77,29 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
 
   let itemJson: FullCatalogItem | {} = {};
 
+  let fileBuffer__short: Buffer<ArrayBufferLike> | null = null;
+  let fileName__short: string | null = null;
+  let fileType__short: string | null = null;
+
+  let fileBuffer__large: Buffer<ArrayBufferLike> | null = null;
+  let fileName__large: string | null = null;
+  let fileType__large: string | null = null;
+
   formData.forEach((part) => {
     if (part.name == "itemJson") {
       itemJson = JSON.parse(part.data.toString()) as FullCatalogItem;
+    } else if (part.name == "frontendFileShort") {
+      fileBuffer__short = part.data;
+    } else if (part.name == "frontendFileShort.name") {
+      fileName__short = part.data.toString();
+    } else if (part.name == "frontendFileShort.type") {
+      fileType__short = part.data.toString();
+    } else if (part.name == "frontendFileLarge") {
+      fileBuffer__large = part.data;
+    } else if (part.name == "frontendFileLarge.name") {
+      fileName__large = part.data.toString();
+    } else if (part.name == "frontendFileLarge.type") {
+      fileType__large = part.data.toString();
     }
   });
 
@@ -87,6 +109,25 @@ export default eventHandler(async (event): Promise<{ success?: boolean; error?: 
   /////////////////////
   /////////////////////
   const [db_item] = await queries().catalogItem.getById(data.id);
+
+  const changedImgShortPath = db_item.img_short_path !== data.img_short_path;
+  const changedImgLargePath = db_item.img_large_path !== data.img_large_path;
+
+  if (changedImgShortPath) {
+    if (!fileBuffer__short || !fileName__short || !fileType__short) return { error: "!fileType__short" };
+    const file__short = new File([fileBuffer__short], fileName__short, { type: fileType__short });
+    if (db_item.img_short_path?.startsWith("catalog-items")) await deleteBlobItem(db_item.img_short_path);
+    const img_short_path = await putBlobCatalogItem(db_item, file__short);
+    await queries().catalogItem.update(db_item.id, { ...db_item, img_short_path });
+  }
+
+  if (changedImgLargePath) {
+    if (!fileBuffer__large || !fileName__large || !fileType__large) return { error: "!fileType__large" };
+    const file__large = new File([fileBuffer__large], fileName__large, { type: fileType__large });
+    if (db_item.img_large_path?.startsWith("catalog-items")) await deleteBlobItem(db_item.img_large_path);
+    const img_large_path = await putBlobCatalogItem(db_item, file__large);
+    await queries().catalogItem.update(db_item.id, { ...db_item, img_large_path });
+  }
 
   ensureCorrespondingLinks(db_item.id, data.links);
 

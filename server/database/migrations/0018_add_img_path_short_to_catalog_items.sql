@@ -1,0 +1,1 @@
+ALTER TABLE `catalogItems` ADD `img_short_path` text;

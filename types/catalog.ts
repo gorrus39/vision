@@ -92,11 +92,11 @@ export const catalogItemSchema = z.object({
   title: z.string().min(1),
   tags: z.string(),
 
-  // img_short_path: z.string().min(1, { message: "must present" }),
-  // img_large_path: z.string().min(1, { message: "must present" }),
+  img_short_path: z.string().min(1, { message: "must present" }).nullable(),
+  img_large_path: z.string().min(1, { message: "must present" }).nullable(),
   description_short: z.string().min(1),
-  description_large: z.string().min(1),
-  rules: z.string().min(1),
+  description_large: z.string().min(8, { message: "must present" }),
+  rules: z.string().min(8, { message: "must present" }),
 
   brief: z.string(),
 });
@@ -109,8 +109,8 @@ export const fullCatalogItemSchema = catalogItemSchema.extend({
   rewards: z.array(rewardSchema),
   reitings: z.array(reitingSchema),
 
-  // frontendFileShort: z.instanceof(File).optional(),
-  // frontendFileLarge: z.instanceof(File).optional(),
+  frontendFileShort: z.instanceof(File).optional(),
+  frontendFileLarge: z.instanceof(File).optional(),
 });
 
 export type FullCatalogItem = z.infer<typeof fullCatalogItemSchema>;
@@ -143,30 +143,30 @@ const categories: Category[] = [
   "admins",
 ];
 
-const fillValue = "valid test value";
-// const fillValue = "undefined"; // real value
+const fillValueSeed = "valid test value";
+const fillValue = "undefined"; // real value
 
 export const emptyBriefItem: BriefItemJson[] = categories.map((c) => ({
   category: c,
   meaning: fillValue,
   score: fillValue,
 }));
-
-// [
-//   { category: "audience", meaning: "undefined", score: "undefined" },
-//   { category: "activennes", meaning: "undefined", score: "undefined" },
-//   { category: "botting", meaning: "undefined", score: "undefined" },
-//   { category: "networking", meaning: "undefined", score: "undefined" },
-//   { category: "effectiveness_of_promotions", meaning: "undefined", score: "undefined" },
-//   { category: "moderation", meaning: "undefined", score: "undefined" },
-//   { category: "organicity", meaning: "undefined", score: "undefined" },
-//   { category: "admins", meaning: "undefined", score: "undefined" },
-// ];
+export const emptyBriefItemSeed: BriefItemJson[] = categories.map((c) => ({
+  category: c,
+  meaning: fillValueSeed,
+  score: fillValueSeed,
+}));
 
 export const emptyBriefString = JSON.stringify({
   en: emptyBriefItem,
   ru: emptyBriefItem,
   cn: emptyBriefItem,
+});
+
+export const emptyBriefSeedString = JSON.stringify({
+  en: emptyBriefItemSeed,
+  ru: emptyBriefItemSeed,
+  cn: emptyBriefItemSeed,
 });
 ////////////////////////////////////////
 ////////////////////////////////////////
