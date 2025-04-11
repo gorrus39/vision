@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { FullCatalogItem } from "~/types/catalog";
-import { viewLast3Reitings } from "~/utils/all";
+import type { FullCatalogItem, Reiting } from "~/types/catalog"
+import { viewLast3Reitings } from "~/utils/all"
 
-const showListItemsModal = defineModel<boolean>();
-const showForm = ref(false);
-const showConfirmation = ref(false);
-const selectedId = ref<undefined | number>(undefined);
-const toast = useToast();
-const loadingDelete = ref(false);
+const showListItemsModal = defineModel<boolean>()
+const showForm = ref(false)
+const showConfirmation = ref(false)
+const selectedId = ref<undefined | number>(undefined)
+const toast = useToast()
+const loadingDelete = ref(false)
 
-const store = await useInitializedCatalogItemsStore();
-const { delete_item_remote } = store;
-const { items: rows } = storeToRefs(store);
+const store = await useInitializedCatalogItemsStore()
+const { delete_item_remote } = store
+const { items: rows } = storeToRefs(store)
 const columns = [
   { key: "actions", label: "actions", class: "w-5" },
   { key: "id", label: "id", sortable: true },
@@ -19,38 +19,52 @@ const columns = [
   { key: "rewards", label: "rewards" },
   { key: "admins", label: "admins" },
   { key: "tags", label: "tags" },
-  { key: "reitings", label: "reitings", sortable: true },
+  {
+    key: "reitings",
+    label: "reitings",
+    sortable: true,
+    sort: (a: Reiting[], b: Reiting[], direction: any) => {
+      const value_a: number | undefined = a[0]?.value
+      const value_b: number | undefined = b[0]?.value
+
+      if (value_a == value_b) return 0
+      if (value_a == undefined) return direction == "asc" ? 1 : -1
+      if (value_b == undefined) return direction == "asc" ? -1 : 1
+
+      return direction == "asc" ? value_b - value_a : value_a - value_b
+    },
+  },
   { key: "links", label: "links" },
-];
+]
 
 const try_delete_item = (id: number | undefined) => {
-  selectedId.value = id;
-  showConfirmation.value = true;
-};
+  selectedId.value = id
+  showConfirmation.value = true
+}
 
 const try_edit_item = (id: number | undefined) => {
-  selectedId.value = id;
-  showForm.value = true;
-};
+  selectedId.value = id
+  showForm.value = true
+}
 
 const try_add_item = () => {
-  selectedId.value = undefined;
-  showForm.value = true;
-};
+  selectedId.value = undefined
+  showForm.value = true
+}
 
 const delete_item = async () => {
-  loadingDelete.value = true;
-  const id = selectedId.value;
+  loadingDelete.value = true
+  const id = selectedId.value
   if (!id) {
-    toast.add({ title: "front. id:undefined", color: "red" });
+    toast.add({ title: "front. id:undefined", color: "red" })
   } else {
-    const { error, success } = await delete_item_remote(id);
-    if (success) toast.add({ title: "success" });
-    if (error) toast.add({ title: error as string, color: "red" });
+    const { error, success } = await delete_item_remote(id)
+    if (success) toast.add({ title: "success" })
+    if (error) toast.add({ title: error as string, color: "red" })
   }
-  showConfirmation.value = false;
-  loadingDelete.value = false;
-};
+  showConfirmation.value = false
+  loadingDelete.value = false
+}
 </script>
 
 <template>

@@ -26,7 +26,7 @@ function formatDate(date: Date) {
 }
 
 const viewLast3Reitings = (reitings: Reiting[]): string => {
-  if (reitings.length === 0) return "-";
+  if (reitings.length === 0) return "<b>-</b>";
 
   const [firstValue, ...rest] = reitings.slice(0, 3).map((r) => String(r.value));
 
