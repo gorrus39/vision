@@ -13,6 +13,21 @@ const selected = defineModel<Reward[]>();
 //     selected.value = selected.value.map((sel) => options.value.find((opt) => opt.id === sel.id) || sel);
 //   }
 // });
+watch(
+  [selected, options],
+  ([sel, opts]) => {
+    if (sel?.length && opts?.length) {
+      const updated = sel.map((s) => opts.find((opt) => opt.id === s.id) || s);
+
+      // Проверяем, изменился ли selected по ссылке
+      const isDifferent = updated.some((item, i) => item !== sel[i]);
+      if (isDifferent) {
+        selected.value = updated;
+      }
+    }
+  },
+  { flush: "post" },
+);
 </script>
 
 <template>
