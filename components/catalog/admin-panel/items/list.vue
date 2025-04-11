@@ -7,6 +7,7 @@ const showForm = ref(false);
 const showConfirmation = ref(false);
 const selectedId = ref<undefined | number>(undefined);
 const toast = useToast();
+const loadingDelete = ref(false);
 
 const store = await useInitializedCatalogItemsStore();
 const { delete_item_remote } = store;
@@ -38,6 +39,7 @@ const try_add_item = () => {
 };
 
 const delete_item = async () => {
+  loadingDelete.value = true;
   const id = selectedId.value;
   if (!id) {
     toast.add({ title: "front. id:undefined", color: "red" });
@@ -47,6 +49,7 @@ const delete_item = async () => {
     if (error) toast.add({ title: error as string, color: "red" });
   }
   showConfirmation.value = false;
+  loadingDelete.value = false;
 };
 </script>
 
@@ -55,8 +58,14 @@ const delete_item = async () => {
     <ChanksAreYouShure v-model="showConfirmation">
       <p class="text-center">Delete item id: {{ selectedId }}</p>
       <div class="flex justify-center gap-2">
-        <UButton @click="delete_item" label="delete" color="red" />
-        <UButton @click="showConfirmation = false" label="cancel" color="red" variant="outline" />
+        <UButton @click="delete_item" :loading="loadingDelete" label="delete" color="red" />
+        <UButton
+          @click="showConfirmation = false"
+          :disabled="loadingDelete"
+          label="cancel"
+          color="red"
+          variant="outline"
+        />
       </div>
     </ChanksAreYouShure>
 

@@ -18,7 +18,7 @@ const handlePostReviewedChanges = async () => {
 
 <template>
   <ClientOnly>
-    <div class="m-4 hidden gap-2 md:flex">
+    <div class="m-2 hidden gap-2 md:flex">
       <UButton
         icon="i-lucide:settings"
         size="sm"
