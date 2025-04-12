@@ -2,5 +2,5 @@
 
 <template>
   <CatalogAdminPanelEntryPoint />
-  <!-- <CatalogMain /> -->
+  <CatalogMain />
 </template>

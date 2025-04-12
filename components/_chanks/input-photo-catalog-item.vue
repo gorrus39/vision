@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import type { CatalogAdmin, FullCatalogItem } from "~/types/catalog";
-const item = defineModel<FullCatalogItem>();
+import type { CatalogAdmin, FullCatalogItem } from "~/types/catalog"
+const item = defineModel<FullCatalogItem>()
 
 const props = defineProps<{
-  photoShort?: true;
-}>();
+  photoShort?: true
+}>()
 
-const inputRef = ref<null | HTMLInputElement>(null);
+const inputRef = ref<null | HTMLInputElement>(null)
 
 const handleCancelPhoto = () => {
-  if (!item.value) return;
+  if (!item.value) return
 
   if (props.photoShort) {
-    item.value.img_short_path = "";
-    item.value.frontendFileShort = undefined;
+    item.value.img_short_path = ""
+    item.value.frontendFileShort = undefined
   } else {
-    item.value.img_large_path = "";
-    item.value.frontendFileLarge = undefined;
+    item.value.img_large_path = ""
+    item.value.frontendFileLarge = undefined
   }
 
-  if (inputRef.value !== null) inputRef.value.value = "";
-};
+  if (inputRef.value !== null) inputRef.value.value = ""
+}
 
 const onFileChange = async (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (!target.files) return;
+  const target = event.target as HTMLInputElement
+  if (!target.files) return
 
-  const file = target.files[0];
-  if (!file || !item.value) return;
+  const file = target.files[0]
+  if (!file || !item.value) return
 
   if (props.photoShort) {
-    item.value.img_short_path = URL.createObjectURL(file);
-    item.value.frontendFileShort = file;
+    item.value.img_short_path = URL.createObjectURL(file)
+    item.value.frontendFileShort = file
   } else {
-    item.value.img_large_path = URL.createObjectURL(file);
-    item.value.frontendFileLarge = file;
+    item.value.img_large_path = URL.createObjectURL(file)
+    item.value.frontendFileLarge = file
   }
-};
+}
 </script>
 
 <template>
@@ -49,11 +49,14 @@ const onFileChange = async (event: Event) => {
     </div>
 
     <div class="mt-4" v-if="photoShort && item?.img_short_path?.length && item?.img_short_path?.length > 0">
-      <img
+      <CatalogMainListItemLarge fromAdminPanel :index="0" :item="item" />
+
+      <!-- <img
         class="w-48 rounded-lg border object-cover shadow-md"
         :src="getCatalogItemImageUrl(item.img_short_path)"
         alt="Photo"
-      />
+      /> -->
+
       <UButton
         class="absolute right-1 top-1 opacity-0 transition group-hover:opacity-100"
         color="red"

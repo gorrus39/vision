@@ -1,66 +1,66 @@
-import { faker } from "@faker-js/faker";
-import { seedAdmins, seedLinksToCatalogItem, seedRewards } from "../utils/seed";
-import { emptyBriefSeedString, Tag } from "~/types/catalog";
-import { randElement, randNumber } from "~/utils/all";
+import { faker } from "@faker-js/faker"
+import { seedAdmins, seedLinksToCatalogItem, seedRewards } from "../utils/seed"
+import { emptyBriefSeedString, Tag } from "~/types/catalog"
+import { randElement, randNumber } from "~/utils/all"
 
 const makeTagsString = (): string => {
   const tags: Tag[][] = [
     ["kozmap", "oracle"],
     ["english", "russian", "chinese", "spanish", "french"],
     ["chat", "markets", "forums", "top sellers", "essentials", "others"],
-  ];
-  const setTags = new Set();
+  ]
+  const setTags = new Set()
 
-  setTags.add(randElement(tags[0]));
+  setTags.add(randElement(tags[0]))
 
   for (let i = 0; i < 4; i++) {
-    setTags.add(randElement(tags[1]));
+    setTags.add(randElement(tags[1]))
   }
 
   for (let i = 0; i < 5; i++) {
-    setTags.add(randElement(tags[2]));
+    setTags.add(randElement(tags[2]))
   }
 
-  return JSON.stringify([...setTags]);
-};
+  return JSON.stringify([...setTags])
+}
 
 const makeImgShortPath = (): string => {
-  const fileNames = ["1", "2", "3", "4", "5", "6"];
-  const fullFileNames = fileNames.map((n) => `/images/default/catalog-item-img-short/${n}.png`);
+  const fileNames = ["1", "2", "3", "4", "5", "6"]
+  const fullFileNames = fileNames.map((n) => `/images/default/catalog-item-img-short/${n}.png`)
 
-  return randElement(fullFileNames);
-};
+  return randElement(fullFileNames)
+}
 
 const makeImgLargePath = (): string => {
-  const fileNames = ["1", "2", "3", "4", "5", "6"];
-  const fullFileNames = fileNames.map((n) => `/images-test/${n}.jpeg`);
+  const fileNames = ["1", "2", "3", "4", "5", "6"]
+  const fullFileNames = fileNames.map((n) => `/images-test/${n}.jpeg`)
 
-  return randElement(fullFileNames);
-};
+  return randElement(fullFileNames)
+}
 
 const makeDescriptionShort = () => {
   const text =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.";
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure."
 
-  return JSON.stringify({ ru: "", cn: "", en: text });
-};
+  return JSON.stringify({ ru: "", cn: "", en: text })
+}
 
 const makeDescriptionLarge = () => {
-  return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-};
+  return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}
 
 const makeRules = () => {
-  return "<p><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>";
-};
+  return "<p><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br><strong>Lorem ipsum dolor sit ame</strong><br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+}
 
 export default defineTask({
   async run(event) {
-    const drizzle = queries();
+    const drizzle = queries()
 
-    const catalogItemAmount = 30;
+    const catalogItemAmount = 30
 
-    const { db_ids: adminIds } = await seedAdmins();
-    const { db_ids: rewardIds } = await seedRewards();
+    const { db_ids: adminIds } = await seedAdmins()
+    const { db_ids: rewardIds } = await seedRewards()
 
     for (let i = 0; i < catalogItemAmount; i++) {
       const [catalogItem] = await drizzle.catalogItem.create({
@@ -72,35 +72,35 @@ export default defineTask({
         description_large: makeDescriptionLarge(),
         rules: makeRules(),
         brief: emptyBriefSeedString,
-      });
-      const catalog_item_id = catalogItem.id;
+      })
+      const catalog_item_id = catalogItem.id
 
       // add admin ids
-      const catalogAdminsToItemsAmount = randElement([1, 2, 3, 4, 5]);
+      const catalogAdminsToItemsAmount = randElement([1, 2, 3, 4, 5])
       for (let i = 0; i < catalogAdminsToItemsAmount; i++) {
         await drizzle.catalogAdminsToItems.create({
           catalog_admin_id: randElement(adminIds),
           catalog_item_id,
-        });
+        })
       }
 
       // add reward ids
-      const caralogRewardsToItem = randElement([0, 1, 2, 3, 4, 5, 6]);
+      const caralogRewardsToItem = randElement([0, 1, 2, 3, 4, 5, 6])
       for (let i = 0; i < caralogRewardsToItem; i++) {
         await drizzle.catalogRewardsToItems.create({
           catalog_item_id,
           catalog_reward_id: randElement(rewardIds),
-        });
+        })
       }
 
       // add reitings
-      const caralogReitingsAmount = randElement([0, 1, 2, 3, 4]);
+      const caralogReitingsAmount = randElement([0, 1, 2, 3, 4])
       for (let i = 0; i < caralogReitingsAmount; i++) {
-        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 10 + 90) });
+        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 70 + 30) })
       }
 
-      await seedLinksToCatalogItem({ item: catalogItem, linksAmount: 10 });
+      await seedLinksToCatalogItem({ item: catalogItem, linksAmount: 10 })
     }
-    return { result: "success" };
+    return { result: "success" }
   },
-});
+})

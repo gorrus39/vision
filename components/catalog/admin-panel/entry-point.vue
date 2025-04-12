@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const showListItemsModal = ref(false);
-const showModalRewards = ref<boolean>(false);
-const showModalCatalogAdmins = ref<boolean>(false);
+const showListItemsModal = ref(false)
+const showModalRewards = ref<boolean>(false)
+const showModalCatalogAdmins = ref<boolean>(false)
 </script>
 <template>
-  <div class="space-x-2 p-2">
+  <div class="hidden space-x-2 p-2 md:block">
     <UButton icon="i-lucide:settings" @click="showListItemsModal = true" label="Catalog Items" />
     <UButton icon="i-lucide:settings" @click="showModalRewards = true" label="Rewards" />
     <UButton icon="i-lucide:settings" @click="showModalCatalogAdmins = true" label="Admins" />

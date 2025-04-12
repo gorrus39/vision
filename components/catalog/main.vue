@@ -1,14 +1,91 @@
 <script setup lang="ts">
-const showModalRewards = ref<boolean>(false);
-const showModalCatalogAdmins = ref<boolean>(false);
+import type { Reiting, Tag } from "~/types/catalog"
+
+const tagsLine2: Tag[] = ["english", "russian", "chinese", "spanish", "french"]
+const tagsLine3: Tag[] = ["chat", "markets", "forums", "top sellers", "essentials", "others"]
+
+const store = await useInitializedCatalogItemsStore()
+const { items } = storeToRefs(store)
+
+const selectedTags = ref<Tag[]>(["chat"])
+
+const itemsOracle = computed(() => items.value.filter((i) => JSON.parse(i.tags).includes("oracle")))
+const itemsKozmap = computed(() => items.value.filter((i) => JSON.parse(i.tags).includes("kozmap")))
+
+const itemForAllTiers = computed(() => {
+  const selectedTagsWithKozmapAndOracle: Tag[] = [...selectedTags.value, "kozmap", "oracle"]
+  return items.value.filter((i) => {
+    const itemTags = JSON.parse(i.tags) as Tag[]
+    for (const itemTag of itemTags) {
+      if (selectedTagsWithKozmapAndOracle.includes(itemTag)) return true
+    }
+    return false
+  })
+})
+
+const itemsTier1 = computed(() =>
+  itemForAllTiers.value.filter((i) => {
+    const itemReitingValue = i.reitings[0]?.value as number | undefined
+    return itemReitingValue && itemReitingValue >= 90
+  }),
+)
+
+const itemsTier2 = computed(() =>
+  itemForAllTiers.value.filter((i) => {
+    const itemReitingValue = i.reitings[0]?.value as number | undefined
+    return itemReitingValue && itemReitingValue >= 80 && itemReitingValue < 90
+  }),
+)
+
+const itemsTier3 = computed(() =>
+  itemForAllTiers.value.filter((i) => {
+    const itemReitingValue = i.reitings[0]?.value as number | undefined
+    return itemReitingValue && itemReitingValue >= 70 && itemReitingValue < 80
+  }),
+)
+
+const itemsTierLow = computed(() =>
+  itemForAllTiers.value.filter((i) => {
+    const itemReitingValue = i.reitings[0]?.value as number | undefined
+    return !itemReitingValue || itemReitingValue < 70
+  }),
+)
 </script>
 
 <template>
-  <div class="space-x-2 p-2">
-    <UButton icon="i-lucide:settings" @click="showModalRewards = true" label="Rewards" />
-    <UButton icon="i-lucide:settings" @click="showModalCatalogAdmins = true" label="Admins" />
-  </div>
+  <div class="mb-M-20 md:mb-D-40">
+    <CatalogMainTitle />
+    <CatalogMainItemsBox :items="itemsOracle" :title="$t(`catalog.oracle.title`)" />
+    <CatalogMainItemsBox :items="itemsKozmap" :title="$t(`catalog.kozmap.title`)" />
+    <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine2" :title="$t('catalog.tags.line2Title')" />
+    <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine3" :title="$t('catalog.tags.line3Title')" />
+    <!-- <p>
+      {{ items.length }}
+    </p>
+    <p>
+      {{ itemForAllTiers.length }}
+    </p>
+    <p>
+      {{ itemsTier1.length }}
+    </p>
+    <p>
+      {{ itemsTier2.length }}
+    </p>
+    <p>
+      {{ itemsTier3.length }}
+    </p>
+    <p>
+      {{ itemsTierLow.length }}
+    </p> -->
 
-  <CatalogRewardsList v-model="showModalRewards" />
-  <CatalogAdminsList v-model="showModalCatalogAdmins" />
+    <CatalogMainItemsBox v-if="itemsTier1.length > 0" :items="itemsTier1" :title="$t(`catalog.tier.1`)" />
+    <CatalogMainItemsBox v-if="itemsTier2.length > 0" :items="itemsTier2" :title="$t(`catalog.tier.2`)" />
+    <CatalogMainItemsBox v-if="itemsTier3.length > 0" :items="itemsTier3" :title="$t(`catalog.tier.3`)" />
+    <CatalogMainItemsBox
+      v-if="itemsTierLow.length > 0"
+      :items="itemsTierLow"
+      :title="$t(`catalog.tier.low`)"
+      color="red"
+    />
+  </div>
 </template>

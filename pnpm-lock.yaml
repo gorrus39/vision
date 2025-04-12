@@ -93,6 +93,9 @@ importers:
       '@faker-js/faker':
         specifier: ^9.6.0
         version: 9.6.0
+      '@iconify-json/ep':
+        specifier: ^1.2.2
+        version: 1.2.2
       '@iconify-json/fa-solid':
         specifier: ^1.2.1
         version: 1.2.1
@@ -992,6 +995,9 @@ packages:
   '@humanwhocodes/retry@0.4.2':
     resolution: {integrity: sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/ep@1.2.2':
+    resolution: {integrity: sha512-/IH1GjQKH5uK7lQAOjwPxdjkU98OWUWnHYCdg/EkeebBKEteotaOMeEz5pR1egqMcI7zPFdFBTcGyCHla1ddQw==}
 
   '@iconify-json/fa-solid@1.2.1':
     resolution: {integrity: sha512-eEcnCb6yjRJ0bZrQQZOvO9P5PYCGujz2V8PpiIxBSlm6xqoVLNtOfUyPr6xZD4zWeW7H3cmWi2ZXSzqxQ5e4lw==}
@@ -6044,6 +6050,10 @@ snapshots:
   '@humanwhocodes/retry@0.3.1': {}
 
   '@humanwhocodes/retry@0.4.2': {}
+
+  '@iconify-json/ep@1.2.2':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/fa-solid@1.2.1':
     dependencies:

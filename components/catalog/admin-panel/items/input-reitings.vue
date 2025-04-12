@@ -1,32 +1,33 @@
 <script setup lang="ts">
-import type { Reiting } from "~/types/catalog";
+import type { Reiting } from "~/types/catalog"
 
 defineProps<{
-  isLoading: boolean;
-}>();
+  isLoading: boolean
+}>()
 
 const isValid = (value: string | null | undefined) => {
-  if (value == null || value == undefined || value == "") return false;
-  const number = +value;
-  if (number > 0 && number <= 100) return true;
-  else return false;
-};
-const reitings = defineModel<Reiting[]>();
+  if (value == null || value == undefined || value == "") return false
+  const number = +value
+  if (number > 0 && number <= 100) return true
+  else return false
+}
+const reitings = defineModel<Reiting[]>()
 
-const inputValue = ref(undefined);
+const inputValue = ref(undefined)
 
 const addValue = () => {
-  const value = inputValue.value;
+  const value = inputValue.value
 
-  if (!value) return;
-  if (+value === 0) return;
-  if (isNaN(+value)) return;
-  if (!reitings.value) return;
+  if (!value) return
+  if (+value === 0) return
+  if (isNaN(+value)) return
+  if (!reitings.value) return
 
-  reitings.value.unshift({ value: +value });
+  reitings.value.push({ value: +value })
+  reitings.value.unshift({ value: +value })
 
-  inputValue.value = undefined; // очистка поля
-};
+  inputValue.value = undefined // очистка поля
+}
 </script>
 
 <template>
