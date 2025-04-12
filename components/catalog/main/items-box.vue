@@ -42,16 +42,18 @@ const toggle = () => {
         name="list"
         tag="div"
       >
-        <!-- <CatalogMainListItemLarge
+        <CatalogMainListItemLarge
+          v-if="isLarge"
           v-for="(item, index) in viewItems"
           :key="item.id || index"
           :item="item"
           :index="index"
-        /> -->
+        />
 
         <CatalogMainListItemShort
+          v-else
           v-for="(item, index) in viewItems"
-          :key="item.id || index"
+          :key="index"
           :item="item"
           :index="index"
           :color="color == 'red' ? 'red' : undefined"

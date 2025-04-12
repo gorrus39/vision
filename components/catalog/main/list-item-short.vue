@@ -46,19 +46,24 @@ const reitingDiff = getReitingDiff(props.item.reitings)
 
 <template>
   <div
-    class="flex flex-col justify-between border-[2px] border-solid p-D-15 w-M-250 md:rounded-md md:border-[.5px] md:w-D-335"
+    class="flex w-full flex-col justify-between rounded-xl border-[2px] border-solid p-D-15 md:rounded-md md:border-[.5px] md:w-D-335"
     :class="[color == 'red' ? 'border-red-500' : 'border-white']"
   >
     <div class="grid grid-cols-3 items-center">
       <!-- Левая колонка -->
       <div class="flex justify-end gap-1">
-        <img class="w-D-44" v-for="{ img_path } in leftRewards" :key="img_path" :src="getRewardImageUrl(img_path)" />
+        <img
+          class="w-M-20 md:w-D-44"
+          v-for="{ img_path } in leftRewards"
+          :key="img_path"
+          :src="getRewardImageUrl(img_path)"
+        />
       </div>
 
       <!-- Центр -->
       <div class="flex justify-center">
         <img
-          class="overflow-hidden rounded-full border-[.5px] border-solid border-white w-D-75 h-D-75"
+          class="overflow-hidden rounded-full border-[.5px] border-solid border-white w-M-35 h-M-35 md:w-D-75 md:h-D-75"
           v-if="item.img_short_path"
           :src="item.img_short_path"
         />
@@ -66,7 +71,12 @@ const reitingDiff = getReitingDiff(props.item.reitings)
 
       <!-- Правая колонка -->
       <div class="flex justify-start gap-1">
-        <img class="w-D-44" v-for="{ img_path } in rightRewards" :key="img_path" :src="getRewardImageUrl(img_path)" />
+        <img
+          class="w-M-20 md:w-D-44"
+          v-for="{ img_path } in rightRewards"
+          :key="img_path"
+          :src="getRewardImageUrl(img_path)"
+        />
       </div>
     </div>
 
@@ -74,12 +84,12 @@ const reitingDiff = getReitingDiff(props.item.reitings)
       <img class="w-D-44" v-for="{ img_path } in bottomRewards" :key="img_path" :src="getRewardImageUrl(img_path)" />
     </div>
 
-    <p class="text-center font-semibold mb-D-10 mt-D-10 text-D-24">{{ item.title }}</p>
+    <p class="text-center font-semibold mb-D-10 mt-D-10 text-M-18 md:text-D-24">{{ item.title }}</p>
 
-    <p class="text-center font-semibold mb-D-10 mt-D-10 text-D-16">{{ getDescriptionShort(item) }}</p>
+    <p class="text-center font-semibold mb-D-10 mt-D-10 text-M-12 md:text-D-16">{{ getDescriptionShort(item) }}</p>
 
-    <div class="flex justify-center gap-D-10">
-      <span>{{ getReitingText(item) }}</span>
+    <div class="flex items-center justify-center gap-D-10">
+      <span class="font-semibold text-M-14 md:text-D-18">{{ getReitingText(item) }}</span>
       <svg
         v-if="reitingDiff !== 'none'"
         :class="[reitingDiff == 'up' ? 'rotate-0' : 'rotate-180']"

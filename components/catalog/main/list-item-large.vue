@@ -9,10 +9,10 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-M-220 md:w-D-335">
+  <div class="w-full md:w-D-335">
     <div class="border-D relative flex w-full items-center justify-center rounded-lg border-black h-M-146 md:h-D-221">
       <img
-        class="absolute z-10 object-cover"
+        class="absolute z-10 w-full object-cover"
         :src="`/images/default/catalog-item-img-short/background-${index % 2 == 0 ? 'black' : 'white'}.png`"
       />
       <img
@@ -21,7 +21,7 @@ defineProps<{
         :src="getCatalogAdminImageUrl(item.img_short_path)"
       />
     </div>
-    <p class="text-center font-semibold text-M-12 m-D-20 md:text-D-18" v-if="!fromAdminPanel">
+    <p class="text-center font-semibold text-M-12 m-D-20 mt-M-20 md:text-D-18 md:mt-D-20" v-if="!fromAdminPanel">
       {{ item.title.toUpperCase() }}
     </p>
   </div>

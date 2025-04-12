@@ -26,28 +26,28 @@ const itemForAllTiers = computed(() => {
 const itemsTier1 = computed(() =>
   itemForAllTiers.value.filter((i) => {
     const itemReitingValue = i.reitings[0]?.value as number | undefined
-    return itemReitingValue && itemReitingValue >= 90
+    return itemReitingValue && itemReitingValue >= 75
   }),
 )
 
 const itemsTier2 = computed(() =>
   itemForAllTiers.value.filter((i) => {
     const itemReitingValue = i.reitings[0]?.value as number | undefined
-    return itemReitingValue && itemReitingValue >= 80 && itemReitingValue < 90
+    return itemReitingValue && itemReitingValue >= 50 && itemReitingValue < 75
   }),
 )
 
 const itemsTier3 = computed(() =>
   itemForAllTiers.value.filter((i) => {
     const itemReitingValue = i.reitings[0]?.value as number | undefined
-    return itemReitingValue && itemReitingValue >= 70 && itemReitingValue < 80
+    return itemReitingValue && itemReitingValue >= 25 && itemReitingValue < 50
   }),
 )
 
 const itemsTierLow = computed(() =>
   itemForAllTiers.value.filter((i) => {
     const itemReitingValue = i.reitings[0]?.value as number | undefined
-    return !itemReitingValue || itemReitingValue < 70
+    return !itemReitingValue || itemReitingValue < 25
   }),
 )
 </script>
@@ -55,8 +55,8 @@ const itemsTierLow = computed(() =>
 <template>
   <div class="mb-M-20 md:mb-D-40">
     <CatalogMainTitle />
-    <CatalogMainItemsBox :items="itemsOracle" :title="$t(`catalog.oracle.title`)" />
-    <CatalogMainItemsBox :items="itemsKozmap" :title="$t(`catalog.kozmap.title`)" />
+    <CatalogMainItemsBox isLarge :items="itemsOracle" :title="$t(`catalog.oracle.title`)" />
+    <CatalogMainItemsBox isLarge :items="itemsKozmap" :title="$t(`catalog.kozmap.title`)" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine2" :title="$t('catalog.tags.line2Title')" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine3" :title="$t('catalog.tags.line3Title')" />
     <!-- <p>
