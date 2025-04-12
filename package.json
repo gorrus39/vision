@@ -30,6 +30,7 @@
     "hub": "6.1.3",
     "lodash": "^4.17.21",
     "nuxt": "^3.16.0",
+    "nuxt-anchorscroll": "1.0.5",
     "nuxt-tiptap-editor": "2.1.4",
     "pinia": "^3.0.1",
     "swiper": "^11.2.5",

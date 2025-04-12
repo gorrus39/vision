@@ -42,12 +42,11 @@ const handleClickShowMore = () => {
             screen="desktop"
           />
         </div>
-        <button
-          class="on-hover border-D relative z-20 w-full rounded-[.5vw] border-white text-D-22"
-          @click="handleClickShowMore"
-        >
-          {{ $t("home.top_projects.show_more") }}
-        </button>
+        <NuxtLinkLocale to="/catalog">
+          <button class="on-hover border-D relative z-20 w-full rounded-[.5vw] border-white text-D-22">
+            {{ $t("home.top_projects.show_more") }}
+          </button>
+        </NuxtLinkLocale>
       </div>
     </div>
 

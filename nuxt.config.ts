@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@pinia/nuxt",
     "nuxt-tiptap-editor",
+    "nuxt-anchorscroll",
   ],
   i18n: {
     strategy: "prefix",
@@ -71,4 +72,11 @@ export default defineNuxtConfig({
     // remote: true,
     blob: true,
   },
-});
+  anchorscroll: {
+    hooks: [
+      // Or any valid hook if needed
+      // Default is `page:finish`
+      "page:transition:finish",
+    ],
+  },
+})

@@ -11,7 +11,7 @@ const makeTagsString = (): string => {
   ]
   const setTags = new Set()
 
-  setTags.add(randElement(tags[0]))
+  if (Math.random() * 10 > 5) setTags.add(randElement(tags[0]))
 
   for (let i = 0; i < 4; i++) {
     setTags.add(randElement(tags[1]))
