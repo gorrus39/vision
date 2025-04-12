@@ -5,13 +5,19 @@
     <div class="me-D-155 ms-D-155">
       <div class="grid grid-cols-3">
         <p class="border-D-e flex border-white text-D-38">
-          <span class="mb-auto mt-auto">{{ $t("footer.vision") }}</span>
+          <span class="mb-auto mt-auto">
+            <NuxtLinkLocale class="on-hover" to="/">
+              {{ $t("footer.vision") }}
+            </NuxtLinkLocale>
+          </span>
         </p>
         <p class="border-D-e flex border-white text-center text-D-30">
           <span class="m-auto">{{ $t("footer.thats_the_vision") }}</span>
         </p>
         <nav class="flex flex-col text-right text-D-20 gap-D-20 mb-D-37 mt-D-37">
-          <p class="on-hover">{{ $t("header.catalogue") }}</p>
+          <NuxtLinkLocale to="/catalog">
+            <p class="on-hover">{{ $t("header.catalogue") }}</p>
+          </NuxtLinkLocale>
 
           <NuxtLinkLocale to="/blog">
             <p class="on-hover">{{ $t("header.blog") }}</p>

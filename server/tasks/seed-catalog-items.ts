@@ -96,7 +96,7 @@ export default defineTask({
       // add reitings
       const caralogReitingsAmount = randElement([0, 1, 2, 3, 4])
       for (let i = 0; i < caralogReitingsAmount; i++) {
-        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 70 + 30) })
+        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 101) })
       }
 
       await seedLinksToCatalogItem({ item: catalogItem, linksAmount: 10 })

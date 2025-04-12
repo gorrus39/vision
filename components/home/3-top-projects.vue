@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ProjectType, type Project } from "~/types/blog";
-const toast = useToast();
+import { ProjectType, type Project } from "~/types/blog"
+const toast = useToast()
 
-let id = 1;
+let id = 1
 
 const project: Project = {
   id: id++,
@@ -10,20 +10,20 @@ const project: Project = {
   type: ProjectType.type,
   text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean.",
   starsAmount: 4.7,
-};
+}
 
-const mobileAmountItems = 4;
-const desktopAmountItems = 8;
+const mobileAmountItems = 4
+const desktopAmountItems = 8
 
-const projects: Ref<Project[]> = ref(Array(10).fill(project));
+const projects: Ref<Project[]> = ref(Array(10).fill(project))
 
 const handleClickShowMore = () => {
-  toast.add({ title: "Soon!)" });
-};
+  toast.add({ title: "Soon!)" })
+}
 </script>
 
 <template>
-  <div class="relative hidden mb-D-40 h-D-1350 md:flex">
+  <div class="relative hidden mb-D-40 h-D-1350 md:flex" id="top-projects">
     <NuxtImg class="absolute bottom-0 z-10 left-D-50 w-D-1400" src="images/home/figure-3.png" />
     <div class="border-D-e flex flex-1 border-white">
       <div

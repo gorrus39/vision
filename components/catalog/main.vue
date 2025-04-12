@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Reiting, Tag } from "~/types/catalog"
+import type { Tag } from "~/types/catalog"
 
 const tagsLine2: Tag[] = ["english", "russian", "chinese", "spanish", "french"]
 const tagsLine3: Tag[] = ["chat", "markets", "forums", "top sellers", "essentials", "others"]
@@ -59,25 +59,6 @@ const itemsTierLow = computed(() =>
     <CatalogMainItemsBox isLarge :items="itemsKozmap" :title="$t(`catalog.kozmap.title`)" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine2" :title="$t('catalog.tags.line2Title')" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine3" :title="$t('catalog.tags.line3Title')" />
-    <!-- <p>
-      {{ items.length }}
-    </p>
-    <p>
-      {{ itemForAllTiers.length }}
-    </p>
-    <p>
-      {{ itemsTier1.length }}
-    </p>
-    <p>
-      {{ itemsTier2.length }}
-    </p>
-    <p>
-      {{ itemsTier3.length }}
-    </p>
-    <p>
-      {{ itemsTierLow.length }}
-    </p> -->
-
     <CatalogMainItemsBox v-if="itemsTier1.length > 0" :items="itemsTier1" :title="$t(`catalog.tier.1`)" />
     <CatalogMainItemsBox v-if="itemsTier2.length > 0" :items="itemsTier2" :title="$t(`catalog.tier.2`)" />
     <CatalogMainItemsBox v-if="itemsTier3.length > 0" :items="itemsTier3" :title="$t(`catalog.tier.3`)" />

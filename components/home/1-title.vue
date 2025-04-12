@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const toast = useToast();
+const toast = useToast()
 </script>
 
 <template>
@@ -26,11 +26,13 @@ const toast = useToast();
             </span>
           </div>
           <div class="border-D-e relative mt-auto flex border-white h-D-100">
-            <div class="on-hover ms-auto me-D-100" @click="toast.add({ title: 'Soon!)' })">
-              <NuxtImg class="absolute top-D--25 right-D-75 h-D-100" src="/images/home/arrow-to-bottom.svg" />
-              <span class="font-bold text-D-28">
-                {{ $t("home.title.top_projects") }}
-              </span>
+            <div class="on-hover scroll-smooth-container ms-auto me-D-100">
+              <NuxtLink to="#top-projects">
+                <NuxtImg class="absolute top-D--25 right-D-75 h-D-100" src="/images/home/arrow-to-bottom.svg" />
+                <span class="font-bold text-D-28">
+                  {{ $t("home.title.top_projects") }}
+                </span>
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -56,4 +58,8 @@ const toast = useToast();
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.scroll-smooth-container {
+  scroll-behavior: smooth;
+}
+</style>
