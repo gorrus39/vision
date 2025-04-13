@@ -4,6 +4,7 @@ import { blogItems } from "../database/schema"
 import { BlogItem } from "~/types/blog"
 import { desc, eq } from "drizzle-orm"
 import {
+  Bunner,
   CatalogAdmin,
   CatalogAdminsToItems,
   CatalogItem,
@@ -159,7 +160,6 @@ export function queries() {
         return await db.delete(schema.catalogAdminsToItems).where(eq(schema.catalogAdminsToItems.id, id)).returning()
       },
     },
-
     catalogLinks: {
       async getAll() {
         return await db.select().from(schema.catalogLinks)
@@ -189,6 +189,23 @@ export function queries() {
       },
       async create(data: Reiting) {
         return await db.insert(schema.reitings).values(data).returning()
+      },
+    },
+    catalogBunners: {
+      async getAll() {
+        return await db.select().from(schema.catalogBunners)
+      },
+      async getById(id: number) {
+        return await db.select().from(schema.catalogBunners).where(eq(schema.catalogBunners.id, id)).limit(1)
+      },
+      async create(data: Bunner) {
+        return await db.insert(schema.catalogBunners).values(data).returning()
+      },
+      async update(id: number, data: Bunner) {
+        return await db.update(schema.catalogBunners).set(data).where(eq(schema.catalogBunners.id, id)).returning()
+      },
+      async delete(id: number) {
+        return await db.delete(schema.catalogBunners).where(eq(schema.catalogBunners.id, id)).returning()
       },
     },
   }

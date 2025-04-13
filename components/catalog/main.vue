@@ -59,6 +59,7 @@ const itemsTierLow = computed(() =>
     <CatalogMainItemsBox isLarge :items="itemsKozmap" :title="$t(`catalog.kozmap.title`)" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine2" :title="$t('catalog.tags.line2Title')" />
     <CatalogMainTagsLine v-model="selectedTags" :tags="tagsLine3" :title="$t('catalog.tags.line3Title')" />
+    <CatalogMainBanners />
     <CatalogMainItemsBox v-if="itemsTier1.length > 0" :items="itemsTier1" :title="$t(`catalog.tier.1`)" />
     <CatalogMainItemsBox v-if="itemsTier2.length > 0" :items="itemsTier2" :title="$t(`catalog.tier.2`)" />
     <CatalogMainItemsBox v-if="itemsTier3.length > 0" :items="itemsTier3" :title="$t(`catalog.tier.3`)" />

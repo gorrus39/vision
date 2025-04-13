@@ -1,4 +1,4 @@
-import type { CatalogAdmin, CatalogItem, Reward } from "~/types/catalog"
+import type { Bunner, CatalogAdmin, CatalogItem, Reward } from "~/types/catalog"
 import { z } from "zod"
 import { tagsSchema, type Reiting, type Tag } from "~/types/catalog"
 
@@ -115,6 +115,26 @@ const putBlobCatalogAmin = async (db_item: CatalogAdmin, file: File): Promise<st
   return res.pathname
 }
 
+const putBlobBunner = async (db_item: Bunner, file: File): Promise<string> => {
+  const rand = Math.floor(Math.random() * 100)
+  const res = await hubBlob().put(`${db_item.id}__${rand}__${file.name}`, file, {
+    addRandomSuffix: false,
+    prefix: "catalog-bunners",
+  })
+  return res.pathname
+}
+
+const getBunnerImageUrl = (imgPath: string) => {
+  // для браузерных залитых на фронте
+  if (imgPath.includes("blob")) return imgPath
+
+  // фотки из seed
+  if (imgPath.startsWith("/bunners")) return imgPath
+
+  // Формируем полный путь к изображению через API
+  return `/api/blob/catalog-bunners/${imgPath}`
+}
+
 export {
   formatDate,
   viewLast3Reitings,
@@ -128,4 +148,6 @@ export {
   putBlobCatalogItem,
   randElement,
   randNumber,
+  getBunnerImageUrl,
+  putBlobBunner,
 }

@@ -1,5 +1,5 @@
-import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm"
+import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core"
 
 // Определяем таблицу blog_items
 export const blogItems = sqliteTable("blog_items", {
@@ -13,7 +13,7 @@ export const blogItems = sqliteTable("blog_items", {
   order_index: integer("order_index").notNull(), // Индекс порядка
   priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)
   lang: text("lang", { enum: ["en", "ru", "cn"] }).default("en"),
-});
+})
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ export const catalogItems = sqliteTable("catalogItems", {
 
   img_short_path: text("img_short_path"), // Ссылка на изображение (может быть null)
   img_large_path: text("img_large_path"), // Ссылка на изображение (может быть null)
-});
+})
 ////////////////
 export const catalogAdmins = sqliteTable("catalogAdmins", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
@@ -37,7 +37,7 @@ export const catalogAdmins = sqliteTable("catalogAdmins", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   link: text("link").notNull(),
-});
+})
 
 export const catalogAdminsToItems = sqliteTable("catalogAdminsToItems", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
@@ -47,14 +47,14 @@ export const catalogAdminsToItems = sqliteTable("catalogAdminsToItems", {
   catalog_item_id: integer("catalog_item_id")
     .notNull()
     .references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-});
+})
 ////////////////
 export const rewards = sqliteTable("rewards", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   img_path: text("img_path").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-});
+})
 
 export const catalogRewardsToItems = sqliteTable("catalogRewardsToItems", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
@@ -64,7 +64,7 @@ export const catalogRewardsToItems = sqliteTable("catalogRewardsToItems", {
   catalog_item_id: integer("catalog_item_id")
     .notNull()
     .references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-});
+})
 
 ////////////////
 export const catalogLinks = sqliteTable("catalogLinks", {
@@ -75,7 +75,7 @@ export const catalogLinks = sqliteTable("catalogLinks", {
   description: text("description").notNull(),
   link: text("link").notNull(),
   src_platform: text("src_platform").notNull(),
-});
+})
 /////
 export const reitings = sqliteTable("reitings", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
@@ -84,9 +84,14 @@ export const reitings = sqliteTable("reitings", {
   created_at: text("created_at")
     .notNull()
     .default(sql`(current_timestamp)`),
-});
+})
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
+
+export const catalogBunners = sqliteTable("catalogBunners", {
+  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
+  img_path: text("img_path").notNull(),
+})
