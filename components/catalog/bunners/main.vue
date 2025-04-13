@@ -38,10 +38,17 @@ const add_item = async () => {
 </script>
 
 <template>
-  <UModal v-model="showModal" fullscreen :ui="{ fullscreen: 'h-auto' }">
+  <UModal v-model="showModal" fullscreen :ui="{ fullscreen: 'h-auto min-h-screen' }">
     <div class="text-black">
       <div class="p-2">
-        <UButton @click="showModal = false" :disabled="loading" label="close" color="red" variant="outline" />
+        <UButton
+          @click="showModal = false"
+          :disabled="loading"
+          label="close"
+          color="red"
+          variant="outline"
+          icon="i-heroicons:x-mark-20-solid"
+        />
       </div>
       <hr />
       <div class="p-2">
@@ -50,7 +57,13 @@ const add_item = async () => {
             <ChanksInputPhotoCatalogBunner v-model="state" />
           </UFormGroup>
         </UForm>
-        <UButton v-if="state.frontendFile" @click="add_item" :disabled="loading" label="Add" />
+        <UButton
+          v-if="state.frontendFile"
+          icon="i-ep:circle-plus-filled"
+          @click="add_item"
+          :loading="loading"
+          label="Add"
+        />
       </div>
       <hr />
       <UTable :rows="rows" :columns="columns">
@@ -59,7 +72,6 @@ const add_item = async () => {
             <UIcon
               class="on-hover h-5 w-5"
               :loading="loading"
-              :disabled="loading"
               name="i-heroicons-trash-20-solid"
               @click="delete_item(row.id)"
             />
