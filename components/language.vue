@@ -1,23 +1,23 @@
 <script setup lang="ts">
-const showModal = ref(false);
-const { setLocale, locale, defaultLocale } = useI18n();
+const showModal = ref(false)
+const { setLocale, locale, defaultLocale } = useI18n()
 
 const languages: { label: string; value: "ru" | "en" | "cn" }[] = [
   { label: "РУССКИЙ", value: "ru" },
   { label: "ENGLISH", value: "en" },
   { label: "中文", value: "cn" },
-];
+]
 
-const tempLanguate = ref(languages.find((lgObj) => lgObj.value == locale.value));
+const tempLanguate = ref(languages.find((lgObj) => lgObj.value == locale.value))
 
 const handleChangeLocale = () => {
-  setLocale(tempLanguate.value?.value ?? defaultLocale);
-};
+  setLocale(tempLanguate.value?.value ?? defaultLocale)
+}
 
 const label = computed(() => {
-  const lgObj = languages.find((lgObj) => lgObj.value == locale.value) || languages[0];
-  return lgObj.label;
-});
+  const lgObj = languages.find((lgObj) => lgObj.value == locale.value) || languages[0]
+  return lgObj.label
+})
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const label = computed(() => {
     {{ label }}
   </div>
 
-  <UModal v-model="showModal">
+  <UModal v-model="showModal" :ui="{ background: 'dark:bg-gray-100' }">
     <div class="flex flex-col text-black gap-M-20 p-D-30 md:gap-D-40">
       <p class="w-full pe-0 ps-0 text-center text-M-16 md:text-D-40">
         {{ $t("language.select-a-language") }}
@@ -48,7 +48,13 @@ const label = computed(() => {
           }"
         />
       </div>
-      <UButton @click="handleChangeLocale" color="black" block :ui="{ rounded: 'rounded-none' }">
+      <UButton
+        class="focus:outline-none focus:ring-0 dark:bg-black dark:text-white hover:dark:bg-black hover:dark:text-white focus:dark:bg-black focus:dark:text-white active:dark:bg-black active:dark:text-white"
+        @click="handleChangeLocale"
+        color="black"
+        block
+        :ui="{ rounded: 'rounded-none' }"
+      >
         <span class="text-M-8 md:text-D-24">
           {{ $t("language.select") }}
         </span>

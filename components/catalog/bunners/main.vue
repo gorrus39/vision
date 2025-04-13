@@ -51,7 +51,7 @@ const add_item = async () => {
         />
       </div>
       <hr />
-      <div class="p-2">
+      <div class="space-y-2 p-2">
         <UForm :state="state" :schema="bunnerSchema">
           <UFormGroup name="img_path" label="image">
             <ChanksInputPhotoCatalogBunner v-model="state" />
