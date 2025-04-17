@@ -95,3 +95,8 @@ body {
     cursor: pointer;
   }
 }
+
+
+.x-mx {
+  @apply ms-M-30 md:ms-D-182 me-M-30 md:me-D-182;
+}

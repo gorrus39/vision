@@ -62,6 +62,10 @@ import ruCatalogTier from "~/i18n/locales/ru/catalog/tier"
 import enCatalogTier from "~/i18n/locales/en/catalog/tier"
 import cnCatalogTier from "~/i18n/locales/cn/catalog/tier"
 
+import ruCatalogId from "~/i18n/locales/ru/catalog/id"
+import enCatalogId from "~/i18n/locales/en/catalog/id"
+import cnCatalogId from "~/i18n/locales/cn/catalog/id"
+
 export default defineI18nConfig(() => ({
   legacy: false,
   messages: {
@@ -89,6 +93,7 @@ export default defineI18nConfig(() => ({
         kozmap: enCatalogKozmap,
         tags: enCatalogTags,
         tier: enCatalogTier,
+        id: enCatalogId,
       },
     },
     ru: {
@@ -115,6 +120,7 @@ export default defineI18nConfig(() => ({
         kozmap: ruCatalogKozmap,
         tags: ruCatalogTags,
         tier: ruCatalogTier,
+        id: ruCatalogId,
       },
     },
     cn: {
@@ -141,6 +147,7 @@ export default defineI18nConfig(() => ({
         kozmap: cnCatalogKozmap,
         tags: cnCatalogTags,
         tier: cnCatalogTier,
+        id: cnCatalogId,
       },
     },
   },

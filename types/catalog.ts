@@ -130,7 +130,7 @@ type Category =
   | "organicity"
   | "admins"
 export type BriefItemJson = { category: Category; meaning: string | undefined; score: string | undefined }
-// type Lang = "ru" | "en" | "cn";
+export type Lang = "ru" | "en" | "cn"
 
 const categories: Category[] = [
   "audience",
