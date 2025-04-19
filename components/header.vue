@@ -1,32 +1,31 @@
 <script setup lang="ts">
-import { NuxtLinkLocale } from "#components";
+import { NuxtLinkLocale } from "#components"
 
-const showMobileNavigation = ref(false);
+const showMobileNavigation = ref(false)
 
-const homeLink = { label: "VISION", path: "/" };
+const homeLink = { label: "VISION", path: "/" }
 const navLinks = [
   { labelPath: "header.catalogue", path: "/catalog" },
   { labelPath: "header.blog", path: "/blog" },
   { labelPath: "header.faq", path: "#" },
   { labelPath: "header.about_fraudvision", path: "#" },
   { labelPath: "header.contact_us", path: "#" },
-];
+]
 
-const toast = useToast();
+const toast = useToast()
 
-const toggle = ref(true);
+const toggle = ref(true)
 </script>
 
 <template>
   <div class="border-D-b hidden border-white h-D-128 md:flex">
     <div class="border-D-e border-white w-D-154"></div>
 
-    <NuxtLinkLocale
-      class="on-hover border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686"
-      :to="homeLink.path"
-    >
-      {{ homeLink.label }}
-    </NuxtLinkLocale>
+    <div class="border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686">
+      <NuxtLinkLocale class="on-hover" :to="homeLink.path">
+        {{ homeLink.label }}
+      </NuxtLinkLocale>
+    </div>
 
     <nav class="flex items-center ps-D-22 gap-D-70">
       <NuxtLinkLocale
