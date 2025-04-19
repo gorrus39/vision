@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLinkLocale :to="`/catalog/${item.id}`">
+  <NuxtLinkLocale class="hover:cursor-pointer" :to="`/catalog/${item.id}`">
     <div class="w-full md:w-D-335">
       <div class="border-D relative flex w-full items-center justify-center rounded-lg border-black h-M-146 md:h-D-221">
         <img

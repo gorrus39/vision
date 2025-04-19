@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import type { Tag } from "~/types/catalog"
 
-const selectedTags = defineModel<Tag[]>()
+const selectedTag = defineModel<Tag[]>()
 
 const props = defineProps<{
   tags: Tag[]
   title: string
 }>()
 
-const toggle = (tag: Tag) => {
-  if (!selectedTags.value) return
-  const index = selectedTags.value.indexOf(tag)
+const select = (tag: Tag) => {
+  if (!selectedTag.value) return
 
-  if (index !== -1) selectedTags.value.splice(index, 1)
-  else selectedTags.value.push(tag)
+  if (!selectedTag.value.includes(tag)) selectedTag.value = [tag]
+
+  // const index = selectedTags.value.indexOf(tag)
+
+  // if (index !== -1) selectedTags.value.splice(index, 1)
+  // else selectedTags.value.push(tag)
 }
 </script>
 
@@ -30,10 +33,10 @@ const toggle = (tag: Tag) => {
           'w-auto h-M-50 ps-D-50 pe-D-50 md:h-D-56',
           'on-hover flex items-center justify-center rounded-xl border-[2px] border-solid font-medium md:rounded-lg md:border-[.5px]',
           'text-M-12 md:text-D-24',
-          { 'bg-white text-black': selectedTags?.includes(tag) },
+          { 'bg-white text-black': selectedTag?.includes(tag) },
           // tags.length > 5 ? 'md:w-D-270' : 'md:w-D-290',
         ]"
-        @click="toggle(tag)"
+        @click="select(tag)"
       >
         {{ $t(`catalog.tags.${tag}`) }}
       </div>

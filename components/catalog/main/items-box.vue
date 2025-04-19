@@ -2,25 +2,15 @@
 import { CatalogMainListItemShort } from "#components"
 import type { FullCatalogItem } from "~/types/catalog"
 
-type Amount = 3 | "all"
+const viewWidth: Ref<number> = useViewWidth()
+const viewAll = ref(false)
 
-const viewAmountIndex = ref<Amount>(3)
-
-const props = defineProps<{
+defineProps<{
   items: FullCatalogItem[]
   title: string
   isLarge?: true
   color?: "red"
 }>()
-
-const viewItems = computed(() => {
-  const count = viewAmountIndex.value === "all" ? props.items.length : 3
-  return props.items.slice(0, count)
-})
-
-const toggle = () => {
-  viewAmountIndex.value = viewAmountIndex.value == "all" ? 3 : "all"
-}
 </script>
 
 <template>
@@ -39,12 +29,13 @@ const toggle = () => {
     >
       <TransitionGroup
         class="flex w-full flex-col flex-wrap justify-center gap-M-30 md:flex-row md:gap-D-70"
+        v-if="viewAll || (viewWidth && viewWidth < 786)"
         name="list"
         tag="div"
       >
         <CatalogMainListItemLarge
           v-if="isLarge"
-          v-for="(item, index) in viewItems"
+          v-for="(item, index) in viewAll ? items : items.slice(0, 3)"
           :key="item.id || index"
           :item="item"
           :index="index"
@@ -52,7 +43,7 @@ const toggle = () => {
 
         <CatalogMainListItemShort
           v-else
-          v-for="(item, index) in viewItems"
+          v-for="(item, index) in viewAll ? items : items.slice(0, 3)"
           :key="index"
           :item="item"
           :index="index"
@@ -60,12 +51,24 @@ const toggle = () => {
         />
       </TransitionGroup>
 
+      <UCarousel v-else v-slot="{ item, index }" :items="items" :ui="{ container: 'gap-D-70 ', wrapper: 'ms-D-140' }">
+        <CatalogMainListItemLarge v-if="isLarge" :key="item.id || index" :item="item" :index="index" />
+
+        <CatalogMainListItemShort
+          v-else
+          :key="index"
+          :item="item"
+          :index="index"
+          :color="color == 'red' ? 'red' : undefined"
+        />
+      </UCarousel>
+
       <UIcon
         class="on-hover m-auto transition-transform duration-300 w-M-30 h-M-30 md:me-[0] md:w-D-30 md:h-D-30"
         v-if="items.length > 3"
         name="i-ep:arrow-down-bold"
-        :class="[viewAmountIndex !== 'all' ? 'rotate-0' : 'rotate-180']"
-        @click="toggle"
+        :class="[viewAll ? 'rotate-0' : 'rotate-180']"
+        @click="viewAll = !viewAll"
       />
     </div>
   </div>
@@ -74,7 +77,7 @@ const toggle = () => {
 <style scoped>
 .list-enter-active,
 .list-leave-active {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 .list-enter-from,
 .list-leave-to {

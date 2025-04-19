@@ -1,4 +1,4 @@
-import { CatalogItem, CatalogLink, FullCatalogItem, Reiting } from "~/types/catalog"
+import { CatalogItem, CatalogLink, FullCatalogItem } from "~/types/catalog"
 import { randElement } from "~/utils/all"
 
 export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
@@ -11,7 +11,7 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
   const db_admins = await queries().catalogAdmin.getAll()
   const db_adminsToItems = await queries().catalogAdminsToItems.getAll()
 
-  const db_reitings = await queries().reitings.getAll()
+  // const db_reitings = await queries().reitings.getAll()
 
   const db_links = await queries().catalogLinks.getAll()
 
@@ -37,17 +37,17 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
     }
   })
 
-  const map_reitings = new Map<number, Reiting[]>()
-  db_reitings.forEach((db_reiting) => {
-    const item_id = db_reiting.catalog_item_id
-    if (item_id) {
-      if (map_reitings.has(item_id)) {
-        ;(map_reitings.get(item_id) as Reiting[]).push(db_reiting)
-      } else {
-        map_reitings.set(item_id, [db_reiting])
-      }
-    }
-  })
+  // const map_reitings = new Map<number, Reiting[]>()
+  // db_reitings.forEach((db_reiting) => {
+  //   const item_id = db_reiting.catalog_item_id
+  //   if (item_id) {
+  //     if (map_reitings.has(item_id)) {
+  //       ;(map_reitings.get(item_id) as Reiting[]).push(db_reiting)
+  //     } else {
+  //       map_reitings.set(item_id, [db_reiting])
+  //     }
+  //   }
+  // })
 
   const map_links = new Map<number, CatalogLink[]>()
   db_links.forEach((db_link) => {
@@ -70,12 +70,11 @@ export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
     const adminIds = map_adminsToItems.get(item.id!) || []
     const admins = db_admins.filter((db_admin) => adminIds.includes(db_admin.id))
 
-    const reitings = map_reitings.get(item.id!) || []
+    // const reitings = map_reitings.get(item.id!) || []
 
     const links = map_links.get(item.id!) || []
     return {
       ...item,
-      reitings,
       rewards,
       admins,
       links,

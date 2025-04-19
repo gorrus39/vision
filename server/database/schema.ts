@@ -72,19 +72,20 @@ export const catalogLinks = sqliteTable("catalogLinks", {
   catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
   // img_path: text("img_path").notNull(),
   title: text("title").notNull(),
+  // reitings: text("reitings").notNull(),
   description: text("description").notNull(),
   link: text("link").notNull(),
   src_platform: text("src_platform").notNull(),
 })
 /////
-export const reitings = sqliteTable("reitings", {
-  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-  value: integer("value").notNull(),
-  created_at: text("created_at")
-    .notNull()
-    .default(sql`(current_timestamp)`),
-})
+// export const reitings = sqliteTable("reitings", {
+//   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
+//   catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
+//   value: integer("value").notNull(),
+//   created_at: text("created_at")
+//     .notNull()
+//     .default(sql`(current_timestamp)`),
+// })
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////

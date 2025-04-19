@@ -1,6 +1,6 @@
-import type { Bunner, CatalogAdmin, CatalogItem, Reward } from "~/types/catalog"
+import type { BriefItemJson, Bunner, CatalogAdmin, CatalogItem, FullBriefJson, Lang, Reward } from "~/types/catalog"
 import { z } from "zod"
-import { tagsSchema, type Reiting, type Tag } from "~/types/catalog"
+import { tagsSchema, type Tag } from "~/types/catalog"
 
 const randElement = <T>(arr: T[]): T => {
   const length = arr.length
@@ -13,7 +13,9 @@ const randNumber = ({ start, end }: { start: number; end: number }): number => {
   const amount = end - start
   if (amount <= 0) return 0
 
-  const arr = Array(amount).map((_el, index) => start + index)
+  const arr = Array(amount)
+    .fill(0)
+    .map((_el, index) => start + index)
 
   return randElement(arr)
 }
@@ -25,17 +27,17 @@ function formatDate(date: Date) {
   return `${dd}.${mm}.${yy}`
 }
 
-const viewLast3Reitings = (reitings: Reiting[]): string => {
-  if (reitings.length === 0) return "<b>-</b>"
+// const viewLast3Reitings = (reitings: Reiting[]): string => {
+//   if (reitings.length === 0) return "<b>-</b>"
 
-  const [firstValue, ...rest] = reitings.slice(0, 3).map((r) => String(r.value))
+//   const [firstValue, ...rest] = reitings.slice(0, 3).map((r) => String(r.value))
 
-  let result = `<b>${firstValue}</b>`
-  if (rest) result += `, ${rest.join(", ")}`
-  if (reitings.length > 3) result += "..."
+//   let result = `<b>${firstValue}</b>`
+//   if (rest) result += `, ${rest.join(", ")}`
+//   if (reitings.length > 3) result += "..."
 
-  return result
-}
+//   return result
+// }
 
 const getTagsFromString = (string: string | undefined): Tag[] => {
   if (!string) return []
@@ -135,9 +137,86 @@ const getBunnerImageUrl = (imgPath: string) => {
   return `/api/blob/catalog-bunners/${imgPath}`
 }
 
+const isValidBrief = (brief: FullBriefJson | string): { error?: string } => {
+  const briefJson = typeof brief == "string" ? (JSON.parse(brief) as FullBriefJson) : (brief as FullBriefJson)
+
+  const error = "At least one language and all score in brief must be fully completed"
+
+  const values: {
+    ru: boolean[]
+    en: boolean[]
+    cn: boolean[]
+  } = {
+    ru: [],
+    en: [],
+    cn: [],
+  }
+
+  for (const item of briefJson.items) {
+    for (const [lang, value] of Object.entries(item.meaning)) {
+      value !== undefined && value.length > 0 ? values[lang as Lang].push(true) : values[lang as Lang].push(false)
+    }
+
+    // if (item.score == undefined) return { error }
+    // const someValuePresent = Object.values(item.meaning).some((value) => value !== undefined)
+    // if (!someValuePresent) return { error }
+  }
+
+  const isValid = Object.values(values).some((arr) => arr.every((el) => el == true))
+
+  return isValid ? {} : { error }
+}
+
+const hasBriefScoreDiffs = ({
+  briefItemsBefore,
+  briefItemsAfter: itemsAfter,
+}: {
+  briefItemsBefore: BriefItemJson[]
+  briefItemsAfter: BriefItemJson[]
+}): boolean => {
+  for (let i = 0; i < briefItemsBefore.length; i++) {
+    const itemBeforeScore = briefItemsBefore[i].score
+    const itemAfterScore = itemsAfter[i].score
+    if (itemBeforeScore !== itemAfterScore) {
+      return true
+    }
+  }
+  return false
+}
+const getBriefAgrigationValue = ({
+  items,
+  type = "regular",
+}: {
+  items: BriefItemJson[]
+  type?: "seed" | "initial" | "regular"
+}): { itemsAmount: number; sumValue: number | null } => {
+  if (type == "initial") return { itemsAmount: 0, sumValue: null }
+  if (type == "seed") return { itemsAmount: items.length, sumValue: randNumber({ start: 0, end: items.length * 10 }) }
+  // debugger
+  // // заглушка. непонятно почему так, вызывается из list.vue
+  // if ("items" in items) {
+  //   debugger
+  //   items = items.items
+  //   // return { itemsAmount: 0, sumValue: null }
+  // }
+  const { itemsAmount, sumValue } = items.reduce(
+    (acc, item) => {
+      acc.itemsAmount++
+      acc.sumValue += item.score || 0
+      return acc
+    },
+    { itemsAmount: 0, sumValue: 0 },
+  )
+  // debugger
+  return { itemsAmount, sumValue }
+}
+
 export {
+  isValidBrief,
   formatDate,
-  viewLast3Reitings,
+  hasBriefScoreDiffs,
+  getBriefAgrigationValue,
+  // viewLast3Reitings,
   getTagsFromString,
   convertTagsToString,
   putBlobReward,

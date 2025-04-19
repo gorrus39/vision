@@ -148,6 +148,20 @@
       "when": 1744536833951,
       "tag": "0020_polite_vargas",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1744893375580,
+      "tag": "0021_outgoing_snowbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1744897435644,
+      "tag": "0022_abnormal_warpath",
+      "breakpoints": true
     }
   ]
 }

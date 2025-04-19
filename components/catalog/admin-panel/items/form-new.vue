@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { ChanksTextEditor } from "#components";
-import _ from "lodash";
-import { emptyBriefString, fullCatalogItemSchema, type BriefItemJson, type FullCatalogItem } from "~/types/catalog";
-const store = await useInitializedCatalogItemsStore();
-const { create_or_update_item_remote } = store;
-const toast = useToast();
-const isLoading = ref(false);
-const briefError = ref<null | string>(null);
-const descriptionShortError = ref<null | string>(null);
+import _ from "lodash"
+import { fullBriefJsonEmpty, fullCatalogItemSchema, type FullCatalogItem } from "~/types/catalog"
+import { isValidBrief } from "~/utils/all"
+const store = await useInitializedCatalogItemsStore()
+const { create_or_update_item_remote } = store
+const toast = useToast()
+const isLoading = ref(false)
+const briefError = ref<null | string>(null)
+const descriptionShortError = ref<null | string>(null)
 
-const showForm = defineModel<boolean>();
+const showForm = defineModel<boolean>()
 
 const emptyItem: FullCatalogItem = {
   title: "",
   rewards: [],
   admins: [],
-  reitings: [],
   tags: "[]",
   links: [],
-  brief: emptyBriefString,
+  brief: JSON.stringify(fullBriefJsonEmpty()),
   description_short: "",
   // JSON.stringify({
   //   ru: "test",
@@ -29,103 +28,64 @@ const emptyItem: FullCatalogItem = {
   rules: "",
   img_short_path: "",
   img_large_path: "",
-};
+}
 
-const state = ref<FullCatalogItem>(emptyItem);
+const state = ref<FullCatalogItem>(emptyItem)
 
 const invalidDescriptionShort = () => {
-  const errors: Record<string, string> = {};
-  let json: any;
+  const errors: Record<string, string> = {}
+  let json: any
 
   try {
-    json = JSON.parse(state.value.description_short);
+    json = JSON.parse(state.value.description_short)
   } catch (err) {
-    errors.brief = "Description short must be valid JSON";
+    errors.brief = "Description short must be valid JSON"
   }
 
   const jsonDescriptionShort = json as {
-    ru: string;
-    en: string;
-    cn: string;
-  };
+    ru: string
+    en: string
+    cn: string
+  }
 
-  const isAnyValuePresent = Object.values(jsonDescriptionShort).some((v) => v.trim().length > 0);
+  const isAnyValuePresent = Object.values(jsonDescriptionShort).some((v) => v.trim().length > 0)
 
   if (!isAnyValuePresent) {
-    errors.description_short = "required any value";
+    errors.description_short = "required any value"
   }
 
   // Если есть ошибки, устанавливаем их в форму
   if (Object.keys(errors).length > 0) {
-    descriptionShortError.value = errors.description_short;
-    return true; // Возвращаем true, если ошибки есть
+    descriptionShortError.value = errors.description_short
+    return true // Возвращаем true, если ошибки есть
   }
 
-  return false; // Нет ошибок
-};
-
-const invalidBrief = () => {
-  const errors: Record<string, string> = {};
-  let briefParsed: any;
-
-  try {
-    briefParsed = JSON.parse(state.value.brief);
-  } catch (err) {
-    errors.brief = "Brief must be valid JSON";
-  }
-
-  const jsonBrief = briefParsed as {
-    ru: BriefItemJson[];
-    en: BriefItemJson[];
-    cn: BriefItemJson[];
-  };
-  if (jsonBrief && typeof jsonBrief === "object") {
-    const isAnyLangComplete = Object.entries(jsonBrief).some(([lang, langData]) => {
-      return langData.every(({ category, meaning, score }) => {
-        if (meaning == undefined || score == undefined) return false;
-
-        const presentMeaning = meaning.trim().length > 0;
-        const presentScore = score.trim().length > 0;
-        const notInitMeaning = meaning !== "undefined";
-        const notInitScore = meaning !== "undefined";
-        return presentMeaning && presentScore && notInitMeaning && notInitScore;
-      });
-    });
-
-    if (!isAnyLangComplete) {
-      errors.brief = "At least one language in brief must be fully completed";
-    }
-  } else {
-    errors.brief = "Brief must be a valid object";
-  }
-
-  // Если есть ошибки, устанавливаем их в форму
-  if (Object.keys(errors).length > 0) {
-    briefError.value = errors.brief;
-    return true; // Возвращаем true, если ошибки есть
-  }
-
-  return false; // Нет ошибок
-};
+  return false // Нет ошибок
+}
 
 const handleSubmit = async () => {
-  if (invalidBrief()) return;
-  if (invalidDescriptionShort()) {
-    console.error("invalidDescriptionShort()");
-    return;
+  const { error: briefErrorString } = isValidBrief(state.value.brief)
+  if (briefErrorString) {
+    briefError.value = briefErrorString
+    return
   }
 
-  isLoading.value = true;
-  const { error, success } = await create_or_update_item_remote(state.value);
-  if (success) {
-    toast.add({ title: "success" });
-  } else {
-    toast.add({ title: error as string, color: "red" });
+  if (invalidDescriptionShort()) {
+    console.error("invalidDescriptionShort()")
+    return
   }
-  state.value = emptyItem;
-  showForm.value = false;
-  isLoading.value = false;
-};
+
+  isLoading.value = true
+  const { error, success } = await create_or_update_item_remote(state.value)
+  if (success) {
+    toast.add({ title: "success" })
+  } else {
+    toast.add({ title: error as string, color: "red" })
+  }
+  state.value = emptyItem
+  showForm.value = false
+  isLoading.value = false
+}
 </script>
 <template>
   <UModal v-model="showForm" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
@@ -190,10 +150,10 @@ const handleSubmit = async () => {
         </UFormGroup>
         <hr />
 
-        <UFormGroup name="reitings" label="reitings">
+        <!-- <UFormGroup name="reitings" label="reitings">
           <CatalogAdminPanelItemsInputReitings v-model="state.reitings" :isLoading="isLoading" />
         </UFormGroup>
-        <hr />
+        <hr /> -->
 
         <UFormGroup name="brief" required>
           <CatalogAdminPanelItemsInputBrief v-model="state.brief" @updateError="briefError = $event" />

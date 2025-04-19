@@ -10,7 +10,6 @@ import {
   CatalogItem,
   CatalogLink,
   CatalogRewardsToItems,
-  Reiting,
   Reward,
 } from "~/types/catalog"
 
@@ -183,14 +182,14 @@ export function queries() {
       },
     },
     //////////
-    reitings: {
-      async getAll() {
-        return await db.select().from(schema.reitings).orderBy(desc(schema.reitings.created_at))
-      },
-      async create(data: Reiting) {
-        return await db.insert(schema.reitings).values(data).returning()
-      },
-    },
+    // reitings: {
+    //   async getAll() {
+    //     return await db.select().from(schema.reitings).orderBy(desc(schema.reitings.created_at))
+    //   },
+    //   async create(data: Reiting) {
+    //     return await db.insert(schema.reitings).values(data).returning()
+    //   },
+    // },
     catalogBunners: {
       async getAll() {
         return await db.select().from(schema.catalogBunners)

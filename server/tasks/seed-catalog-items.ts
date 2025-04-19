@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker"
 import { seedAdmins, seedLinksToCatalogItem, seedRewards } from "../utils/seed"
-import { emptyBriefSeedString, Tag } from "~/types/catalog"
+import { fullBriefJsonSeed, Tag } from "~/types/catalog"
 import { randElement, randNumber } from "~/utils/all"
 
 const makeTagsString = (): string => {
@@ -63,6 +63,7 @@ export default defineTask({
     const { db_ids: rewardIds } = await seedRewards()
 
     for (let i = 0; i < catalogItemAmount; i++) {
+      const briefJson = fullBriefJsonSeed()
       const [catalogItem] = await drizzle.catalogItem.create({
         title: faker.company.name(),
         tags: makeTagsString(),
@@ -71,7 +72,7 @@ export default defineTask({
         description_short: makeDescriptionShort(),
         description_large: makeDescriptionLarge(),
         rules: makeRules(),
-        brief: emptyBriefSeedString,
+        brief: JSON.stringify(briefJson),
       })
       const catalog_item_id = catalogItem.id
 
@@ -94,10 +95,10 @@ export default defineTask({
       }
 
       // add reitings
-      const caralogReitingsAmount = randElement([0, 1, 2, 3, 4])
-      for (let i = 0; i < caralogReitingsAmount; i++) {
-        await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 101) })
-      }
+      // const caralogReitingsAmount = randElement([0, 1, 2, 3, 4])
+      // for (let i = 0; i < caralogReitingsAmount; i++) {
+      //   await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 101) })
+      // }
 
       await seedLinksToCatalogItem({ item: catalogItem, linksAmount: 10 })
     }

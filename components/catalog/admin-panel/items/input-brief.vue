@@ -1,72 +1,58 @@
 <script setup lang="ts">
-import _ from "lodash";
-import { emptyBriefString, type BriefItemJson } from "~/types/catalog";
+import _ from "lodash"
+import { fullBriefJsonEmpty, type BriefItemJson, type FullBriefJson, type Lang } from "~/types/catalog"
+import { isValidBrief } from "~/utils/all"
 // TODO:
 // почему-то при edit isCompleteLang ожидаемые значения принимает, но в модалке с заполнением кнопка не всегда соответсвует. иногда дизейблится когда не должна. во вкладках с языками не всегда соответсвующий значёк отображается, который зависим от isCompleteLang
-const brief = defineModel<string>();
-const showModal = ref(false);
-type Lang = "ru" | "en" | "cn";
-const lang = ref<Lang>("en");
-const isCompleteLangInBrief = ref<Set<Lang>>(new Set());
+const briefString = defineModel<string>()
+const showModal = ref(false)
+const isValidBriefRef = ref(false)
 
-const emit = defineEmits(["updateError"]);
+const emit = defineEmits(["updateError"])
 
-const init = (): { ru: BriefItemJson[]; en: BriefItemJson[]; cn: BriefItemJson[] } => {
-  if (brief.value == undefined) {
-    console.error("JSON.parse(emptyBriefString)");
-    return JSON.parse(emptyBriefString);
-  }
+const init = (): FullBriefJson => {
+  // заглушка, так как brief может быть undefined
+  if (!briefString.value) return fullBriefJsonEmpty()
 
-  const json = JSON.parse(brief.value);
-  const ru = json["ru"];
-  const en = json["en"];
-  const cn = json["cn"];
-  const arrs = [ru, en, cn];
+  const briefJson = JSON.parse(briefString.value) as FullBriefJson
+  const isEdit = briefJson.lastAgrigation.sumValue !== null //
 
-  for (const lg of arrs) {
-    for (const item of lg) {
-      if (item.meaning == "undefined") item.meaning = undefined;
-      if (item.score == "undefined") item.score = undefined;
-    }
-  }
-  return { ru, en, cn };
-};
+  if (isEdit) return briefJson
+  else return fullBriefJsonEmpty()
+}
 
-const json = ref<{
-  ru: BriefItemJson[];
-  en: BriefItemJson[];
-  cn: BriefItemJson[];
-}>(init());
+const briefJson = ref<FullBriefJson>(init())
 
 const columns = [
-  { key: "category", label: "category" },
-  { key: "meaning", label: "meaning", class: "w-64 h-4" },
-  { key: "score", label: "score", class: "w-64 h-4" },
-];
+  { key: "category", label: "category", class: "w-[200px]" },
+  { key: "meaning", label: "meaning", class: "   h-4" },
+  { key: "score", label: "score", class: "w-[100px] h-4" },
+]
 
-watch(json.value, () => {
-  emit("updateError", null);
-  console.log("asdf");
-  for (const [lang, arrItems] of Object.entries(json.value)) {
-    const langTyped = lang as Lang;
+watch(briefJson.value, () => {
+  emit("updateError", null)
 
-    const isFilled = arrItems.every(({ meaning, score }) => {
-      return meaning !== undefined && score !== undefined && meaning?.length > 0 && score.length > 0;
-    });
-    if (isFilled) isCompleteLangInBrief.value.add(langTyped);
-    else isCompleteLangInBrief.value.delete(langTyped);
-  }
-});
+  const { error } = isValidBrief(briefJson.value)
+  if (error) isValidBriefRef.value = false
+  else isValidBriefRef.value = true
+
+  briefAgrigationAfter.value = getBriefAgrigationValue({ items: briefJson.value.items }).sumValue || 0
+})
 
 const handleSubmit = () => {
-  brief.value = JSON.stringify(json.value);
-  showModal.value = false;
-};
+  briefString.value = JSON.stringify(briefJson.value)
+  showModal.value = false
+}
 
 const closeModal = () => {
-  showModal.value = false;
-  json.value = init();
-};
+  showModal.value = false
+  briefJson.value = init()
+}
+
+const briefAgrigationAfter = ref<number>(getBriefAgrigationValue({ items: briefJson.value.items }).sumValue || 0)
+
+const briefAgrigationBefore =
+  briefString.value && (JSON.parse(briefString.value) as FullBriefJson).lastAgrigation.sumValue
 </script>
 
 <template>
@@ -78,10 +64,10 @@ const closeModal = () => {
 
   <UModal class="text-black" v-model="showModal" :ui="{ width: 'w-screen lg:max-w-[80vw]' }" @close="closeModal">
     <div class="p-4">
-      <div class="flex w-full gap-2">
+      <div class="flex w-full items-center gap-2">
         <UButton
           class="h-min"
-          :disabled="!(isCompleteLangInBrief.size > 0)"
+          :disabled="!isValidBriefRef"
           @click="handleSubmit"
           icon="i-ep:circle-plus-filled"
           label="Complete"
@@ -95,27 +81,66 @@ const closeModal = () => {
           variant="outline"
           label="Close"
         />
-
-        <CatalogAdminPanelItemsLangTabs class="ms-auto" v-model="lang" :isCompleteLang="isCompleteLangInBrief" />
+        <p>
+          reiting before: <b> {{ briefAgrigationBefore }}</b>
+        </p>
+        <p>
+          reiting after: <b>{{ briefAgrigationAfter }}</b>
+        </p>
+        <svg
+          v-if="briefJson.lastAgrigation.sumValue"
+          :class="[(briefAgrigationBefore || 0) <= briefAgrigationAfter ? 'rotate-0' : 'rotate-180']"
+          width="8"
+          height="20"
+          viewBox="0 0 8 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4.35355 0.646447C4.15829 0.451184 3.84171 0.451184 3.64645 0.646447L0.464465 3.82843C0.269203 4.02369 0.269203 4.34027 0.464465 4.53553C0.659728 4.7308 0.97631 4.7308 1.17157 4.53553L4 1.70711L6.82843 4.53553C7.02369 4.7308 7.34027 4.7308 7.53553 4.53553C7.7308 4.34027 7.7308 4.02369 7.53553 3.82843L4.35355 0.646447ZM4.5 20L4.5 1L3.5 1L3.5 20L4.5 20Z"
+            :fill="(briefAgrigationBefore || 0) <= briefAgrigationAfter ? '#18B700' : 'red'"
+          />
+        </svg>
       </div>
       <p class="text-center">fill every fields in any language</p>
 
-      <UTable :rows="json[lang]" :columns="columns">
+      <UTable :rows="briefJson.items" :columns="columns">
         <template #category-data="{ row }: { row: BriefItemJson }">
-          <p>{{ row.category }}</p>
+          <p>{{ row.category.toUpperCase() }}</p>
         </template>
 
         <template #meaning-data="{ row, index }: { row: BriefItemJson; index: number }">
-          <UTextarea
-            v-model="json[lang][index].meaning"
-            :ui="{ base: 'h-12 w-full', wrapper: 'w-[30vw]' }"
-            size="sm"
-            placeholder="Enter meaning"
-          />
+          <div class="flex w-full gap-2">
+            <UTextarea
+              v-model="row.meaning.en"
+              :ui="{ base: 'h-12 flex-1' }"
+              size="sm"
+              placeholder="Enter meaning EN"
+            />
+            <UTextarea
+              v-model="row.meaning.ru"
+              :ui="{ base: 'h-12 flex-1' }"
+              size="sm"
+              placeholder="Enter meaning RU"
+            />
+            <UTextarea
+              v-model="row.meaning.cn"
+              :ui="{ base: 'h-12 flex-1' }"
+              size="sm"
+              placeholder="Enter meaning CN"
+            />
+          </div>
         </template>
 
         <template #score-data="{ row, index }: { row: BriefItemJson; index: number }">
-          <UInput v-model="json[lang][index].score" size="sm" placeholder="Enter score" />
+          <div class="flex items-center gap-2">
+            <UButton @click="row.score--" :disabled="row.score == 0" label="-" />
+            <b>
+              <span class="block w-3">{{ row.score }}</span></b
+            >
+            <UButton @click="row.score++" :disabled="row.score == 10" label="+" />
+          </div>
+          <!-- <UInput v-model="row.score" size="sm" placeholder="Enter score" /> -->
         </template>
       </UTable>
     </div>

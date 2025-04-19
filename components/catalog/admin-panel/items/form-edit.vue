@@ -1,78 +1,78 @@
 <script setup lang="ts">
-import { CatalogAdminPanelItemsInputTags } from "#components";
-import _ from "lodash";
-import { fullCatalogItemSchema, type FullCatalogItem } from "~/types/catalog";
-const store = await useInitializedCatalogItemsStore();
-const { items } = storeToRefs(store);
-const { create_or_update_item_remote } = store;
-const toast = useToast();
-const isLoading = ref(false);
-const briefError = ref<null | string>(null);
-const descriptionShortError = ref<null | string>(null);
+import { CatalogAdminPanelItemsInputTags } from "#components"
+import _ from "lodash"
+import { fullCatalogItemSchema, type FullCatalogItem } from "~/types/catalog"
+const store = await useInitializedCatalogItemsStore()
+const { items } = storeToRefs(store)
+const { create_or_update_item_remote } = store
+const toast = useToast()
+const isLoading = ref(false)
+const briefError = ref<null | string>(null)
+const descriptionShortError = ref<null | string>(null)
 
 const props = defineProps<{
-  selectedId: number;
-}>();
+  selectedId: number
+}>()
 
-const showForm = defineModel<boolean>();
+const showForm = defineModel<boolean>()
 
-const initItem = (newId: number) => items.value.find((item) => item.id === props.selectedId);
+const initItem = (newId: number) => items.value.find((item) => item.id === props.selectedId)
 
-const state = ref<FullCatalogItem | undefined>(initItem(props.selectedId));
+const state = ref<FullCatalogItem | undefined>(initItem(props.selectedId))
 watch(
   () => props.selectedId,
   (newId) => {
-    state.value = initItem(newId); // Обновляем state, когда меняется selectedId
+    state.value = initItem(newId) // Обновляем state, когда меняется selectedId
   },
-);
+)
 
 const invalidDescriptionShort = () => {
-  if (!state.value) return;
+  if (!state.value) return
 
-  const errors: Record<string, string> = {};
-  let json: any;
+  const errors: Record<string, string> = {}
+  let json: any
 
   try {
-    json = JSON.parse(state.value.description_short);
+    json = JSON.parse(state.value.description_short)
   } catch (err) {
-    errors.brief = "Description short must be valid JSON";
+    errors.brief = "Description short must be valid JSON"
   }
 
   const jsonDescriptionShort = json as {
-    ru: string;
-    en: string;
-    cn: string;
-  };
+    ru: string
+    en: string
+    cn: string
+  }
 
-  const isAnyValuePresent = Object.values(jsonDescriptionShort).some((v) => v.trim().length > 0);
+  const isAnyValuePresent = Object.values(jsonDescriptionShort).some((v) => v.trim().length > 0)
 
   if (!isAnyValuePresent) {
-    errors.description_short = "required any value";
+    errors.description_short = "required any value"
   }
 
   // Если есть ошибки, устанавливаем их в форму
   if (Object.keys(errors).length > 0) {
-    descriptionShortError.value = errors.description_short;
-    return true; // Возвращаем true, если ошибки есть
+    descriptionShortError.value = errors.description_short
+    return true // Возвращаем true, если ошибки есть
   }
 
-  return false; // Нет ошибок
-};
+  return false // Нет ошибок
+}
 
 const handleSubmit = async () => {
-  if (state.value === undefined) return;
-  if (invalidDescriptionShort()) return;
+  if (state.value === undefined) return
+  if (invalidDescriptionShort()) return
 
-  isLoading.value = true;
-  const { error, success } = await create_or_update_item_remote(state.value);
+  isLoading.value = true
+  const { error, success } = await create_or_update_item_remote(state.value)
   if (success) {
-    toast.add({ title: "success" });
+    toast.add({ title: "success" })
   } else {
-    toast.add({ title: error as string, color: "red" });
+    toast.add({ title: error as string, color: "red" })
   }
-  showForm.value = false;
-  isLoading.value = false;
-};
+  showForm.value = false
+  isLoading.value = false
+}
 </script>
 <template>
   <UModal v-model="showForm" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
@@ -130,10 +130,10 @@ const handleSubmit = async () => {
         </UFormGroup>
         <hr />
 
-        <UFormGroup name="reitings" label="reitings">
+        <!-- <UFormGroup name="reitings" label="reitings">
           <CatalogAdminPanelItemsInputReitings v-model="state.reitings" :isLoading="isLoading" />
         </UFormGroup>
-        <hr />
+        <hr /> -->
 
         <UFormGroup name="brief">
           <CatalogAdminPanelItemsInputBrief v-model="state.brief" @updateError="briefError = $event" />

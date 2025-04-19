@@ -1,6 +1,24 @@
-import _ from "lodash"
 import { z } from "zod"
+import { getBriefAgrigationValue } from "~/utils/all"
 
+export const randNumberCopy = ({ start, end }: { start: number; end: number }): number => {
+  const amount = end - start
+  if (amount <= 0) return 0
+
+  const arr = Array(amount)
+    .fill(0)
+    .map((_el, index) => start + index)
+
+  const element = randElementCopy(arr)
+  // console.log(element)
+  return element
+}
+const randElementCopy = <T>(arr: T[]): T => {
+  const length = arr.length
+  const index = Math.floor(Math.random() * length)
+  if (index >= arr.length) console.error("randElement()", "arr.length", arr.length, "index", index)
+  return arr[index]
+}
 /////////////////////////////////////////////////////////////////////////////
 export const rewardSchema = z.object({
   id: z.number().optional(),
@@ -74,13 +92,13 @@ export const catalogLinkSchema = z.object({
 })
 
 export type CatalogLink = z.infer<typeof catalogLinkSchema>
-export const reitingSchema = z.object({
-  id: z.number().optional(),
-  catalog_item_id: z.number().nullable().optional(),
-  value: z.number().min(0).max(100),
-  created_at: z.string().optional(),
-})
-export type Reiting = z.infer<typeof reitingSchema>
+// export const reitingSchema = z.object({
+//   id: z.number().optional(),
+//   catalog_item_id: z.number().nullable().optional(),
+//   value: z.number().min(0).max(100),
+//   created_at: z.string().optional(),
+// })
+// export type Reiting = z.infer<typeof reitingSchema>
 ///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -107,7 +125,7 @@ export const fullCatalogItemSchema = catalogItemSchema.extend({
   links: z.array(catalogLinkSchema),
   admins: z.array(catalogAdminSchema),
   rewards: z.array(rewardSchema),
-  reitings: z.array(reitingSchema),
+  // reitings: z.array(reitingSchema),
 
   frontendFileShort: z.instanceof(File).optional(),
   frontendFileLarge: z.instanceof(File).optional(),
@@ -120,54 +138,89 @@ export type FullCatalogItem = z.infer<typeof fullCatalogItemSchema>
 ///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
-type Category =
+type BriefCategory =
   | "audience"
-  | "activennes"
+  | "activeness"
   | "botting"
   | "networking"
-  | "effectiveness_of_promotions"
+  | "effective of promotions"
   | "moderation"
   | "organicity"
   | "admins"
-export type BriefItemJson = { category: Category; meaning: string | undefined; score: string | undefined }
+  | "knowledge sharing"
+  | "additions"
+
+export type BriefItemJson = {
+  category: BriefCategory
+  meaning: {
+    ru: string | undefined
+    en: string | undefined
+    cn: string | undefined
+  }
+  score: number // | undefined
+}
 export type Lang = "ru" | "en" | "cn"
 
-const categories: Category[] = [
+const briefCategories: BriefCategory[] = [
   "audience",
-  "activennes",
+  "activeness",
   "botting",
   "networking",
-  "effectiveness_of_promotions",
+  "effective of promotions",
   "moderation",
   "organicity",
   "admins",
+  "knowledge sharing",
+  "additions",
 ]
 
 const fillValueSeed = "valid test value"
-const fillValue = "undefined" // real value
+const fillValue = undefined // real value, when new item
 
-export const emptyBriefItem: BriefItemJson[] = categories.map((c) => ({
+export const briefJsonEmpty: BriefItemJson[] = briefCategories.map((c) => ({
   category: c,
-  meaning: fillValue,
-  score: fillValue,
-}))
-export const emptyBriefItemSeed: BriefItemJson[] = categories.map((c) => ({
-  category: c,
-  meaning: fillValueSeed,
-  score: fillValueSeed,
+  meaning: {
+    ru: fillValue,
+    en: fillValue,
+    cn: fillValue,
+  },
+  score: 5,
+  // score: randNumberCopy({ start: 0, end: 10 }),
 }))
 
-export const emptyBriefString = JSON.stringify({
-  en: emptyBriefItem,
-  ru: emptyBriefItem,
-  cn: emptyBriefItem,
+export type FullBriefJson = {
+  items: BriefItemJson[]
+  lastAgrigation: { itemsAmount: number; sumValue: number | null }
+}
+
+export const fullBriefJsonSeed = (): FullBriefJson => {
+  const items: BriefItemJson[] = briefCategories.map((c) => ({
+    category: c,
+    meaning: {
+      ru: fillValueSeed,
+      en: fillValueSeed,
+      cn: fillValueSeed,
+    },
+    score: randNumberCopy({ start: 0, end: 10 }),
+  }))
+  // console.log("nesxt")
+  return {
+    items,
+    lastAgrigation: getBriefAgrigationValue({ items, type: "seed" }),
+  }
+}
+
+export const fullBriefJsonEmpty = (): FullBriefJson => ({
+  items: briefJsonEmpty,
+  lastAgrigation: getBriefAgrigationValue({ items: briefJsonEmpty, type: "initial" }),
 })
 
-export const emptyBriefSeedString = JSON.stringify({
-  en: emptyBriefItemSeed,
-  ru: emptyBriefItemSeed,
-  cn: emptyBriefItemSeed,
-})
+// export const emptyBriefString = JSON.stringify(fullBriefJson)
+
+// export const emptyBriefSeedString = JSON.stringify({
+//   items: emptyBriefItemSeed,
+//   lastAgrigation: getBriefAgrigationValue({ items: emptyBriefItemSeed, type: "seed" }),
+// })
 ////////////////////////////////////////
 ////////////////////////////////////////
 ////////////////////////////////////////

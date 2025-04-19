@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { FullCatalogItem, Reiting } from "~/types/catalog"
-import { viewLast3Reitings } from "~/utils/all"
+import { type FullBriefJson, type FullCatalogItem } from "~/types/catalog"
 
 const showListItemsModal = defineModel<boolean>()
 const showForm = ref(false)
@@ -20,16 +19,19 @@ const columns = [
   { key: "admins", label: "admins" },
   { key: "tags", label: "tags" },
   {
-    key: "reitings",
-    label: "reitings",
+    key: "brief",
+    label: "reiting-by-brief",
     sortable: true,
-    sort: (a: Reiting[], b: Reiting[], direction: any) => {
-      const value_a: number | undefined = a[0]?.value
-      const value_b: number | undefined = b[0]?.value
+    sort: (a: string, b: string, direction: any) => {
+      const aJson = JSON.parse(a) as FullBriefJson
+      const bJson = JSON.parse(b) as FullBriefJson
+
+      const value_a: number | null = getBriefAgrigationValue({ items: aJson.items }).sumValue // a[0]?.value
+      const value_b: number | null = getBriefAgrigationValue({ items: bJson.items }).sumValue //b[0]?.value
 
       if (value_a == value_b) return 0
-      if (value_a == undefined) return direction == "asc" ? 1 : -1
-      if (value_b == undefined) return direction == "asc" ? -1 : 1
+      if (value_a == null) return direction == "asc" ? 1 : -1
+      if (value_b == null) return direction == "asc" ? -1 : 1
 
       return direction == "asc" ? value_b - value_a : value_a - value_b
     },
@@ -135,8 +137,10 @@ const delete_item = async () => {
           </div>
         </template>
 
-        <template #reitings-data="{ row }: { row: FullCatalogItem }">
-          <div v-html="viewLast3Reitings(row.reitings)" />
+        <template #brief-data="{ row }: { row: FullCatalogItem }">
+          <div>
+            <div>{{ getBriefAgrigationValue({ items: JSON.parse(row.brief).items }).sumValue }}</div>
+          </div>
         </template>
 
         <template #links-data="{ row }: { row: FullCatalogItem }">

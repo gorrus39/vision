@@ -40,7 +40,7 @@ const add_item = async () => {
 <template>
   <UModal v-model="showModal" fullscreen :ui="{ fullscreen: 'h-auto min-h-screen' }">
     <div class="text-black">
-      <div class="p-2">
+      <div class="space-x-2 p-2">
         <UButton
           @click="showModal = false"
           :disabled="loading"
@@ -48,6 +48,13 @@ const add_item = async () => {
           color="red"
           variant="outline"
           icon="i-heroicons:x-mark-20-solid"
+        />
+        <UButton
+          v-if="state.frontendFile"
+          icon="i-ep:circle-plus-filled"
+          @click="add_item"
+          :loading="loading"
+          label="Add"
         />
       </div>
       <hr />
@@ -57,13 +64,6 @@ const add_item = async () => {
             <ChanksInputPhotoCatalogBunner v-model="state" />
           </UFormGroup>
         </UForm>
-        <UButton
-          v-if="state.frontendFile"
-          icon="i-ep:circle-plus-filled"
-          @click="add_item"
-          :loading="loading"
-          label="Add"
-        />
       </div>
       <hr />
       <UTable :rows="rows" :columns="columns">

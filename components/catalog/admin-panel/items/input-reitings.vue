@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Reiting } from "~/types/catalog"
-
 defineProps<{
   isLoading: boolean
 }>()

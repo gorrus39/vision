@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const backgroundUrl = "/images/home/figure-2.png"
+// const backgroundUrl = "/images/home/figure-2.png"
 // import backgroundUrl from "~/public/images/home/figure-2.png"
 </script>
 
@@ -11,15 +11,15 @@ const backgroundUrl = "/images/home/figure-2.png"
     class="h-96 w-96 border-[2px] border-solid border-red-500"
     :style="{ backgroundImage: `url(${backgroundUrl})` }"
   ></div> -->
-  <p>asdf</p>
+  <!-- <p>asdf</p>
   <img class="h-10 w-10 border-[2px] border-solid border-red-500" :src="backgroundUrl" />
   <p>asdf</p>
   <NuxtImg class="h-10 w-10 border-[2px] border-solid border-red-500" :src="backgroundUrl" />
   <p>asdf</p>
   <div class="img h-96 w-96 border-[2px] border-solid border-red-500"></div>
-  <p>asdf</p>
+  <p>asdf</p> -->
 
-  <!-- <CatalogMain /> -->
+  <CatalogMain />
 </template>
 
 <style>

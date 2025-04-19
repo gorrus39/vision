@@ -1,0 +1,1 @@
+ALTER TABLE `catalogLinks` DROP COLUMN `reitings`;
