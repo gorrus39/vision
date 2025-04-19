@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="me-D-182 ms-D-182">
+  <div class="mt-D-50 me-D-182 ms-D-182">
     <UCarousel
       v-slot="{ item, index }: { item: Bunner; index: number }"
       ref="carouselRef"
