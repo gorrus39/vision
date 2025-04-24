@@ -21,4 +21,5 @@ export default {
   brief_category_knowledge_sharing: "knowledge sharing".toUpperCase(),
   brief_category_additions: "additions".toUpperCase(),
   //
+  rules: "rules".toUpperCase(),
 }
