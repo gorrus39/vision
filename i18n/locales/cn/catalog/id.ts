@@ -3,4 +3,5 @@ export default {
   rating: "评分".toUpperCase(),
   rating_changes: "评分变动".toUpperCase(),
   medals: "勋章".toUpperCase(),
+  description: "简介".toUpperCase(),
 }
