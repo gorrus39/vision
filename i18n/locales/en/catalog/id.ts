@@ -1,3 +1,6 @@
 export default {
-    title:'vision catalogue'.toUpperCase()
+  title: "vision catalogue".toUpperCase(),
+  rating: "rating".toUpperCase(),
+  rating_changes: "RATING CHANGES".toUpperCase(),
+  medals: "medals".toUpperCase(),
 }

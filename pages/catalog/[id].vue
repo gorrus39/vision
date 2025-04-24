@@ -12,7 +12,9 @@ const definedItem = item.value!
 </script>
 
 <template v-if="item">
-  <CatalogId1Title />
-  <CatalogId2Logo :item="definedItem" />
-  <CatalogId3Links :item="definedItem" />
+  <!-- <CatalogId1Title /> -->
+  <!-- <CatalogId2Logo :item="definedItem" /> -->
+  <!-- <CatalogId3Links :item="definedItem" /> -->
+  <CatalogId4Rating :item="definedItem" />
+  <CatalogId5Medals :item="definedItem" />
 </template>
