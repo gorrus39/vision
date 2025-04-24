@@ -19,8 +19,8 @@ const seedAdmins = async () => {
 
   for (let i = 0; i < pathNames.length; i++) {
     const item: CatalogAdmin = {
-      name: faker.company.name(),
-      description: faker.lorem.lines({ min: 3, max: 10 }),
+      name: `name-${i}, username-${i}`,
+      description: `description-${i}, another-description-${i} `,
       avatar_path: pathNames[i],
       link: pathNames[i],
     }

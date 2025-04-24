@@ -5,4 +5,5 @@
   <Header />
   <slot />
   <Footer />
+  <UModals />
 </template>

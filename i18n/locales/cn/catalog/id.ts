@@ -23,4 +23,9 @@ export default {
   brief_category_additions: "additions".toUpperCase(),
   /////////
   rules: "群规".toUpperCase(),
+  admins: "管理团队".toUpperCase(),
+
+  admin: {
+    view_account: "查看账号".toUpperCase(),
+  },
 }

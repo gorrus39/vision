@@ -22,4 +22,9 @@ export default {
   brief_category_additions: "additions".toUpperCase(),
   //
   rules: "rules".toUpperCase(),
+  admins: "admins".toUpperCase(),
+
+  admin: {
+    view_account: "view account".toUpperCase(),
+  },
 }

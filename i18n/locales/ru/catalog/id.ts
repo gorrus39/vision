@@ -23,4 +23,9 @@ export default {
   brief_category_additions: "additions".toUpperCase(),
   /////////
   rules: "правила".toUpperCase(),
+  admins: "админы".toUpperCase(),
+
+  admin: {
+    view_account: "перейти в профиль".toUpperCase(),
+  },
 }

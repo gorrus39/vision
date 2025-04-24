@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type FullBriefJson, type FullCatalogItem } from "~/types/catalog"
+import { type FullBriefJson, type FullCatalogItem, type Tag } from "~/types/catalog"
 
 const showListItemsModal = defineModel<boolean>()
 const showForm = ref(false)
@@ -7,6 +7,14 @@ const showConfirmation = ref(false)
 const selectedId = ref<undefined | number>(undefined)
 const toast = useToast()
 const loadingDelete = ref(false)
+
+const availibleTags: Tag[][] = [
+  ["kozmap", "oracle"],
+  ["english", "russian", "chinese", "spanish", "french"],
+  ["chat", "markets", "forums", "top sellers", "essentials", "others"],
+]
+
+const selectedTags = ref<Tag[]>([...availibleTags[0], ...availibleTags[1], ...availibleTags[2]])
 
 const store = await useInitializedCatalogItemsStore()
 const { delete_item_remote } = store
@@ -67,6 +75,13 @@ const delete_item = async () => {
   showConfirmation.value = false
   loadingDelete.value = false
 }
+
+const rowsBySelectedTags = computed(() => {
+  return rows.value.filter((row) => {
+    const tags = JSON.parse(row.tags) as Tag[]
+    return tags.some((rowTag) => selectedTags.value.includes(rowTag))
+  })
+})
 </script>
 
 <template>
@@ -99,7 +114,13 @@ const delete_item = async () => {
         />
       </div>
       <hr />
-      <UTable :rows="rows" :columns="columns">
+
+      <p>filter by Tags ({{ rowsBySelectedTags.length }})</p>
+      <CatalogAdminPanelItemsFilterTags v-model="selectedTags" :availibleTags="availibleTags" />
+
+      <hr />
+
+      <UTable :rows="rowsBySelectedTags" :columns="columns">
         <template #actions-data="{ row }">
           <div class="flex gap-2">
             <UIcon class="on-hover h-5 w-5" name="i-heroicons-pencil-square-20-solid" @click="try_edit_item(row.id)" />
