@@ -143,11 +143,11 @@ type BriefCategory =
   | "activeness"
   | "botting"
   | "networking"
-  | "effective of promotions"
+  | "effective_of_promotions"
   | "moderation"
   | "organicity"
   | "admins"
-  | "knowledge sharing"
+  | "knowledge_sharing"
   | "additions"
 
 export type BriefItemJson = {
@@ -166,11 +166,11 @@ const briefCategories: BriefCategory[] = [
   "activeness",
   "botting",
   "networking",
-  "effective of promotions",
+  "effective_of_promotions",
   "moderation",
   "organicity",
   "admins",
-  "knowledge sharing",
+  "knowledge_sharing",
   "additions",
 ]
 

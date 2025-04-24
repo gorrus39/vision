@@ -17,5 +17,6 @@ const definedItem = item.value!
   <!-- <CatalogId3Links :item="definedItem" /> -->
   <!-- <CatalogId4Rating :item="definedItem" /> -->
   <!-- <CatalogId5Medals v-if="definedItem.rewards.length > 0" :item="definedItem" /> -->
-  <CatalogId6Description :item="definedItem" />
+  <!-- <CatalogId6Description :item="definedItem" /> -->
+  <CatalogId7Brief :item="definedItem" />
 </template>
