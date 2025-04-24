@@ -38,6 +38,7 @@ defineProps<{
   background-repeat: no-repeat;
   position: relative;
   cursor: pointer;
+  background-size: contain;
 }
 
 .img::after {
