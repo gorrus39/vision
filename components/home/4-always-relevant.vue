@@ -1,8 +1,18 @@
 <script setup lang="ts">
-const { locale } = useI18n();
+const { locale } = useI18n()
+const modal = useModal()
+
+import HomeAdminModalAlwaysRelevant from "~/components/home/admin/modal-always-relevant.vue"
+const openAdminModal = () => {
+  modal.open(HomeAdminModalAlwaysRelevant)
+}
 </script>
 
 <template>
+  <div class="x-mx m-2 flex">
+    <UButton @click="openAdminModal" icon="i-lucide:settings" label="always relevant" />
+  </div>
+
   <div class="hidden mb-D-80 ms-D-168 me-D-182 md:block">
     <div class="flex items-center gap-D-50">
       <p :class="['font-bebas-neue', locale == 'cn' ? 'w-[120vw] text-D-200' : 'text-D-250']">
