@@ -96,3 +96,12 @@ export const catalogBunners = sqliteTable("catalogBunners", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
   img_path: text("img_path").notNull(),
 })
+
+//////////////////
+export const slugAssets = sqliteTable("slugAssets", {
+  id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
+  slug: text("slug").notNull().default(""),
+  title: text("title"),
+  img_path: text("img_path"),
+  text_content: text("text_content"),
+})

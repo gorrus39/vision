@@ -79,6 +79,14 @@ const putBlobCatalogItem = async (db_item: CatalogItem, file: File): Promise<str
   return res.pathname
 }
 
+const getImg = (imgPath: string, prefix: string) => {
+  // для браузерных залитых на фронте
+  if (imgPath.includes("blob")) return imgPath
+
+  // Формируем полный путь к изображению через API
+  return `/api/blob/${prefix}/${imgPath}`
+}
+
 const getCatalogItemImageUrl = (imgPath: string) => {
   // plug
   if (!imgPath) return
@@ -229,4 +237,5 @@ export {
   randNumber,
   getBunnerImageUrl,
   putBlobBunner,
+  getImg,
 }

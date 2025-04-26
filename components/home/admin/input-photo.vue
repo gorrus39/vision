@@ -4,7 +4,7 @@ import { getBlogImageUrl } from "~/utils/blog"
 import type { Reward } from "~/types/catalog"
 import type { SlugAsset } from "~/types/common"
 
-const item = defineModel<Reward | SlugAsset>()
+const item = defineModel<Pick<SlugAsset, "img_path" | "frontendFile">>()
 
 const inputRef = ref<null | HTMLInputElement>(null)
 
@@ -41,8 +41,8 @@ const onFileChange = async (event: Event) => {
 
     <div class="mt-4 grid grid-cols-3 gap-4" v-if="item?.img_path">
       <img
-        class="h-48 w-48 rounded-lg border object-cover shadow-md"
-        :src="getBlogImageUrl(item.img_path)"
+        class="max-w-none rounded-lg border object-cover shadow-md h-D-493 w-D-1285"
+        :src="getImg(item.img_path, 'slug-assets')"
         alt="Photo"
       />
       <UButton

@@ -12,6 +12,7 @@ import {
   CatalogRewardsToItems,
   Reward,
 } from "~/types/catalog"
+import { SlugAsset } from "~/types/common"
 
 // export { sql, eq, and, or } from "drizzle-orm";
 
@@ -205,6 +206,27 @@ export function queries() {
       },
       async delete(id: number) {
         return await db.delete(schema.catalogBunners).where(eq(schema.catalogBunners.id, id)).returning()
+      },
+    },
+
+    slugAssets: {
+      async getAll() {
+        return await db.select().from(schema.slugAssets)
+      },
+      async getBySlug(slug: string) {
+        return await db.select().from(schema.slugAssets).where(eq(schema.slugAssets.slug, slug)).limit(1)
+      },
+      async getById(id: number) {
+        return await db.select().from(schema.slugAssets).where(eq(schema.slugAssets.id, id)).limit(1)
+      },
+      async create(data: SlugAsset) {
+        return await db.insert(schema.slugAssets).values(data).returning()
+      },
+      async update(id: number, data: SlugAsset) {
+        return await db.update(schema.slugAssets).set(data).where(eq(schema.slugAssets.id, id)).returning()
+      },
+      async delete(id: number) {
+        return await db.delete(schema.slugAssets).where(eq(schema.slugAssets.id, id)).returning()
       },
     },
   }

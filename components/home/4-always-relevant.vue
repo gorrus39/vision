@@ -1,10 +1,38 @@
 <script setup lang="ts">
 const { locale } = useI18n()
+
+const store = useSlugAssetsStore()
+
+const alwaysRelevantAsset = computed(() => store.alwaysRelevantAsset)
 const modal = useModal()
 
 import HomeAdminModalAlwaysRelevant from "~/components/home/admin/modal-always-relevant.vue"
+import type { Lang } from "~/types/catalog"
 const openAdminModal = () => {
-  modal.open(HomeAdminModalAlwaysRelevant)
+  modal.open(HomeAdminModalAlwaysRelevant, {
+    slugAsset: alwaysRelevantAsset.value,
+  })
+}
+
+onMounted(async () => {
+  await store.fetchData()
+})
+
+const getTextContentByLocale = () => {
+  const asset = alwaysRelevantAsset.value
+  if (!asset || !asset.text_content) return ""
+
+  const json = JSON.parse(asset.text_content) as { ru: string; cn: string; en: string }
+
+  const textByLocale = json[locale.value]
+
+  if (textByLocale.length && textByLocale.length > 0) return textByLocale
+
+  for (const any_text_content of Object.values(json)) {
+    if (any_text_content && any_text_content.length > 0) return any_text_content
+  }
+
+  return ""
 }
 </script>
 
@@ -19,9 +47,7 @@ const openAdminModal = () => {
         {{ $t("home.always_relevant.relevant") }}
       </p>
       <p class="text-D-24 leading-D-36">
-        {{
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.".toUpperCase()
-        }}
+        {{ getTextContentByLocale() }}
       </p>
     </div>
 
@@ -38,7 +64,13 @@ const openAdminModal = () => {
         </p>
         <UDivider size="xl" />
       </div>
-      <div class="ms-auto bg-white h-D-493 w-D-1285"></div>
+      <img
+        class="relative top-1/2 ms-auto object-cover h-D-493 w-D-1285"
+        v-if="alwaysRelevantAsset && alwaysRelevantAsset.img_path"
+        :class="[{ '-translate-y-1/2': locale == 'cn' }]"
+        :src="getImg(alwaysRelevantAsset.img_path, 'slug-assets')"
+      />
+      <div class="ms-auto bg-white h-D-493 w-D-1285" v-else></div>
     </div>
   </div>
 
@@ -49,12 +81,15 @@ const openAdminModal = () => {
       {{ $t("home.always_relevant.relevant") }}
     </p>
 
-    <div class="w-full bg-white mb-M-13 h-M-305"></div>
+    <img
+      class="ms-auto w-full object-cover h-M-305"
+      v-if="alwaysRelevantAsset && alwaysRelevantAsset.img_path"
+      :src="getImg(alwaysRelevantAsset.img_path, 'slug-assets')"
+    />
+    <div class="w-full bg-white mb-M-13 h-M-305" v-else></div>
 
     <p class="leading-M24 text-M-16">
-      {{
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.".toUpperCase()
-      }}
+      {{ getTextContentByLocale() }}
     </p>
   </div>
 </template>
