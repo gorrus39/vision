@@ -66,6 +66,10 @@ import ruCatalogId from "~/i18n/locales/ru/catalog/id"
 import enCatalogId from "~/i18n/locales/en/catalog/id"
 import cnCatalogId from "~/i18n/locales/cn/catalog/id"
 
+import ruContacts from "~/i18n/locales/ru/contacts/index"
+import enContacts from "~/i18n/locales/en/contacts/index"
+import cnContacts from "~/i18n/locales/cn/contacts/index"
+
 export default defineI18nConfig(() => ({
   legacy: false,
   messages: {
@@ -95,6 +99,7 @@ export default defineI18nConfig(() => ({
         tier: enCatalogTier,
         id: enCatalogId,
       },
+      contacts: enContacts,
     },
     ru: {
       header: ruHeader,
@@ -122,6 +127,7 @@ export default defineI18nConfig(() => ({
         tier: ruCatalogTier,
         id: ruCatalogId,
       },
+      contacts: ruContacts,
     },
     cn: {
       header: cnHeader,
@@ -149,6 +155,7 @@ export default defineI18nConfig(() => ({
         tier: cnCatalogTier,
         id: cnCatalogId,
       },
+      contacts: cnContacts,
     },
   },
 }))

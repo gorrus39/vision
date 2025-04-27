@@ -24,7 +24,10 @@
           </NuxtLinkLocale>
           <p class="on-hover">{{ $t("header.faq") }}</p>
           <p class="on-hover">{{ $t("header.about_fraudvision") }}</p>
-          <p class="on-hover">{{ $t("header.contact_us") }}</p>
+
+          <NuxtLinkLocale to="/contacts">
+            <p class="on-hover">{{ $t("header.contact_us") }}</p>
+          </NuxtLinkLocale>
         </nav>
       </div>
       <UDivider size="xl" />
@@ -50,7 +53,11 @@
 
     <p class="text-center text-M-14">{{ $t("header.faq") }}</p>
     <p class="text-center text-M-14">{{ $t("header.about_fraudvision") }}</p>
-    <p class="text-center text-M-14">{{ $t("header.contact_us") }}</p>
+
+    <NuxtLinkLocale to="/contacts">
+      <p class="text-center text-M-14">{{ $t("header.contact_us") }}</p>
+    </NuxtLinkLocale>
+
     <UDivider />
     <p class="font-inter text-center font-light text-[#DADADA] text-M-10">{{ $t("footer.all_rights__") }}</p>
   </div>

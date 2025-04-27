@@ -9,7 +9,7 @@ const navLinks = [
   { labelPath: "header.blog", path: "/blog" },
   { labelPath: "header.faq", path: "#" },
   { labelPath: "header.about_fraudvision", path: "#" },
-  { labelPath: "header.contact_us", path: "#" },
+  { labelPath: "header.contact_us", path: "/contacts" },
 ]
 
 const toast = useToast()
