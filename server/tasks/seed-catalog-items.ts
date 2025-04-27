@@ -3,6 +3,8 @@ import { seedAdmins, seedLinksToCatalogItem, seedRewards } from "../utils/seed"
 import { fullBriefJsonSeed, Tag } from "~/types/catalog"
 import { randElement, randNumber } from "~/utils/all"
 
+const randBoolean = () => Boolean(Math.round(Math.random()))
+
 const makeTagsString = (): string => {
   const tags: Tag[][] = [
     ["kozmap", "oracle"],
@@ -73,6 +75,7 @@ export default defineTask({
         description_large: makeDescriptionLarge(),
         rules: makeRules(),
         brief: JSON.stringify(briefJson),
+        is_top: randBoolean(),
       })
       const catalog_item_id = catalogItem.id
 

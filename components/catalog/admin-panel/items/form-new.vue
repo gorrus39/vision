@@ -28,6 +28,8 @@ const emptyItem: FullCatalogItem = {
   rules: "",
   img_short_path: "",
   img_large_path: "",
+
+  is_top: false,
 }
 
 const state = ref<FullCatalogItem>(emptyItem)
@@ -112,6 +114,18 @@ const handleSubmit = async () => {
           />
         </div>
         <hr />
+
+        <UFormGroup name="is_top" label="is TOP PROJECT?" :ui="{ wrapper: 'flex gap-2 items-center' }">
+          <UToggle
+            v-model="state.is_top"
+            name="is_top"
+            on-icon="i-heroicons-check-20-solid"
+            off-icon="i-heroicons-x-mark-20-solid"
+          />
+        </UFormGroup>
+
+        <hr />
+
         <div class="flex gap-2">
           <UFormGroup name="img_short_path" label="img-short" required>
             <ChanksInputPhotoCatalogItem v-model="state" photoShort />

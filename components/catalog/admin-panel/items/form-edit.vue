@@ -91,6 +91,7 @@ const handleSubmit = async () => {
             label="Close"
           />
         </div>
+
         <hr />
 
         <div class="flex gap-2">
@@ -104,6 +105,18 @@ const handleSubmit = async () => {
         </div>
 
         <hr />
+
+        <UFormGroup name="is_top" label="is TOP PROJECT?" :ui="{ wrapper: 'flex gap-2 items-center' }">
+          <UToggle
+            v-model="state.is_top"
+            name="is_top"
+            on-icon="i-heroicons-check-20-solid"
+            off-icon="i-heroicons-x-mark-20-solid"
+          />
+        </UFormGroup>
+
+        <hr />
+
         <UFormGroup name="title" label="title" required>
           <UInput v-model="state.title" />
         </UFormGroup>

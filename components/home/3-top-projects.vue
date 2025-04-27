@@ -1,28 +1,51 @@
 <script setup lang="ts">
-import { ProjectType, type Project } from "~/types/blog"
+// import type { FullCatalogItem } from "~/types/catalog"
+const store = await useInitializedCatalogItemsStore()
+const { topProjects } = storeToRefs(store)
+
 const toast = useToast()
 
-let id = 1
+const maxAmountMobile = 4
+const maxAmountDesktop = 8
 
-const project: Project = {
-  id: id++,
-  title: "Lorem ipsum dolor",
-  type: ProjectType.type,
-  text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean.",
-  starsAmount: 4.7,
-}
+// const amount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-const mobileAmountItems = 4
-const desktopAmountItems = 8
-
-const projects: Ref<Project[]> = ref(Array(10).fill(project))
+// const amountRef = ref<number>(amount[0])
 
 const handleClickShowMore = () => {
   toast.add({ title: "Soon!)" })
 }
+
+// const itemsByAmount = () => {
+//   const item = { ...topProjects.value[0] }
+//   // debugger
+//   const arr = Array(amountRef.value)
+//   const filledArr = arr.fill(item)
+
+//   return filledArr
+// }
+// const testItems = ref(itemsByAmount())
+
+// watch(
+//   () => amountRef.value,
+//   () => {
+//     const items = itemsByAmount()
+//     // debugger
+//     testItems.value = items
+//   },
+// )
 </script>
 
 <template>
+  <!-- <div class="flex gap-2">
+    <USelect v-model="amountRef" :options="amount" @update:model-value="(val) => (amountRef = +val)" />
+    <p>
+      {{ testItems.length }}
+    </p>
+    <p>
+      {{ amountRef }}
+    </p>
+  </div> -->
   <div class="relative hidden mb-D-40 h-D-1350 md:flex" id="top-projects">
     <NuxtImg class="absolute bottom-0 z-10 left-D-50 w-D-1400" src="images/home/figure-3.png" />
     <div class="border-D-e flex flex-1 border-white">
@@ -35,7 +58,7 @@ const handleClickShowMore = () => {
       <div class="flex flex-col ms-D-120">
         <div class="relative z-20 grid h-max grid-cols-2 mb-D-33 gap-D-70">
           <HomeProjectCard
-            v-for="(project, index) in projects.slice(0, desktopAmountItems)"
+            v-for="(project, index) in topProjects.slice(0, maxAmountDesktop)"
             :key="index"
             :project="project"
             :index="index"
@@ -60,15 +83,17 @@ const handleClickShowMore = () => {
 
     <div class="flex flex-col gap-M-19 mb-M-19">
       <HomeProjectCard
-        v-for="(project, index) in projects.slice(0, mobileAmountItems)"
+        v-for="(project, index) in topProjects.slice(0, maxAmountMobile)"
         :index="index"
         :project="project"
         screen="mobile"
       />
     </div>
 
-    <button class="on-hover border-M w-full rounded-[.5vw] border-white text-M-16" @click="handleClickShowMore">
-      {{ $t("home.top_projects.show_more") }}
-    </button>
+    <NuxtLinkLocale to="catalog">
+      <button class="on-hover border-M w-full rounded-[.5vw] border-white text-M-16">
+        {{ $t("home.top_projects.show_more") }}
+      </button>
+    </NuxtLinkLocale>
   </div>
 </template>

@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm"
+import { boolean } from "drizzle-orm/gel-core"
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core"
 
 // Определяем таблицу blog_items
@@ -29,6 +30,11 @@ export const catalogItems = sqliteTable("catalogItems", {
 
   img_short_path: text("img_short_path"), // Ссылка на изображение (может быть null)
   img_large_path: text("img_large_path"), // Ссылка на изображение (может быть null)
+
+  is_top: integer({ mode: "boolean" }).notNull().default(false),
+  // is_top_ru: integer({ mode: "boolean" }),
+  // is_top_en: integer({ mode: "boolean" }),
+  // is_top_cn: integer({ mode: "boolean" }),
 })
 ////////////////
 export const catalogAdmins = sqliteTable("catalogAdmins", {

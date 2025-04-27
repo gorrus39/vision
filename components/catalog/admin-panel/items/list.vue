@@ -14,14 +14,15 @@ const availibleTags: Tag[][] = [
   ["chat", "markets", "forums", "top sellers", "essentials", "others"],
 ]
 
-const selectedTags = ref<Tag[]>([...availibleTags[0], ...availibleTags[1], ...availibleTags[2]])
+const filterTags = ref<Tag[]>([...availibleTags[0], ...availibleTags[1], ...availibleTags[2]])
 
 const store = await useInitializedCatalogItemsStore()
 const { delete_item_remote } = store
 const { items: rows } = storeToRefs(store)
 const columns = [
   { key: "actions", label: "actions", class: "w-5" },
-  { key: "id", label: "id", sortable: true },
+  { key: "id", label: "id", class: "w-5", sortable: true },
+  { key: "top", label: "top", class: "w-5" },
   { key: "title", label: "title", sortable: true },
   { key: "rewards", label: "rewards" },
   { key: "admins", label: "admins" },
@@ -79,7 +80,7 @@ const delete_item = async () => {
 const rowsBySelectedTags = computed(() => {
   return rows.value.filter((row) => {
     const tags = JSON.parse(row.tags) as Tag[]
-    return tags.some((rowTag) => selectedTags.value.includes(rowTag))
+    return tags.some((rowTag) => filterTags.value.includes(rowTag))
   })
 })
 </script>
@@ -116,7 +117,7 @@ const rowsBySelectedTags = computed(() => {
       <hr />
 
       <p>filter by Tags ({{ rowsBySelectedTags.length }})</p>
-      <CatalogAdminPanelItemsFilterTags v-model="selectedTags" :availibleTags="availibleTags" />
+      <CatalogAdminPanelItemsFilterTags v-model="filterTags" :availibleTags="availibleTags" />
 
       <hr />
 
@@ -172,6 +173,15 @@ const rowsBySelectedTags = computed(() => {
           <div>
             <b>{{ JSON.parse(row.tags).length }}</b> tag{{ JSON.parse(row.tags).length > 1 ? "`s" : "" }}
           </div>
+        </template>
+
+        <template #top-data="{ row }: { row: FullCatalogItem }">
+          <p>{{ row.is_top ? "✅" : "❌" }}</p>
+          <!-- <div>
+            <p>EN &nbsp;🇺🇸 - {{ row.is_top_en ? "✅" : "❌" }}</p>
+            <p>RU &nbsp;🇷🇺 - {{ row.is_top_ru ? "✅" : "❌" }}</p>
+            <p>CN 🇨🇳 - {{ row.is_top_cn ? "✅" : "❌" }}</p>
+          </div> -->
         </template>
       </UTable>
     </div>

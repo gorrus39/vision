@@ -117,6 +117,12 @@ export const catalogItemSchema = z.object({
   rules: z.string().min(8, { message: "must present" }),
 
   brief: z.string(),
+
+  is_top: z.boolean(),
+
+  // is_top_ru: z.boolean().nullable(),
+  // is_top_en: z.boolean().nullable(),
+  // is_top_cn: z.boolean().nullable(),
 })
 
 export type CatalogItem = z.infer<typeof catalogItemSchema>
