@@ -46,7 +46,9 @@
   </div>
 
   <div class="flex flex-col gap-M-15 mb-M-15 mt-M-15 me-M-23 ms-M-23 md:hidden">
-    <p class="text-center text-M-18">{{ $t("footer.vision") }}</p>
+    <NuxtLinkLocale to="/">
+      <p class="text-center text-M-18">{{ $t("footer.vision") }}</p>
+    </NuxtLinkLocale>
 
     <UDivider />
 

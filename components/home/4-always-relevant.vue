@@ -37,7 +37,7 @@ const getTextContentByLocale = () => {
 </script>
 
 <template>
-  <div class="x-mx m-2 flex">
+  <div class="x-mx m-2 hidden md:flex">
     <UButton @click="openAdminModal" icon="i-lucide:settings" label="always relevant" />
   </div>
 
