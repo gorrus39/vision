@@ -1,8 +1,9 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
 const links = [
-  { name: "telegram", link: "#" },
-  { name: "signal", link: "#" },
-  { name: "watsapp", link: "#" },
+  { name: "telegram", link: config.public.links.telegram },
+  { name: "signal", link: config.public.links.signal },
+  { name: "watsapp", link: config.public.links.watsapp },
 ]
 </script>
 <template>

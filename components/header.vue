@@ -8,7 +8,7 @@ const navLinks = [
   { labelPath: "header.catalogue", path: "/catalog" },
   { labelPath: "header.blog", path: "/blog" },
   { labelPath: "header.faq", path: "#" },
-  { labelPath: "header.about_fraudvision", path: "#" },
+  { labelPath: "header.about_fraudvision", path: "/about-fraudvision" },
   { labelPath: "header.contact_us", path: "/contacts" },
 ]
 
@@ -40,7 +40,7 @@ const toggle = ref(true)
   </div>
 
   <div class="border-M-b flex border-white h-M-69 md:hidden">
-    <div class="fixed z-10 flex h-full w-full flex-col bg-black ps-M-13 pe-M-13" v-if="showMobileNavigation">
+    <div class="fixed z-50 flex h-full w-full flex-col bg-black ps-M-13 pe-M-13" v-if="showMobileNavigation">
       <NuxtImg
         class="on-hover absolute w-M-23 top-M-36 left-M-36"
         src="/images/home/close-button.svg"
@@ -57,7 +57,12 @@ const toggle = ref(true)
         >
       </nav>
       <div class="pt-M-11 h-M-129">
-        <span class="border-M-t flex justify-center border-white text-M-20">{{ $t("header.thats_the_vision") }} </span>
+        <NuxtLinkLocale
+          class="on-hover border-M-t flex justify-center border-white text-M-20"
+          @click="showMobileNavigation = false"
+          :to="navLinks[3].path"
+          >{{ $t("header.thats_the_vision") }}
+        </NuxtLinkLocale>
       </div>
     </div>
 
@@ -65,7 +70,9 @@ const toggle = ref(true)
     <div class="grid flex-1 grid-cols-3 items-center justify-between">
       <NuxtImg class="on-hover ms-M-7 w-M-20" src="/images/home/burger.svg" @click="showMobileNavigation = true" />
 
-      <NuxtLinkLocale class="m-auto text-center text-M-18" :to="homeLink.path">{{ homeLink.label }}</NuxtLinkLocale>
+      <NuxtLinkLocale class="m-auto text-center text-M-18" @click="showMobileNavigation = false" :to="homeLink.path">{{
+        homeLink.label
+      }}</NuxtLinkLocale>
 
       <Language />
     </div>

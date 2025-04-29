@@ -33,7 +33,15 @@ export default defineNuxtConfig({
     locales: ["en", "ru", "cn"], // used in URL path prefix
     defaultLocale: "en", // default locale of your project for Nuxt pages and routings
   },
-  runtimeConfig: {},
+  runtimeConfig: {
+    public: {
+      links: {
+        telegram: "#",
+        signal: "#",
+        watsapp: "#",
+      },
+    },
+  },
   googleFonts: {
     download: true,
     families: {
