@@ -2,60 +2,6 @@ import _ from "lodash"
 import { defineStore } from "pinia"
 import type { BlogItem } from "~/types/blog"
 
-const test_items: BlogItem[] = [
-  {
-    id: 1,
-    published_at: new Date(),
-    category: "Category 1",
-    title: "Title 1",
-    image_paths: [null, null, null, null, null],
-    sub_title: "Sub Title 1",
-    text: "text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text ",
-    priority: "High",
-    order_index: 0,
-    lang: "en",
-  },
-  {
-    id: 2,
-    published_at: new Date(),
-    category: "Category 2",
-    title: "Title 2",
-    image_paths: [null, null, null, null, null],
-
-    sub_title: "Sub Title 2",
-    text: "text text text text text text text text text text text text text text text text ",
-    priority: "High",
-    order_index: 1,
-    lang: "en",
-  },
-  {
-    id: 3,
-    published_at: new Date(),
-    category: "Category 3",
-    title: "Title 3",
-    image_paths: [null, null, null, null, null],
-
-    sub_title: "Sub Title 3",
-    text: "text text text text text text text text text text text text text text text text ",
-    priority: "High",
-    order_index: 2,
-    lang: "en",
-  },
-  {
-    id: 4,
-    published_at: new Date(),
-    category: "Category 4",
-    title: "Title 4",
-    image_paths: [null, null, null, null, null],
-
-    sub_title: "Sub Title 4",
-    text: "text text text text text text text text text text text text text text text text ",
-    priority: "High",
-    order_index: 3,
-    lang: "en",
-  },
-]
-
 let counter = 0
 
 export const useBlogStore = defineStore("blogStore", {

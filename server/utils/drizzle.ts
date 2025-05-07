@@ -13,6 +13,7 @@ import {
   Reward,
 } from "~/types/catalog"
 import { SlugAsset } from "~/types/common"
+import { faqImage, FaqImage, FullFaqItem } from "~/types/faq"
 
 // export { sql, eq, and, or } from "drizzle-orm";
 
@@ -24,6 +25,7 @@ export function useDrizzle() {
 
 export function queries() {
   const db = useDrizzle()
+
   return {
     blogQueries: {
       async getAll() {
@@ -227,6 +229,63 @@ export function queries() {
       },
       async delete(id: number) {
         return await db.delete(schema.slugAssets).where(eq(schema.slugAssets.id, id)).returning()
+      },
+    },
+    faqItems: {
+      async getAllWithImages() {
+        return await db.query.faqItems.findMany({ with: { images: true } })
+      },
+      async getAll() {
+        return await db.select().from(schema.faqItems)
+      },
+      async create(data: FullFaqItem) {
+        const { images, ...withoutImages } = data
+        return await db.insert(schema.faqItems).values(withoutImages).returning()
+      },
+      async update(id: number, data: FullFaqItem) {
+        const { images, ...withoutImages } = data
+        return await db.update(schema.faqItems).set(withoutImages).where(eq(schema.faqItems.id, id)).returning()
+      },
+      async delete(id: number) {
+        return await db.delete(schema.faqItems).where(eq(schema.faqItems.id, id)).returning()
+      },
+      async getById(id: number) {
+        return await db.select().from(schema.faqItems).where(eq(schema.faqItems.id, id)).limit(1)
+      },
+      async getByIdWithImages(id: number) {
+        return await db.query.faqItems.findFirst({
+          with: { images: true },
+          where: (faqItems, { eq }) => eq(faqItems.id, id),
+        })
+      },
+      // async createWithImages(data: FullFaqItem): Promise<{ success: boolean }> {
+      //   return await db.transaction(async (tx) => {
+      //     const { images, ...faqWithoutImages } = data
+      //     const [db_item] = await db.insert(schema.faqItems).values(faqWithoutImages).returning()
+
+      //     if (!db_item) tx.rollback()
+
+      //     const { everyFaqImagesSuccess } = await createFaqImages(images, db_item.id)
+
+      //     if (!everyFaqImagesSuccess) tx.rollback()
+
+      //     return { success: true }
+      //   })
+      // },
+    },
+    faqImage: {
+      async create(data: FaqImage, faq_item_id: number) {
+        return await db
+          .insert(schema.faqImages)
+          .values({ ...data, faq_item_id })
+          .returning()
+      },
+
+      async update(id: number, data: FaqImage) {
+        return await db.update(schema.faqImages).set(data).where(eq(schema.faqImages.id, id)).returning()
+      },
+      async delete(id: number) {
+        return await db.delete(schema.faqImages).where(eq(schema.faqImages.id, id)).returning()
       },
     },
   }

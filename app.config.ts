@@ -14,5 +14,10 @@ export default defineAppConfig({
         size: "mobile",
       },
     },
+    button: {
+      "x-icon": {
+        post: "i-fa-solid:arrow-alt-circle-up",
+      },
+    },
   },
-});
+})

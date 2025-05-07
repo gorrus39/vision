@@ -9,6 +9,8 @@ const randElement = <T>(arr: T[]): T => {
   return arr[index]
 }
 
+const randBool = (): boolean => (Math.random() * 10 > 5 ? true : false)
+
 const randNumber = ({ start, end }: { start: number; end: number }): number => {
   const amount = end - start
   if (amount <= 0) return 0
@@ -238,4 +240,5 @@ export {
   getBunnerImageUrl,
   putBlobBunner,
   getImg,
+  randBool,
 }

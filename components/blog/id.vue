@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getBlogImageUrl } from "~/utils/blog";
-
 const route = useRoute();
 
 const id = route.params.id;

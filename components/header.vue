@@ -7,7 +7,7 @@ const homeLink = { label: "VISION", path: "/" }
 const navLinks = [
   { labelPath: "header.catalogue", path: "/catalog" },
   { labelPath: "header.blog", path: "/blog" },
-  { labelPath: "header.faq", path: "#" },
+  { labelPath: "header.faq", path: "/faq" },
   { labelPath: "header.about_fraudvision", path: "/about-fraudvision" },
   { labelPath: "header.contact_us", path: "/contacts" },
 ]
@@ -56,9 +56,9 @@ const toggle = ref(true)
           >{{ $t(link.labelPath) }}</NuxtLinkLocale
         >
       </nav>
-      <div class="pt-M-11 h-M-129">
+      <div class="border-M-t border-white pt-M-11 h-M-129">
         <NuxtLinkLocale
-          class="on-hover border-M-t flex justify-center border-white text-M-20"
+          class="on-hover flex justify-center text-M-20"
           @click="showMobileNavigation = false"
           :to="navLinks[3].path"
           >{{ $t("header.thats_the_vision") }}

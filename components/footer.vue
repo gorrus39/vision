@@ -27,7 +27,9 @@
             <p class="on-hover">{{ $t("header.blog") }}</p>
           </NuxtLinkLocale>
 
-          <p class="on-hover">{{ $t("header.faq") }}</p>
+          <NuxtLinkLocale to="/faq">
+            <p class="on-hover">{{ $t("header.faq") }}</p>
+          </NuxtLinkLocale>
 
           <NuxtLinkLocale to="/about-fraudvision">
             <p class="on-hover">{{ $t("header.about_fraudvision") }}</p>
@@ -66,7 +68,9 @@
       <p class="text-center text-M-14">{{ $t("header.blog") }}</p>
     </NuxtLinkLocale>
 
-    <p class="text-center text-M-14">{{ $t("header.faq") }}</p>
+    <NuxtLinkLocale to="/faq">
+      <p class="text-center text-M-14">{{ $t("header.faq") }}</p>
+    </NuxtLinkLocale>
 
     <NuxtLinkLocale to="/about-fraudvision">
       <p class="text-center text-M-14">{{ $t("header.about_fraudvision") }}</p>

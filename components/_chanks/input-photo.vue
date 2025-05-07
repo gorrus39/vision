@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/blog"
 import { getBlogImageUrl } from "~/utils/blog"
 import type { Reward } from "~/types/catalog"
 import type { SlugAsset } from "~/types/common"
