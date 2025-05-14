@@ -1,13 +1,13 @@
 <script setup>
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import TiptapStarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import { onBeforeUnmount, ref, unref } from "vue";
+import { useEditor, EditorContent } from "@tiptap/vue-3"
+import TiptapStarterKit from "@tiptap/starter-kit"
+import Link from "@tiptap/extension-link"
+import { onBeforeUnmount, ref, unref } from "vue"
 
-const externalText = defineModel();
+const externalText = defineModel()
 
 const editor = useEditor({
-  content: "<p>default</p",
+  content: "",
   // content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
   extensions: [
     TiptapStarterKit,
@@ -19,32 +19,32 @@ const editor = useEditor({
       },
     }),
   ],
-});
+})
 
 // Функция для вставки ссылки
 const setLink = () => {
-  const previousUrl = editor.value.getAttributes("link").href;
-  const url = window.prompt("URL", previousUrl);
+  const previousUrl = editor.value.getAttributes("link").href
+  const url = window.prompt("URL", previousUrl)
 
-  if (url === null) return;
+  if (url === null) return
   if (url === "") {
-    editor.value.chain().focus().extendMarkRange("link").unsetLink().run();
-    return;
+    editor.value.chain().focus().extendMarkRange("link").unsetLink().run()
+    return
   }
 
-  editor.value.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
-};
+  editor.value.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
+}
 
 onBeforeUnmount(() => {
-  unref(editor).destroy();
-});
+  unref(editor).destroy()
+})
 
 watch(
   () => editor.value?.getHTML(),
   () => {
-    externalText.value = editor.value?.getHTML();
+    externalText.value = editor.value?.getHTML()
   },
-);
+)
 </script>
 
 <template>

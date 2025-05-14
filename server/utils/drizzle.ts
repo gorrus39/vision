@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/d1"
 import * as schema from "../database/schema"
 import { blogItems } from "../database/schema"
 import { BlogItem } from "~/types/blog"
-import { desc, eq } from "drizzle-orm"
+import { asc, desc, eq, inArray } from "drizzle-orm"
 import {
   Bunner,
   CatalogAdmin,
@@ -233,16 +233,19 @@ export function queries() {
     },
     faqItems: {
       async getAllWithImages() {
-        return await db.query.faqItems.findMany({ with: { images: true } })
+        return await db.query.faqItems.findMany({ with: { images: true }, orderBy: [asc(schema.faqItems.order_index)] })
       },
       async getAll() {
-        return await db.select().from(schema.faqItems)
+        return await db.select().from(schema.faqItems).orderBy(schema.faqItems.order_index)
+      },
+      async getAllByIds(ids: number[]) {
+        return await db.select().from(schema.faqItems).where(inArray(schema.faqItems.id, ids))
       },
       async create(data: FullFaqItem) {
         const { images, ...withoutImages } = data
         return await db.insert(schema.faqItems).values(withoutImages).returning()
       },
-      async update(id: number, data: FullFaqItem) {
+      async update(id: number, data: FullFaqItem | Partial<FullFaqItem>) {
         const { images, ...withoutImages } = data
         return await db.update(schema.faqItems).set(withoutImages).where(eq(schema.faqItems.id, id)).returning()
       },

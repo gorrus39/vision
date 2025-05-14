@@ -9,7 +9,6 @@ export default defineEventHandler(async (event): Promise<{ error?: string }> => 
 
   const formDataItemJson = JSON.parse(formDataItem?.data.toString() || "")
   const { data: itemJson, success, error } = fullFaqItemSchema.safeParse(formDataItemJson)
-
   if (error) return { error: JSON.stringify(error) }
 
   // invoke frontend images files in faqItemJson

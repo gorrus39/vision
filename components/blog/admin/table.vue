@@ -1,46 +1,46 @@
 <script setup lang="ts">
-import { UChip } from "#components";
-import { storeToRefs } from "pinia";
-import draggable from "vuedraggable";
-import type { BlogItem } from "~/types/blog";
-const showSlideover = ref(false);
+import { UChip } from "#components"
+import { storeToRefs } from "pinia"
+import draggable from "vuedraggable"
+import type { BlogItem } from "~/types/blog"
+const showSlideover = ref(false)
 
-const toast = useToast();
+const toast = useToast()
 
 const props = defineProps<{
-  adminItemsLang: "ru" | "en" | "cn";
-}>();
+  adminItemsLang: "ru" | "en" | "cn"
+}>()
 
-const showConfirmDeleteItem = ref(false);
+const showConfirmDeleteItem = ref(false)
 
-const store = await useInitializedBlogStore();
-const { items_admin } = storeToRefs(store);
+const store = await useInitializedBlogStore()
+const { items_admin } = storeToRefs(store)
 
-const { update_admin_items_order, delete_admin_item } = store;
+const { update_admin_items_order, delete_admin_item } = store
 
-const selectedItem = ref<BlogItem | null>(null);
+const selectedItem = ref<BlogItem | null>(null)
 
 const handleClickDeleteIcon = (item: BlogItem) => {
-  selectedItem.value = item;
-  showConfirmDeleteItem.value = true;
-};
+  selectedItem.value = item
+  showConfirmDeleteItem.value = true
+}
 
 const closeConfirmModal = () => {
-  selectedItem.value = null;
-  showConfirmDeleteItem.value = false;
-};
+  selectedItem.value = null
+  showConfirmDeleteItem.value = false
+}
 
 const handleDeleteItem = () => {
-  delete_admin_item(selectedItem.value?.id);
-  toast.add({ title: "Successfully!" });
+  delete_admin_item(selectedItem.value?.id)
+  toast.add({ title: "Successfully!" })
 
-  closeConfirmModal();
-};
+  closeConfirmModal()
+}
 
 const handleClickEditItem = (item: BlogItem) => {
-  selectedItem.value = item;
-  showSlideover.value = true;
-};
+  selectedItem.value = item
+  showSlideover.value = true
+}
 
 const handleChangeOrder = () => {
   // const acc: { [key: number]: number } = {};
@@ -49,10 +49,10 @@ const handleChangeOrder = () => {
   //   return acc;
   // }, acc);
 
-  update_admin_items_order();
+  update_admin_items_order()
   // update_admin_items_order(list);
   // items_admin_by_lang.value = filteredItems();
-};
+}
 // const filteredItems = () => items_admin.value.filter((item) => item.lang === props.adminItemsLang);
 
 // const items_admin_by_lang = ref(filteredItems());

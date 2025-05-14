@@ -6,4 +6,5 @@
   <slot />
   <Footer />
   <UModals />
+  <USlideovers />
 </template>

@@ -21,7 +21,7 @@ export const faqItems = sqliteTable("faq_items", {
   category: text("category").notNull().default("Uncategorized"), // Категория
   title: text("title").notNull(), // Заголовок
   // image_paths: text("image_paths").default("[null,null,null,null,null]"), // Ссылка на изображение (может быть null)
-  sub_title: text("sub_title"), // Подзаголовок (может быть null)
+  sub_title: text("sub_title").notNull().default(""), // Подзаголовок (может быть null)
   text: text("text").notNull(), // Основной текст
   order_index: integer("order_index").notNull(), // Индекс порядка
   priority: text("priority", { enum: ["High", "Low"] }).notNull(), // Приоритет (ENUM)

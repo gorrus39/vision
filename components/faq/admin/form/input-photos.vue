@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { FaqImage } from "~/types/faq"
 type Image = FaqImage
-
-const { maxAmount = 2 } = defineProps<{
+import { getFaqImageUrl } from "~/utils/all"
+const { maxAmount = 5 } = defineProps<{
   maxAmount?: number
 }>()
 
@@ -42,7 +42,7 @@ const onFileChange = async (event: Event) => {
       :disabled="photos.length >= maxAmount"
       color="primary"
       variant="solid"
-      :label="photos.length >= maxAmount ? 'Max amount' : 'Choose photo'"
+      :label="photos.length >= maxAmount ? 'Max images amount' : 'Choose image'"
     />
   </div>
 
@@ -54,7 +54,7 @@ const onFileChange = async (event: Event) => {
       :class="{ 'border-blue-700': photo.is_title }"
       title="toggle is_title"
     >
-      <img class="h-full w-full object-cover" :src="photo.pathTemp" alt="Photo" />
+      <img class="h-full w-full object-cover" :src="getFaqImageUrl(photo)" alt="Photo" />
       <UButton
         class="absolute right-1 top-1"
         color="red"

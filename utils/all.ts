@@ -1,6 +1,7 @@
 import type { BriefItemJson, Bunner, CatalogAdmin, CatalogItem, FullBriefJson, Lang, Reward } from "~/types/catalog"
 import { z } from "zod"
 import { tagsSchema, type Tag } from "~/types/catalog"
+import type { FaqImage } from "~/types/faq"
 
 const randElement = <T>(arr: T[]): T => {
   const length = arr.length
@@ -101,6 +102,14 @@ const getCatalogItemImageUrl = (imgPath: string) => {
 
   // Формируем полный путь к изображению через API
   return `/api/blob/catalog-items/${imgPath}`
+}
+
+const getFaqImageUrl = (image: FaqImage) => {
+  // для браузерных залитых на фронте
+  if (image.pathTemp) return image.pathTemp
+
+  // Формируем полный путь к изображению через API
+  return `/api/blob/faq/${image.path_server}`
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,4 +250,5 @@ export {
   putBlobBunner,
   getImg,
   randBool,
+  getFaqImageUrl,
 }

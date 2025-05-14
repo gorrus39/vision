@@ -18,7 +18,7 @@ export const fullFaqItemSchema = z.object({
   title: z.string().min(1).max(60),
   text: z.string().min(1).max(6000),
   category: z.string().min(1).max(15),
-  sub_title: z.string().max(50).optional().nullable(),
+  sub_title: z.string().max(50).optional(),
   order_index: z.coerce.number(), // 🔥 Преобразование строки в число
   priority: z.enum(["High", "Low"]),
   lang: z.enum(["en", "ru", "cn"]),

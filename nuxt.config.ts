@@ -8,10 +8,10 @@ export default defineNuxtConfig({
       title: "Vision",
     },
   },
-  // sourcemap: {
-  //   server: true,
-  //   client: true,
-  // },
+  sourcemap: {
+    server: true,
+    client: true,
+  },
   devtools: {
     enabled: true,
   },
@@ -73,7 +73,7 @@ export default defineNuxtConfig({
     },
   },
   tiptap: {
-    prefix: "Tiptap", //prefix for Tiptap imports, composables not included
+    prefix: "Tiptap",
   },
   hub: {
     database: true,
@@ -82,7 +82,6 @@ export default defineNuxtConfig({
   },
   anchorscroll: {
     hooks: [
-      // Or any valid hook if needed
       // Default is `page:finish`
       "page:transition:finish",
     ],
