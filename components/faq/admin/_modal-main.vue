@@ -48,7 +48,7 @@ const postChangedOrder = async () => {
       />
     </div>
 
-    <u-slideover v-model="showForm">
+    <u-slideover v-model="showForm" :ui="{ width: 'max-w-xl' }">
       <faq-admin-form :item="null" @close-form="showForm = false" />
     </u-slideover>
 

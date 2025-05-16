@@ -1,10 +1,21 @@
 <script setup lang="ts">
-const { locale } = useI18n();
+const { locale } = useI18n()
+const store = useFaqStore()
+await callOnce("faq-store", () => store.initData())
+
+const maxSlidesAmount = 6
+
+const items = computed(() =>
+  store.data
+    .filter((i) => i.lang === locale.value)
+    .filter((i) => i.priority === "High")
+    .slice(0, maxSlidesAmount - 1),
+)
 </script>
 
 <template>
   <div class="border-D-b relative hidden h-[60vw] min-h-[60vw] overflow-hidden border-white md:block">
-    <HomeFaqSwiper class="pt-D-200 ms-D-600 w-D-700" />
+    <HomeFaqSwiper class="pt-D-200 ms-D-600 w-D-700" :items />
 
     <NuxtImg class="absolute bottom-D--160 right-D--20 w-D-1225" src="images/home/figure-4.png" />
     <ChanksButtonGoUp class="absolute bottom-D-50 right-D-100" />
@@ -31,7 +42,7 @@ const { locale } = useI18n();
       {{ $t("home.faq.faq") }}
     </div>
 
-    <HomeFaqSwiper class="m-auto w-[70vw] mb-M-20" mobile />
+    <HomeFaqSwiper class="m-auto w-[70vw] mb-M-20" :items mobile />
 
     <div class="f-full flex">
       <ChanksButtonGoUp class="ms-auto me-M-30 mb-M-30" />

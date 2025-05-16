@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/blog"
 import type { FullFaqItem } from "~/types/faq"
-const localePath = useLocalePath()
 
 defineProps<{
-  item: BlogItem | FullFaqItem
+  item: FullFaqItem
   mobile?: true
-  faq?: true
 }>()
 </script>
 
@@ -18,9 +15,9 @@ defineProps<{
     ]"
   >
     <div :class="['flex flex-wrap justify-between', mobile ? 'mb-M-21' : 'mb-D-34']">
-      <div v-if="'published_at' in item" :class="[mobile ? 'text-M-16' : 'text-D-22']">
+      <!-- <div :class="[mobile ? 'text-M-16' : 'text-D-22']">
         {{ formatDate(item.published_at) }}
-      </div>
+      </div> -->
       <div
         :class="[
           'border-white',
@@ -61,7 +58,7 @@ defineProps<{
       {{ $t("home.vision_blog.show_more") }}
     </NuxtLinkLocale> -->
 
-    <ChanksButtonShowMore :path="faq ? `/faq/${item.id}` : `/blog/${item.id}`" />
+    <ChanksButtonShowMore :path="`/faq/${item.id}`" />
   </div>
 </template>
 

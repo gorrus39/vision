@@ -39,7 +39,7 @@ const handleClickEditItem = (item: FullFaqItem) => {}
     </div>
 
     <div class="max-h-[80vh] overflow-auto">
-      <draggable v-model="store.data" item-key="id" @end="store.updateItemsOrder">
+      <draggable class="select-none" v-model="store.data" item-key="id" @end="store.updateItemsOrder">
         <template #item="{ element: item, index }: { element: FullFaqItem; index: number }">
           <div
             class="grid items-center gap-4 p-1 font-medium text-black"

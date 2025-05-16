@@ -74,6 +74,10 @@ import ruAboutFraudvision from "~/i18n/locales/ru/about-fraudvision/index"
 import enAboutFraudvision from "~/i18n/locales/en/about-fraudvision/index"
 import cnAboutFraudvision from "~/i18n/locales/cn/about-fraudvision/index"
 
+import ruFaq from "~/i18n/locales/ru/faq/index"
+import enFaq from "~/i18n/locales/en/faq/index"
+import cnFaq from "~/i18n/locales/cn/faq/index"
+
 export default defineI18nConfig(() => ({
   legacy: false,
   messages: {
@@ -105,6 +109,7 @@ export default defineI18nConfig(() => ({
       },
       contacts: enContacts,
       about_fraudvision: enAboutFraudvision,
+      faq: enFaq,
     },
     ru: {
       header: ruHeader,
@@ -134,6 +139,7 @@ export default defineI18nConfig(() => ({
       },
       contacts: ruContacts,
       about_fraudvision: ruAboutFraudvision,
+      faq: ruFaq,
     },
     cn: {
       header: cnHeader,
@@ -163,6 +169,7 @@ export default defineI18nConfig(() => ({
       },
       contacts: cnContacts,
       about_fraudvision: cnAboutFraudvision,
+      faq: cnFaq,
     },
   },
 }))

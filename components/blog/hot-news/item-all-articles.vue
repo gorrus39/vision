@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const { locale } = useI18n();
-const toast = useToast();
+const { locale } = useI18n()
+const toast = useToast()
 </script>
 
 <template>

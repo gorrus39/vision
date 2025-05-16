@@ -7,7 +7,7 @@ import { onBeforeUnmount, ref, unref } from "vue"
 const externalText = defineModel()
 
 const editor = useEditor({
-  content: "",
+  content: externalText.value || "",
   // content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
   extensions: [
     TiptapStarterKit,

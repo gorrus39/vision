@@ -77,7 +77,7 @@ const closeForm = () => emit("close-form")
 </script>
 
 <template>
-  <u-form :state :schema="fullFaqItemSchema" @submit="submit">
+  <u-form class="overflow-auto" :state :schema="fullFaqItemSchema" @submit="submit">
     <div class="flex flex-col gap-2 p-2 text-black">
       <h2>
         <b>{{ item ? "Edit" : "New" }}</b> F.A.Q. Item

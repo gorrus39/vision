@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import type { BlogItem } from "~/types/blog";
-const localePath = useLocalePath();
-import { getBlogImageUrl } from "~/utils/blog";
+import type { BlogItem } from "~/types/blog"
+import type { FullFaqItem } from "~/types/faq"
+const localePath = useLocalePath()
+import { getBlogImageUrl } from "~/utils/blog"
 
 const props = defineProps<{
-  item: BlogItem;
-  imgPosition: "left" | "right";
-  imgMaxWidthStyle: string;
-  width?: string;
-}>();
+  item: BlogItem | FullFaqItem
+  imgPosition: "left" | "right"
+  imgMaxWidthStyle: string
+  width?: string
+  isFaqItems?: true
+}>()
 
 // const availibleImagePositions: ("right" | "left")[] = ["right", "left"];
 
@@ -24,11 +26,20 @@ const props = defineProps<{
 
 // const imgPosition = availibleImagePositions[imagePosionIndex()];
 
-const style: { [key: string]: any } = {};
+const style: { [key: string]: any } = {}
 if (props.width) {
-  style.width = props.width;
+  style.width = props.width
 } else {
-  style.flexGrow = 1;
+  style.flexGrow = 1
+}
+
+let titleImgSrc
+if ("images" in props.item) {
+  const item = props.item as FullFaqItem
+  titleImgSrc = item.images[0] && getFaqImageUrl(item.images[0])
+} else {
+  const item = props.item as BlogItem
+  titleImgSrc = item.image_paths[0] && getBlogImageUrl(item.image_paths[0])
 }
 </script>
 
@@ -36,14 +47,14 @@ if (props.width) {
   <div class="border-D-e border-D-s border-D-b flex border-white gap-D-20 p-D-29" :style="style">
     <img
       class="h-auto object-cover"
-      v-if="item.image_paths[0] && imgPosition === 'left'"
+      v-if="titleImgSrc && imgPosition === 'left'"
       :style="{ maxWidth: imgMaxWidthStyle }"
-      :src="getBlogImageUrl(item.image_paths[0])"
+      :src="titleImgSrc"
     />
 
     <div class="flex flex-1 flex-col">
       <div class="flex flex-wrap justify-between gap-D-10 mb-D-34">
-        <div class="text-D-22">
+        <div class="text-D-22" v-if="'published_at' in item">
           {{ formatDate(item.published_at) }}
         </div>
         <div :class="['border-D w-max rounded-[2vw] border-white pt-D-2 ps-D-10 pe-D-10 text-D-18']">
@@ -63,14 +74,14 @@ if (props.width) {
           -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent);
         "
       />
-      <ChanksButtonShowMore :path="`/blog/${item.id}`" />
+      <ChanksButtonShowMore :path="isFaqItems ? `/faq/${item.id}` : `/blog/${item.id}`" />
     </div>
 
     <img
       class="h-auto object-cover"
-      v-if="item.image_paths[0] && imgPosition === 'right'"
+      v-if="titleImgSrc && imgPosition === 'right'"
       :style="{ maxWidth: imgMaxWidthStyle }"
-      :src="getBlogImageUrl(item.image_paths[0])"
+      :src="titleImgSrc"
     />
   </div>
 </template>
