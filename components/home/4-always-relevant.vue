@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { locale } = useI18n()
+const { loggedIn } = useUserSession()
 
 const store = useSlugAssetsStore()
 
@@ -37,7 +38,7 @@ const getTextContentByLocale = () => {
 </script>
 
 <template>
-  <div class="hidden p-2 md:flex">
+  <div class="hidden p-2 md:flex" v-if="loggedIn">
     <UButton @click="openAdminModal" icon="i-lucide:settings" label="always relevant" />
   </div>
 

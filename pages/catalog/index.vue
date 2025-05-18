@@ -1,6 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { loggedIn } = useUserSession()
+</script>
 
 <template>
-  <CatalogAdminPanelEntryPoint />
+  <CatalogAdminPanelEntryPoint v-if="loggedIn" />
   <CatalogMain />
 </template>

@@ -3,7 +3,6 @@ import { randElement } from "~/utils/all"
 
 export default eventHandler(async (event): Promise<FullCatalogItem[]> => {
   const items: CatalogItem[] = await queries().catalogItem.getAll()
-
   // проходим по таблицам один раз
   const db_catalog_rewards = await queries().catalogRewards.getAll()
   const db_rewardsToItems = await queries().catalogRewardsToItems.getAll()

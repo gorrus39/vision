@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-tiptap-editor",
     "nuxt-anchorscroll",
+    "nuxt-auth-utils",
   ],
   i18n: {
     strategy: "prefix",

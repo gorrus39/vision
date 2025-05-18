@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NuxtLinkLocale } from "#components"
+const { user, clear, loggedIn } = useUserSession()
 
 const showMobileNavigation = ref(false)
 
@@ -19,7 +20,14 @@ const toggle = ref(true)
 
 <template>
   <div class="border-D-b hidden border-white h-D-128 md:flex">
-    <div class="border-D-e border-white w-D-154"></div>
+    <div class="border-D-e relative border-white w-D-154">
+      <u-button
+        class="absolute left-2 top-2"
+        v-if="loggedIn"
+        :label="`logout ${user && 'email' in user && user.email}`"
+        @click="clear"
+      />
+    </div>
 
     <div class="border-D-e flex items-center border-white ps-D-28 text-D-42 w-D-686">
       <NuxtLinkLocale class="on-hover" :to="homeLink.path">
