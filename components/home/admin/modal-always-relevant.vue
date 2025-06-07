@@ -3,9 +3,9 @@ import { type SlugAsset } from "~/types/common"
 import type { FormError } from "#ui/types"
 const { create_or_update_by_method, fetchData } = useSlugAssetsStore()
 
-const modal = useModal()
+// const modal = useModal()
 const loading = ref(false)
-const slug = "home__always_relevant"
+const slug = "home__always-relevant"
 const toast = useToast()
 
 const props = defineProps<{
@@ -85,12 +85,13 @@ const handleSave = async () => {
   await fetchData()
   toast.add({ title: "successfully!" })
   loading.value = false
-  modal.close()
+  // modal.close()
 }
 </script>
 
 <template>
-  <UModal fullscreen :ui="{ base: 'p-4 space-y-4' }">
+  <div></div>
+  <!-- <UModal fullscreen :ui="{ base: 'p-4 space-y-4' }">
     <div class="flex gap-4">
       <UButton :disabled="loading" @click="modal.close" label="close" color="red" variant="outline" />
     </div>
@@ -113,5 +114,5 @@ const handleSave = async () => {
 
       <UButton type="submit" label="save" :loading="loading" />
     </UForm>
-  </UModal>
+  </UModal> -->
 </template>

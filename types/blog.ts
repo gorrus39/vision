@@ -1,45 +1,21 @@
-import z from "zod";
+import z from "zod"
+import { imageSchema } from "./common"
 
-export enum ProjectType {
-  type,
-}
-
-export type Project = {
-  id: number;
-  title: string;
-  type: ProjectType;
-  text: string;
-  starsAmount: number;
-  avatar?: string;
-};
-
-export const BlogItemSchema = z.object({
-  id: z.coerce.number(), // 🔥 Автоматическое приведение строки к числу
+export const fullBlogItemSchema = z.object({
+  id: z.coerce.number().optional(), // 🔥 Автоматическое приведение строки к числу
   published_at: z.coerce.date(), // 🔥 Преобразует строку в Date
-  category: z.string().min(1).max(15),
   title: z.string().min(1).max(60),
-  // image_paths: z.string().nullable(),
-
-  image_paths: z.union([z.string(), z.array(z.string().nullable())]).transform((val) => {
-    if (typeof val === "string") {
-      try {
-        return JSON.parse(val) as (string | null)[];
-      } catch {
-        return [];
-      }
-    }
-    return val; // Теперь если val уже массив, просто возвращаем его
-  }),
-  sub_title: z.string().max(50).optional().nullable(),
   text: z.string().min(1).max(6000),
-  priority: z.enum(["High", "Low"]),
+  category: z.string().min(1).max(15),
+  sub_title: z.string().max(50).optional(),
   order_index: z.coerce.number(), // 🔥 Преобразование строки в число
+  priority: z.enum(["High", "Low"]),
   lang: z.enum(["en", "ru", "cn"]),
 
-  files: z.array(z.instanceof(File).nullable()).optional(),
-  modified: z.enum(["created", "updated", "deleted"]).optional().nullable(),
-});
+  images: z.array(imageSchema),
 
-export const BlogItemsSchema = z.array(BlogItemSchema);
+  // только для фронта
+  matchesFilter: z.boolean().optional(),
+})
 
-export type BlogItem = z.infer<typeof BlogItemSchema>;
+export type BlogItem = z.infer<typeof fullBlogItemSchema>

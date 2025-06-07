@@ -1,0 +1,39 @@
+%% store имеет типы 
+%% provide имеет типы
+%% inject имеет типы
+
+
+sequenceDiagram
+    participant store as Pinia <br> Store
+    participant page as Index <br> Page
+
+
+
+    %% participant Client as Client <br> (Browser)
+    %% participant Server as App Backend
+
+    %% Client->>Client: Check session (e.g., localStorage / cookies)
+    %% alt nuxt-session cookie present
+    %%     Client->>Server: Validate session by token
+    %%     Server-->>Client: Return authenticated user
+    %% else nuxt-session not present
+    %%     Client->>Server: Request login with GitHub
+        
+    %%     Server-->>Client: Redirect to GitHub OAuth URL <br> (with client_id, redirect_uri)
+    %%     create participant GitHub as GitHub <br> OAuth Server        
+    %%     Client->>GitHub: Go to GitHub OAuth page
+    %%     GitHub-->>Client: Ask user to authorize app
+    %%     alt user authorizes
+    %%         GitHub-->>Client: Redirect back to App <br> (with ?code=XXX)
+    %%         Client->>Server: Send code to backend
+    %%         Server->>GitHub: Exchange code for access_token
+    %%         GitHub-->>Server: Send access_token
+    %%      Server->>GitHub: Fetch user info via API
+    %%         GitHub-->>Server: Return user data
+    %%         Server->>Client: Set session cookie/token
+    %%         Server-->>Client: Return authenticated user
+    %%     else user denies access
+    %%         GitHub-->>Client: Redirect back with error
+    %%         Client->>Server: Handle error
+    %%     end
+    %% end

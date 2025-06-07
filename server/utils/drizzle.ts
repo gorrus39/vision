@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/d1"
 import * as schema from "../database/schema"
 import { blogItems } from "../database/schema"
 import { BlogItem } from "~/types/blog"
-import { asc, desc, eq, inArray } from "drizzle-orm"
+import { and, asc, desc, eq, inArray } from "drizzle-orm"
 import {
   Bunner,
   CatalogAdmin,
@@ -12,8 +12,8 @@ import {
   CatalogRewardsToItems,
   Reward,
 } from "~/types/catalog"
-import { SlugAsset } from "~/types/common"
-import { faqImage, FaqImage, FullFaqItem } from "~/types/faq"
+import { Image, ImageReferType, SlugAsset } from "~/types/common"
+import { FullFaqItem } from "~/types/faq"
 
 // export { sql, eq, and, or } from "drizzle-orm";
 
@@ -27,38 +27,38 @@ export function queries() {
   const db = useDrizzle()
 
   return {
-    blogQueries: {
-      async getAll() {
-        return await db.select().from(blogItems).orderBy(blogItems.order_index)
-      },
+    // blogQueries: {
+    //   async getAll() {
+    //     return await db.select().from(blogItems).orderBy(blogItems.order_index)
+    //   },
 
-      async getById(id: number) {
-        return await db.select().from(blogItems).where(eq(blogItems.id, id)).limit(1)
-      },
+    //   async getById(id: number) {
+    //     return await db.select().from(blogItems).where(eq(blogItems.id, id)).limit(1)
+    //   },
 
-      async create(data: BlogItem) {
-        const image_paths = JSON.stringify(data.image_paths)
+    //   async create(data: BlogItem) {
+    //     const image_paths = JSON.stringify(data.image_paths)
 
-        const { id, ...dataWithoutId } = data // Удаляем id
-        return await db
-          .insert(blogItems)
-          .values({ ...dataWithoutId, image_paths })
-          .returning()
-      },
+    //     const { id, ...dataWithoutId } = data // Удаляем id
+    //     return await db
+    //       .insert(blogItems)
+    //       .values({ ...dataWithoutId, image_paths })
+    //       .returning()
+    //   },
 
-      async update(id: number, data: BlogItem) {
-        const image_paths = JSON.stringify(data.image_paths)
-        return await db
-          .update(blogItems)
-          .set({ ...data, image_paths })
-          .where(eq(blogItems.id, id))
-          .returning()
-      },
+    //   async update(id: number, data: BlogItem) {
+    //     const image_paths = JSON.stringify(data.image_paths)
+    //     return await db
+    //       .update(blogItems)
+    //       .set({ ...data, image_paths })
+    //       .where(eq(blogItems.id, id))
+    //       .returning()
+    //   },
 
-      async delete(id: number) {
-        return await db.delete(blogItems).where(eq(blogItems.id, id)).returning()
-      },
-    },
+    //   async delete(id: number) {
+    //     return await db.delete(blogItems).where(eq(blogItems.id, id)).returning()
+    //   },
+    // },
     catalogRewards: {
       async getAll() {
         return await db.select().from(schema.rewards)
@@ -216,7 +216,7 @@ export function queries() {
         return await db.select().from(schema.slugAssets)
       },
       async getBySlug(slug: string) {
-        return await db.select().from(schema.slugAssets).where(eq(schema.slugAssets.slug, slug)).limit(1)
+        return await db.select().from(schema.slugAssets).where(eq(schema.slugAssets.slug, slug))
       },
       async getById(id: number) {
         return await db.select().from(schema.slugAssets).where(eq(schema.slugAssets.id, id)).limit(1)
@@ -231,10 +231,8 @@ export function queries() {
         return await db.delete(schema.slugAssets).where(eq(schema.slugAssets.id, id)).returning()
       },
     },
+
     faqItems: {
-      async getAllWithImages() {
-        return await db.query.faqItems.findMany({ with: { images: true }, orderBy: [asc(schema.faqItems.order_index)] })
-      },
       async getAll() {
         return await db.select().from(schema.faqItems).orderBy(schema.faqItems.order_index)
       },
@@ -255,40 +253,54 @@ export function queries() {
       async getById(id: number) {
         return await db.select().from(schema.faqItems).where(eq(schema.faqItems.id, id)).limit(1)
       },
-      async getByIdWithImages(id: number) {
-        return await db.query.faqItems.findFirst({
-          with: { images: true },
-          where: (faqItems, { eq }) => eq(faqItems.id, id),
-        })
-      },
-      // async createWithImages(data: FullFaqItem): Promise<{ success: boolean }> {
-      //   return await db.transaction(async (tx) => {
-      //     const { images, ...faqWithoutImages } = data
-      //     const [db_item] = await db.insert(schema.faqItems).values(faqWithoutImages).returning()
-
-      //     if (!db_item) tx.rollback()
-
-      //     const { everyFaqImagesSuccess } = await createFaqImages(images, db_item.id)
-
-      //     if (!everyFaqImagesSuccess) tx.rollback()
-
-      //     return { success: true }
-      //   })
-      // },
     },
-    faqImage: {
-      async create(data: FaqImage, faq_item_id: number) {
+    blogItems: {
+      async getAll() {
+        return await db.select().from(schema.blogItems).orderBy(schema.blogItems.order_index)
+      },
+      async getAllByIds(ids: number[]) {
+        return await db.select().from(schema.blogItems).where(inArray(schema.blogItems.id, ids))
+      },
+      async create(data: BlogItem) {
+        const { images, ...withoutImages } = data
+        return await db.insert(schema.blogItems).values(withoutImages).returning()
+      },
+      async update(id: number, data: BlogItem | Partial<BlogItem>) {
+        const { images, ...withoutImages } = data
+        return await db.update(schema.blogItems).set(withoutImages).where(eq(schema.blogItems.id, id)).returning()
+      },
+      async delete(id: number) {
+        return await db.delete(schema.blogItems).where(eq(schema.blogItems.id, id)).returning()
+      },
+      async getById(id: number) {
+        return await db.select().from(schema.blogItems).where(eq(schema.blogItems.id, id)).limit(1)
+      },
+    },
+    images: {
+      async getByIds({ refer_ids, refer_type }: { refer_ids: number[]; refer_type: ImageReferType }) {
         return await db
-          .insert(schema.faqImages)
-          .values({ ...data, faq_item_id })
+          .select()
+          .from(schema.images)
+          .where(and(inArray(schema.images.refer_id, refer_ids), eq(schema.images.refer_type, refer_type)))
+      },
+      async getById({ refer_id, refer_type }: { refer_id: number; refer_type: ImageReferType }) {
+        return await db
+          .select()
+          .from(schema.images)
+          .where(and(eq(schema.images.refer_id, refer_id), eq(schema.images.refer_type, refer_type)))
+      },
+      async create(data: Image, refer_id: number, refer_type: ImageReferType) {
+        return await db
+          .insert(schema.images)
+          .values({ ...data, refer_id, refer_type })
           .returning()
       },
 
-      async update(id: number, data: FaqImage) {
-        return await db.update(schema.faqImages).set(data).where(eq(schema.faqImages.id, id)).returning()
+      async update(id: number, data: Image) {
+        return await db.update(schema.images).set(data).where(eq(schema.images.id, id)).returning()
       },
       async delete(id: number) {
-        return await db.delete(schema.faqImages).where(eq(schema.faqImages.id, id)).returning()
+        return await db.delete(schema.images).where(eq(schema.images.id, id)).returning()
       },
     },
   }

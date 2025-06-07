@@ -90,7 +90,7 @@ const handleSubmit = async () => {
 }
 </script>
 <template>
-  <UModal v-model="showForm" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
+  <UModal v-model="showForm" fullscreen :ui="{ fullscreen: 'h-auto min-h-screen' }">
     <div class="space-y-2 p-2 text-black">
       <UForm
         class="space-y-2"

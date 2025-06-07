@@ -9,7 +9,7 @@ const links = [
 <template>
   <div class="x-mx flex flex-col justify-between gap-M-20 md:flex-row md:gap-0 md:mb-D-50">
     <NuxtLink
-      class="on-hover relative flex w-full flex-col overflow-hidden rounded-xl border-[1px] border-solid border-white md:rounded-lg md:border-[2px] md:w-D-480"
+      class="on-hover relative flex w-full flex-col overflow-hidden rounded-xl border border-solid border-white md:rounded-lg md:border-2 md:w-D-480"
       v-for="item in links"
       :to="item.link"
     >

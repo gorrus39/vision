@@ -31,7 +31,7 @@ const select = (tag: Tag) => {
         v-for="tag in tags"
         :class="[
           'w-auto h-M-50 ps-D-50 pe-D-50 md:h-D-56',
-          'on-hover flex items-center justify-center rounded-xl border-[2px] border-solid font-medium md:rounded-lg md:border-[.5px]',
+          'on-hover flex items-center justify-center rounded-xl border-2 border-solid font-medium md:rounded-lg md:border-[.5px]',
           'text-M-12 md:text-D-24',
           { 'bg-white text-black': selectedTag?.includes(tag) },
           // tags.length > 5 ? 'md:w-D-270' : 'md:w-D-290',

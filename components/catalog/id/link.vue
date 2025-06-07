@@ -30,7 +30,7 @@ const getImgSrc = (link: CatalogLink) => {
 <template>
   <NuxtLink class="on-hover" :to="link.link">
     <div
-      class="relative flex w-full flex-col overflow-hidden rounded-xl border-[1px] border-solid border-white md:rounded-md md:border-[.5px] md:w-D-350"
+      class="relative flex w-full flex-col overflow-hidden rounded-xl border border-solid border-white md:rounded-md md:border-[.5px] md:w-D-350"
     >
       <NuxtImg class="absolute h-full w-full" src="images/default/catalog-item-img-short/background-black.png" />
       <div class="relative z-10 m-M-10 md:m-D-20">

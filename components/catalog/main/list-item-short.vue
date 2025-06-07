@@ -56,7 +56,7 @@ const reiting = computed(() => {
 <template>
   <NuxtLinkLocale class="hover:cursor-pointer" :to="`/catalog/${item.id}`">
     <div
-      class="flex w-full flex-col justify-between rounded-xl border-[2px] border-solid mb-D-10 p-D-15 md:rounded-md md:border-[.5px] md:w-D-335"
+      class="flex w-full flex-col justify-between rounded-xl border-2 border-solid mb-D-10 p-D-15 md:rounded-md md:border-[.5px] md:w-D-335"
       :style="{ height: '-webkit-fill-available' }"
       :class="[color == 'red' ? 'border-red-500' : 'border-white']"
     >

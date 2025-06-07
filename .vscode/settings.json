@@ -12,5 +12,9 @@
   "html.format.indentInnerHtml": true,
   "prettier.arrowParens": "always",
   "prettier.configPath": "",
-  "prettier.trailingComma": "es5"
+  "prettier.trailingComma": "es5",
+  "editor.codeActionsOnSave": {
+    // "source.organizeImports": "explicit",
+    // "source.addMissingImports.ts": "always"
+  }
 }

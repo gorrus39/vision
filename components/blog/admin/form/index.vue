@@ -1,55 +1,39 @@
 <script setup lang="ts">
-import { BlogItemSchema } from "~/types/blog";
-import type { BlogItem } from "~/types/blog";
-import type { FormSubmitEvent } from "#ui/types";
-import _ from "lodash";
-const store = await useInitializedBlogStore();
-const { items_admin } = storeToRefs(store);
+import { BlogItemSchema } from "~/types/blog"
+import type { BlogItem } from "~/types/blog"
+import type { FormSubmitEvent } from "#ui/types"
+import _ from "lodash"
+const store = await useInitializedBlogStore()
+const { items_admin } = storeToRefs(store)
 
-const toast = useToast();
+const toast = useToast()
 
-const { create_admin_item, update_admin_item } = await useInitializedBlogStore();
+const { create_admin_item, update_admin_item } = await useInitializedBlogStore()
 
 const props = defineProps<{
-  showForm: Boolean;
-  selectedItem?: BlogItem | null;
-  adminItemsLang?: "en" | "ru" | "cn";
-}>();
+  showForm: Boolean
+  selectedItem?: BlogItem | null
+  adminItemsLang?: "en" | "ru" | "cn"
+}>()
 
-const languages = [
-  {
-    label: "Russian",
-    icon: "i-cif:ru",
-    value: "ru",
-  },
-  {
-    label: "Chinese",
-    icon: "i-cif:cn",
-    value: "cn",
-  },
-  {
-    label: "English",
-    icon: "i-cif:us",
-    value: "en",
-  },
-];
+const languages = useLanguages()
 
-const emit = defineEmits(["update:showForm"]); // Создаём событие
+const emit = defineEmits(["update:showForm"]) // Создаём событие
 
 const closeSlideover = () => {
-  emit("update:showForm", false); // Закрываем слайдовер
-};
-import { format } from "date-fns";
+  emit("update:showForm", false) // Закрываем слайдовер
+}
+import { format } from "date-fns"
 
-const priorityOptions: ("High" | "Low")[] = ["High", "Low"];
+const priorityOptions: ("High" | "Low")[] = ["High", "Low"]
 
 const initModel = props.selectedItem
   ? _.cloneDeep(props.selectedItem)
   : {
       id:
         items_admin.value.reduce((acc, item) => {
-          acc = item.id < acc ? item.id : acc;
-          return acc;
+          acc = item.id < acc ? item.id : acc
+          return acc
         }, 0) - 1,
       published_at: new Date(),
       category: "",
@@ -61,16 +45,16 @@ const initModel = props.selectedItem
       order_index: -1,
       files: [null, null, null, null, null],
       lang: props.adminItemsLang || "en",
-    };
-const state: Ref<BlogItem> = ref(initModel);
+    }
+const state: Ref<BlogItem> = ref(initModel)
 
 async function onSubmit(event: FormSubmitEvent<BlogItem>) {
   if (props.selectedItem)
-    update_admin_item(state); // update
-  else create_admin_item(state); // create
+    update_admin_item(state) // update
+  else create_admin_item(state) // create
 
-  emit("update:showForm", false); // Закрываем слайдовер
-  toast.add({ title: "Successfully!" });
+  emit("update:showForm", false) // Закрываем слайдовер
+  toast.add({ title: "Successfully!" })
 }
 </script>
 <template>
@@ -84,7 +68,7 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
     <p>state.files: {{ state.files }}</p>
   </div> -->
   <UForm
-    class="max-h-[100vh] space-y-4 overflow-auto p-4 text-black"
+    class="max-h-screen space-y-4 overflow-auto p-4 text-black"
     :schema="BlogItemSchema"
     :state="state"
     @submit="onSubmit"
@@ -131,7 +115,7 @@ async function onSubmit(event: FormSubmitEvent<BlogItem>) {
       <UFormGroup class="flex-1" required label="language" name="lang">
         <USelect v-model="state.lang" :options="languages">
           <template #option="{ option }">
-            <span class="mt-px h-2 w-2 flex-shrink-0 rounded-full" :style="{ background: `#${option.color}` }" />
+            <span class="mt-px h-2 w-2 shrink-0 rounded-full" :style="{ background: `#${option.color}` }" />
             <UIcon class="h-5 w-5" :name="option.icon" />
 
             <span class="truncate">{{ option.label }}</span>

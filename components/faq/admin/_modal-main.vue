@@ -2,7 +2,7 @@
 import { FaqAdminForm } from "#components"
 import { iconPaths } from "~/assets/icon-paths"
 
-const modal = useModal()
+// const modal = useModal()
 const showForm = ref(false)
 
 const store = useFaqStore()
@@ -20,7 +20,7 @@ const postChangedOrder = async () => {
     await store.postUpdateItemsOrder()
     toast.add({ title: "Порядок успешно обновлён!" })
   } catch (error) {
-    toast.add({ title: String(error), color: "red" })
+    toast.add({ title: String(error), color: "error" })
   } finally {
     loading.value = false
   }
@@ -28,7 +28,8 @@ const postChangedOrder = async () => {
 </script>
 
 <template>
-  <u-modal fullscreen :ui="{ base: 'p-4 flex flex-col gap-2' }">
+  <div></div>
+  <!-- <u-modal fullscreen :ui="{ base: 'p-4 flex flex-col gap-2' }">
     <div class="flex items-center gap-2">
       <u-button label="New F.A.Q. item" :disabled="loading" @click="openForm" />
       <u-button
@@ -53,5 +54,5 @@ const postChangedOrder = async () => {
     </u-slideover>
 
     <faq-admin-table :items="store.data"></faq-admin-table>
-  </u-modal>
+  </u-modal> -->
 </template>

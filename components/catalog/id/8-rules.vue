@@ -24,7 +24,7 @@ defineProps<{
       :class="[isExpanded ? 'max-h-none' : 'max-h-[103vw]']"
     >
       <div
-        class="x-mx border-e-[2px] border-t-[2px] border-white pt-M-10 pe-M-10 text-M-14 md:border-e-[.5px] md:border-t-[.5px] md:pt-D-20 md:pe-D-20 md:text-D-32"
+        class="x-mx border-e-2 border-t-2 border-white pt-M-10 pe-M-10 text-M-14 md:border-e-[.5px] md:border-t-[.5px] md:pt-D-20 md:pe-D-20 md:text-D-32"
         v-html="item.rules"
       ></div>
     </div>

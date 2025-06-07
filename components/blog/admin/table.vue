@@ -74,7 +74,7 @@ const handleChangeOrder = () => {
     <BlogAdminForm v-model:showForm="showSlideover" :selectedItem="selectedItem" />
   </USlideover>
 
-  <div class="max-w-[100vw] overflow-hidden rounded-lg border border-gray-300 text-black shadow-md">
+  <div class="max-w-screen overflow-hidden rounded-lg border border-gray-300 text-black shadow-md">
     <div
       class="grid items-center gap-4 bg-gray-200 p-1 text-sm font-bold"
       :style="{

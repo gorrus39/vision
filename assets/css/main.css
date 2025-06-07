@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "./utilities.css";
+
+@font-face {
+  font-family: "Bebas Neue Cirillic";
+  src: url("/fonts/bebas_neue_cirillic/bebas_neue_cirillic.ttf") format("truetype");
+  /* font-weight: 900; */
+}
+
+/* 
+    // добавление vw для 2-х резиновых экранов
+    plugin(function ({ addUtilities }) {
+      const startPixel = -500;
+      const endPixel = 1500;
+
+      const mobileKamertonWidth = 320;
+      const desktopKamertonWidth = 1920;
+
+      const subClasses = [
+        { css: "fontSize", subClass: ".text" },
+        { css: "lineHeight", subClass: ".leading" },
+        { css: "width", subClass: ".w" },
+        { css: "height", subClass: ".h" },
+        { css: "gap", subClass: ".gap" },
+        { css: "padding", subClass: ".p" },
+        { css: "padding-left", subClass: ".ps" },
+        { css: "padding-top", subClass: ".pt" },
+        { css: "padding-bottom", subClass: ".pb" },
+        { css: "padding-right", subClass: ".pe" },
+        { css: "margin", subClass: ".m" },
+        { css: "margin-right", subClass: ".me" },
+        { css: "margin-left", subClass: ".ms" },
+        { css: "margin-bottom", subClass: ".mb" },
+        { css: "margin-top", subClass: ".mt" },
+        { css: "top", subClass: ".top" },
+        { css: "left", subClass: ".left" },
+        { css: "right", subClass: ".right" },
+        { css: "bottom", subClass: ".bottom" },
+      ];
+
+      const utilities: { [key: string]: CSSRuleObject } = {};
+      for (let i = startPixel; i <= endPixel; i++) {
+        const desktopAmount = `${((i / desktopKamertonWidth) * 100).toFixed(2)}vw`;
+        const mobileAmount = `${((i / mobileKamertonWidth) * 100).toFixed(2)}vw`;
+
+        for (const { css, subClass } of subClasses) {
+          utilities[`${subClass}-D-${i}`] = { [css]: desktopAmount };
+          utilities[`${subClass}-M-${i}`] = { [css]: mobileAmount };
+        }
+      }
+      addUtilities(utilities);
+    }), */
+
+:root {
+  --font-main: Poppins, Roboto;
+  --font-secondary: Bebas Neue, "Bebas Neue Cirillic";
+  /* , Liter; */
+}
+
+body {
+  font-family: var(--font-main);
+  font-weight: 400;
+  color: white;
+  background-color: black;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+:root {
+  --border-desktop-size: calc(1 / 1920 * 100vw);
+  --border-mobile-size: calc(1 / 320 * 100vw);
+}
+
+.font-bebas-neue {
+  font-family: var(--font-secondary);
+}
+
+.font-secondary {
+  font-family: var(--font-secondary);
+}
+
+.font-inter {
+  font-family: Inter;
+}
+
+.border-D {
+  border-width: var(--border-desktop-size);
+  border-style: solid;
+}
+
+.border-M {
+  border-width: var(--border-mobile-size);
+  border-style: solid;
+}
+
+.border-D-s {
+  border-left-width: var(--border-desktop-size);
+  border-style: solid;
+}
+
+.border-D-e {
+  border-right-width: var(--border-desktop-size);
+  border-style: solid;
+}
+.border-D-t {
+  border-top-width: var(--border-desktop-size);
+  border-style: solid;
+}
+.border-D-b {
+  border-bottom-width: var(--border-desktop-size);
+  border-style: solid;
+}
+
+.border-M-s {
+  border-left-width: var(--border-mobile-size);
+  border-style: solid;
+}
+
+.border-M-e {
+  border-right-width: var(--border-mobile-size);
+  border-style: solid;
+}
+.border-M-t {
+  border-top-width: var(--border-mobile-size);
+  border-style: solid;
+}
+.border-M-b {
+  border-bottom-width: var(--border-mobile-size);
+  border-style: solid;
+}
+
+.on-hover {
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.x-mx {
+  @apply ms-M-30 md:ms-D-182 me-M-30 md:me-D-182;
+}

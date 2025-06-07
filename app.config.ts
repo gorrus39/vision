@@ -1,22 +1,24 @@
 export default defineAppConfig({
   ui: {
-    divider: {
-      border: {
-        base: "dark:border-white border-white",
-        size: {
-          horizontal: {
-            mobile: "border-M-t",
-            xl: "border-D-t",
+    colors: {
+      primary: "blue",
+      secondary: "teal",
+    },
+    iconsExt: {
+      github: "i-carbon-logo-github",
+      delete: "i-mdi-light:delete",
+      edit: "i-heroicons-pencil-square",
+      ru: "i-circle-flags-ru",
+      en: "i-circle-flags-gb",
+      cn: "i-circle-flags-cn",
+    },
+    slideover: {
+      variants: {
+        side: {
+          right: {
+            content: "max-w-7xl",
           },
         },
-      },
-      default: {
-        size: "mobile",
-      },
-    },
-    button: {
-      "x-icon": {
-        post: "i-fa-solid:arrow-alt-circle-up",
       },
     },
   },

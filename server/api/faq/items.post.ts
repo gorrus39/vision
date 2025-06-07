@@ -1,3 +1,4 @@
+import { handleImages } from "~/server/helpers"
 import { fullFaqItemSchema } from "~/types/faq"
 const filePath = import.meta.url
 
@@ -23,18 +24,7 @@ export default defineEventHandler(async (event): Promise<{ error?: string }> => 
 
   const [db_item] = await queries().faqItems.create(itemJson)
 
-  for (const imageJson of itemJson.images) {
-    if (!imageJson.frontendFile) continue
-
-    const { pathname } = await hubBlob().put(
-      `faq_item_id_${db_item.id}-${imageJson.fileName}`,
-      imageJson.frontendFile,
-      {
-        prefix: "images-faq",
-      },
-    )
-    await queries().faqImage.create({ ...imageJson, path_server: pathname }, db_item.id)
-  }
+  handleImages({ imagesBefore: [], imagesAfter: itemJson.images, refer_id: db_item.id, refer_type: "faq" })
 
   return {}
 })

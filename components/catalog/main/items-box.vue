@@ -24,7 +24,7 @@ defineProps<{
       </p></b
     >
     <div
-      class="flex flex-col rounded-xl border-[2px] border-solid p-M-20 md:rounded-md md:border-[.5px] md:p-D-39"
+      class="flex flex-col rounded-xl border-2 border-solid p-M-20 md:rounded-md md:border-[.5px] md:p-D-39"
       :class="color == 'red' ? 'border-red-500' : 'border-white'"
     >
       <TransitionGroup

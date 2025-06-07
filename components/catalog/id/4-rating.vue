@@ -27,7 +27,7 @@ const ratingNow: number = getBriefAgrigationValue({ items: raiting.items }).sumV
     </UModal>
 
     <p
-      class="font-secondary border-b-[2px] border-white text-center font-bold text-M-18 md:border-b-[.5px] md:text-D-40"
+      class="font-secondary border-b-2 border-white text-center font-bold text-M-18 md:border-b-[.5px] md:text-D-40"
     >
       {{ $t("catalog.id.rating") }}
     </p>

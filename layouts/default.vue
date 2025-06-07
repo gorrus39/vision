@@ -1,10 +1,10 @@
 <script lang="ts"></script>
 
 <template>
-  <UNotifications />
+  <!-- <UNotifications /> -->
   <Header />
   <slot />
   <Footer />
-  <UModals />
-  <USlideovers />
+  <!-- <UModals /> -->
+  <!-- <USlideovers /> -->
 </template>

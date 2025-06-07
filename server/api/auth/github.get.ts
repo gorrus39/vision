@@ -27,7 +27,7 @@ export default defineOAuthGitHubEventHandler({
         maxAge: 5,
       })
     }
-    return sendRedirect(event, "/")
+    return sendRedirect(event, "/en/admin")
   },
   // Optional, will return a json error and 401 status code by default
   onError(event, error) {
@@ -36,6 +36,6 @@ export default defineOAuthGitHubEventHandler({
     })
 
     console.error("GitHub OAuth error:", error)
-    return sendRedirect(event, "/")
+    return sendRedirect(event, "/en/admin")
   },
 })

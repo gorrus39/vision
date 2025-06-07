@@ -66,7 +66,7 @@ const try_add_item = () => {
       <UButton @click="showModal = false" label="close" color="red" variant="outline" />
     </div>
 
-    <UTable class="m-2 rounded-[5px] border-[1px] border-solid border-gray-400" :rows="rows" :columns="columns">
+    <UTable class="m-2 rounded-[5px] border border-solid border-gray-400" :rows="rows" :columns="columns">
       <template #actions-data="{ row }">
         <div class="flex gap-2">
           <UIcon class="on-hover h-5 w-5" name="i-heroicons-pencil-square-20-solid" @click="try_edit_item(row.id)" />

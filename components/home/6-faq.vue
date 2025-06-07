@@ -32,7 +32,7 @@ const items = computed(() =>
     </div>
   </div>
 
-  <div class="border-M-b flex max-w-[100vw] flex-col overflow-x-hidden border-white md:hidden">
+  <div class="border-M-b flex max-w-screen flex-col overflow-x-hidden border-white md:hidden">
     <div class="flex h-M-20">
       <div class="border-M-e flex-1 border-white"></div>
       <div class="w-M-24"></div>

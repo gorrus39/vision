@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { fullFaqItemSchema, type FaqImage, type FullFaqItem } from "~/types/faq"
-
+const languages = useLanguages()
 const props = defineProps<{
   item: FullFaqItem | null
 }>()
@@ -22,23 +22,7 @@ const defaultState = (): FullFaqItem => ({
   images: [],
 })
 const priorityOptions: ("High" | "Low")[] = ["High", "Low"]
-const languages = [
-  {
-    label: "Russian",
-    icon: "i-cif:ru",
-    value: "ru",
-  },
-  {
-    label: "Chinese",
-    icon: "i-cif:cn",
-    value: "cn",
-  },
-  {
-    label: "English",
-    icon: "i-cif:us",
-    value: "en",
-  },
-]
+
 const state = ref<FullFaqItem>(props.item ? { ...props.item } : defaultState())
 
 const submit = async () => {
@@ -110,7 +94,7 @@ const closeForm = () => emit("close-form")
         <UFormGroup class="flex-1" required label="language" name="lang">
           <USelect v-model="state.lang" :options="languages">
             <template #option="{ option }">
-              <span class="mt-px h-2 w-2 flex-shrink-0 rounded-full" :style="{ background: `#${option.color}` }" />
+              <span class="mt-px h-2 w-2 shrink-0 rounded-full" :style="{ background: `#${option.color}` }" />
               <UIcon class="h-5 w-5" :name="option.icon" />
 
               <span class="truncate">{{ option.label }}</span>

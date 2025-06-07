@@ -79,7 +79,7 @@ const image_path_validation = computed(() => {
 </template>
 
 <style scoped>
-/* bg-gradient-to-r from-gray-400 via-gray-300 to-gray-500 */
+/* bg-linear-to-r from-gray-400 via-gray-300 to-gray-500 */
 .button-gradient {
   background: linear-gradient(to left, #c6c6c6, #ffffff 15%, #c6c6c6 26%, #848181);
 }

@@ -86,7 +86,7 @@ const rowsBySelectedTags = computed(() => {
 </script>
 
 <template>
-  <UModal v-model="showListItemsModal" fullscreen :ui="{ fullscreen: 'h-auto min-h-[100vh]' }">
+  <UModal v-model="showListItemsModal" fullscreen :ui="{ fullscreen: 'h-auto min-h-screen' }">
     <ChanksAreYouShure v-model="showConfirmation">
       <p class="text-center">Delete item id: {{ selectedId }}</p>
       <div class="flex justify-center gap-2">

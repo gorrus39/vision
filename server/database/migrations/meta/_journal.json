@@ -204,6 +204,20 @@
       "when": 1747231347293,
       "tag": "0028_grey_husk",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "6",
+      "when": 1748253707956,
+      "tag": "0029_bright_ultimates",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "6",
+      "when": 1749279632680,
+      "tag": "0030_tense_johnny_blaze",
+      "breakpoints": true
     }
   ]
 }

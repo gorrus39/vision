@@ -1,56 +1,44 @@
-import { SlugAsset, slugAssetSchema } from "~/types/common"
-import { deleteBlobItem } from "~/utils/blog"
+import { handleImages } from "~/server/helpers"
+import { Image, slugAssetSchema } from "~/types/common"
+const filePath = import.meta.url
 
-export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: SlugAsset }> => {
+export default defineEventHandler(async (event): Promise<{ error?: string }> => {
   const formData = await readMultipartFormData(event)
-  if (!formData) return { error: "undefined FormData" }
-  debugger
-  let item: SlugAsset | {} = {}
+  if (!formData) return { error: `${filePath} -> (!FormData)` }
 
-  let fileBuffer: Buffer<ArrayBufferLike> | null = null
-  let fileName: string | null = null
-  let fileType: string | null = null
+  const id = Number(getQuery(event).id)
+  if (isNaN(id)) return { error: `${filePath} -> (isNaN(id))` }
 
-  formData.forEach((part) => {
-    if (part.name == "item") {
-      item = JSON.parse(part.data.toString()) as SlugAsset
-    } else if (part.name == "frontendFile") {
-      fileBuffer = part.data
-    } else if (part.name == "frontendFile.name") {
-      fileName = part.data.toString()
-    } else if (part.name == "frontendFile.type") {
-      fileType = part.data.toString()
-    }
-  })
+  const db_item_slug_asset = await queries().slugAssets.getById(id)
+  if (db_item_slug_asset === undefined) return { error: `${filePath} -> (db_item_slug_asset === undefined)` }
 
-  const { success, data, error } = slugAssetSchema.safeParse(item)
-  if (error) return { error: "undefined FormData" }
+  const formDataItem = formData.find((part) => part.name == "slugAssetItemJson")
+  if (!formDataItem) return { error: `${filePath} -> (slugAssetItemJson not found)` }
 
-  if (!data.id) return { error: "id must present" }
+  const formDataItemJson = JSON.parse(formDataItem?.data.toString() || "")
+  const { data: itemJson, success, error } = slugAssetSchema.safeParse(formDataItemJson)
 
-  let db_item = (await queries().slugAssets.getById(data.id))[0]
+  if (error) return { error: JSON.stringify(error) }
 
-  const img_path_changed = db_item.img_path !== data.img_path
-  let img_path
-  if (img_path_changed) {
-    if (!fileBuffer || !fileName || !fileType || db_item.img_path == null)
-      return { error: "!fileBuffer || !fileName || !fileType" }
-
-    try {
-      await hubBlob().del(db_item.img_path)
-    } catch (error) {}
-
-    const file = new File([fileBuffer], fileName, { type: fileType })
-    const { pathname } = await hubBlob().put(`${db_item.id}__${db_item.slug}__${file.name}`, file, {
-      addRandomSuffix: false,
-      prefix: `slug-assets`,
-    })
-    img_path = pathname
-  } else {
-    img_path = data.img_path
+  // attach фаилы с фронта, которые были на вронтовом объекте привязываем обратно
+  for (const { name, data } of formData) {
+    const match = name?.match(/^photo__index_(\d+)$/)
+    if (!match) continue
+    const index = Number(match[1])
+    const image = itemJson.images[index]
+    if (!image) continue
+    image.frontendFile = new File([data], image.fileName || "undefined", { type: image.fileType })
   }
 
-  db_item = (await queries().slugAssets.update(db_item.id, { ...data, img_path }))[0]
+  const [db_item] = await queries().slugAssets.update(id, itemJson)
+  const imagesBefore = (await queries().images.getById({ refer_id: db_item.id, refer_type: "slug-asset" })) as Image[]
 
-  return { success: true, data: db_item }
+  handleImages({
+    imagesBefore,
+    imagesAfter: itemJson.images,
+    refer_id: db_item.id,
+    refer_type: "slug-asset",
+  })
+
+  return {}
 })

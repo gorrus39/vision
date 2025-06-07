@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  css: ["~/assets/css/fonts.css", "~/assets/css/global.css"],
+  css: ["~/assets/css/fonts.css", "~/assets/css/main.css"],
   compatibilityDate: "2024-11-01",
   app: {
     head: {
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  // debug: true,
   modules: [
     "@nuxtjs/i18n",
     "@nuxthub/core",
