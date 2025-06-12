@@ -95,6 +95,7 @@ onMounted(() => (hydrated.value = true))
         :icon="ui.iconsExt.github"
         @click="handleGoToGithub"
         label="Login via GitHub"
+        variant="outline"
       />
       <UButton v-else label="logout" @click="clear" />
       <p v-if="loggedIn">user: {{ user?.email }}</p>

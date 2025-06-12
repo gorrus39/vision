@@ -16,4 +16,10 @@ export const adminTableModes: AdminTableMode[] = [
 ]
 
 ////////////////
-export const image_referTypes: ImageReferType[] = ["faq", "blog", "slug-asset"] as const
+export const image_referTypes: ImageReferType[] = [
+  "faq",
+  "blog",
+  "slug-asset",
+  "catalog-admin",
+  "catalog-reward",
+] as const

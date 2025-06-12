@@ -7,7 +7,7 @@ const props = defineProps<{
   itemId: number
   disabled?: true
 }>()
-const storeType = inject<StoreType>("storeType")
+const storeType = inject<StoreType>("storeType", "faqStore")
 const currentStore = useCurrentStore(storeType)
 if (!currentStore) throw Error("!currentStore")
 
@@ -15,7 +15,7 @@ const toast = useToast()
 const open = ref(false)
 
 const handleDeleteItem = async () => {
-  const { error } = await currentStore.deleteFaqItem(props.itemId ?? -1)
+  const { error } = await currentStore.deleteItem(props.itemId ?? -1)
   if (!error) toast.add({ title: "Successfully!" })
   else toast.add({ title: String(error), color: "error" })
   open.value = false
@@ -23,7 +23,7 @@ const handleDeleteItem = async () => {
 </script>
 
 <template>
-  <UModal v-model:open="open" :title="`Are you sure delete F.A.Q. item? (id: ${itemId})`">
+  <UModal v-model:open="open" :title="`Are you sure delete ${getItemLabel(storeType)} item? (id: ${itemId})`">
     <UIcon class="on-hover size-5" :name="ui.iconsExt.delete" />
 
     <template #footer>

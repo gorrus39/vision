@@ -1,7 +1,14 @@
-import type { BriefItemJson, Bunner, CatalogAdmin, CatalogItem, FullBriefJson, Lang, Reward } from "~/types/catalog"
+import type {
+  BriefItemJson,
+  Bunner,
+  CatalogAdmin,
+  CatalogItem,
+  FullBriefJson,
+  Lang,
+  CatalogReward,
+} from "~/types/catalog"
 import { z } from "zod"
 import { tagsSchema, type Tag } from "~/types/catalog"
-import type { FaqImage } from "~/types/faq"
 
 const randElement = <T>(arr: T[]): T => {
   const length = arr.length
@@ -55,7 +62,7 @@ const convertTagsToString = (tags: Tag[]): string => JSON.stringify(tags)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-const putBlobReward = async (db_item: Reward, file: File): Promise<string> => {
+const putBlobReward = async (db_item: CatalogReward, file: File): Promise<string> => {
   const rand = Math.floor(Math.random() * 100)
   const res = await hubBlob().put(`${db_item.id}__${rand}__${file.name}`, file, {
     addRandomSuffix: false,
@@ -104,13 +111,13 @@ const getCatalogItemImageUrl = (imgPath: string) => {
   return `/api/blob/catalog-items/${imgPath}`
 }
 
-const getFaqImageUrl = (image: FaqImage) => {
-  // для браузерных залитых на фронте
-  if (image.pathTemp) return image.pathTemp
+// const getFaqImageUrl = (image: FaqImage) => {
+//   // для браузерных залитых на фронте
+//   if (image.pathTemp) return image.pathTemp
 
-  // Формируем полный путь к изображению через API
-  return `/api/blob/faq/${image.path_server}`
-}
+//   // Формируем полный путь к изображению через API
+//   return `/api/blob/faq/${image.path_server}`
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -250,5 +257,5 @@ export {
   putBlobBunner,
   getImg,
   randBool,
-  getFaqImageUrl,
+  // getFaqImageUrl,
 }

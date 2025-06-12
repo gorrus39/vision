@@ -1,4 +1,7 @@
 <script setup lang="ts">
 const { loggedIn } = useUserSession()
 </script>
-<template><div v-if="loggedIn">sdf</div></template>
+<template>
+  <UContainer class="text-center font-bold">Catalog Rewards</UContainer>
+  <admin-catalog-rewards />
+</template>

@@ -4,7 +4,7 @@ import type { AdminTableModeLiteral, AnyItem, FormEntries, StoreType } from "~/t
 import type { Lang } from "~/types/catalog"
 import { provide } from "vue"
 import type { Image } from "~/types/common"
-import type { FullFaqItem } from "~/types/faq"
+import { fullFaqItemSchema, type FullFaqItem } from "~/types/faq"
 
 const store = useCurrentStore("faqStore")
 
@@ -27,6 +27,7 @@ const columns: TableColumn<AnyItem>[] = [
 ]
 
 provide<FormEntries<FullFaqItem>>("formEntries", {
+  schema: fullFaqItemSchema,
   lang,
   emptyItem: {
     title: "13",

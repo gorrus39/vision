@@ -1,6 +1,6 @@
 import z from "zod"
 
-export const imageReferTypeScheme = z.enum(["faq", "blog", "slug-asset"])
+export const imageReferTypeScheme = z.enum(["faq", "blog", "slug-asset", "catalog-admin", "catalog-reward"])
 
 export const imageSchema = z.object({
   id: z.number().optional(),

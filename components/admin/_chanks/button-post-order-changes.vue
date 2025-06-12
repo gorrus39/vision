@@ -16,7 +16,7 @@ const emits = defineEmits(["start-post", "end-post"])
 const postOrderChanged = ref(async () => {})
 
 const currentStore = useCurrentStore(inject<StoreType>("storeType"))
-if (currentStore) {
+if (currentStore && "postUpdateItemsOrder" in currentStore) {
   postOrderChanged.value = async () => {
     emits("start-post")
 

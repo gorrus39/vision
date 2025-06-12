@@ -4,7 +4,7 @@ import type { AdminTableModeLiteral, AnyItem, FormEntries, StoreType } from "~/t
 import type { Lang } from "~/types/catalog"
 import { provide } from "vue"
 import type { Image } from "~/types/common"
-import type { BlogItem } from "~/types/blog"
+import { fullBlogItemSchema, type BlogItem } from "~/types/blog"
 
 const store = useCurrentStore("blogStore")
 if (!store) throw new Error("!blogStore")
@@ -29,6 +29,7 @@ const columns: TableColumn<AnyItem>[] = [
 ]
 
 provide<FormEntries<BlogItem>>("formEntries", {
+  schema: fullBlogItemSchema,
   lang,
   emptyItem: {
     title: "13",

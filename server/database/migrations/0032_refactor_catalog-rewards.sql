@@ -1,0 +1,1 @@
+ALTER TABLE `rewards` DROP COLUMN `img_path`;

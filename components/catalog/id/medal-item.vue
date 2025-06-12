@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Reward } from "~/types/catalog"
+import type { CatalogReward } from "~/types/catalog"
 const showModal = ref(false)
 
 defineProps<{
-  medal: Reward
+  medal: CatalogReward
 }>()
 </script>
 
 <template>
   <UModal v-model="showModal" :ui="{ rounded: 'rounded-xl', width: 'max-w-[90vw] md:max-w-[60vw]' }">
-    <div class="flex flex-col items-center rounded-xl bg-black p-M-20 gap-D-40 md:flex-row md:p-D-48">
+    <div class="p-M-20 gap-D-40 md:p-D-48 flex flex-col items-center rounded-xl bg-black md:flex-row">
       <img class="w-M-82 md:w-D-230" :src="getRewardImageUrl(medal.img_path)" />
 
       <div class="border-D-s hidden md:block">

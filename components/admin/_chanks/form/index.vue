@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Lang } from "~/types/catalog"
-import { fullFaqItemSchema, type FullFaqItem } from "~/types/faq"
+// import { fullFaqItemSchema, type FullFaqItem } from "~/types/faq"
 import { inject } from "vue"
 import type { FormEntries, FormItem, StoreType } from "~/types/admin"
 import { useCurrentStore } from "~/composables/currentStore"
-import { format } from "date-fns"
 import { UFormField, UPopover } from "#components"
+import { cloneDeep } from "lodash"
 
 const props = defineProps<{
   itemId: number | null
@@ -30,10 +30,14 @@ if (formEntries && currentStore) {
   if (props.itemId) {
     const item = currentStore.data.find((i) => i.id === props.itemId)
     if (item) {
-      state.value = { ...item }
+      state.value = cloneDeep(item)
     }
   } else {
-    state.value = { ...formEntries.emptyItem, lang: formEntries.lang.value }
+    if ("lang" in formEntries.emptyItem) {
+      state.value = cloneDeep({ ...formEntries.emptyItem, lang: formEntries.lang.value })
+    } else {
+      state.value = cloneDeep(formEntries.emptyItem)
+    }
   }
 } else console.error("!(formEntries && currentStore)")
 
@@ -42,7 +46,7 @@ const submit = async () => {
 
   loading.value = true
 
-  const fullState = state as Ref<FullFaqItem>
+  const fullState = state as Ref<FormItem>
 
   const { error } = await formEntries.handleSubmit(fullState)
 
@@ -62,7 +66,7 @@ const languages = useLanguages()
     class="flex flex-col gap-4 overflow-auto p-2 text-black"
     v-if="state"
     :state
-    :schema="fullFaqItemSchema"
+    :schema="formEntries?.schema"
     @submit="submit"
   >
     <div class="flex gap-2">
@@ -79,13 +83,20 @@ const languages = useLanguages()
       </UFormField>
     </div>
 
+    <UFormField v-if="'name' in state" name="name">
+      <admin-chanks-form-input v-model="state.name" placeholder="name" />
+    </UFormField>
+
+    <UFormField v-if="'link' in state" name="link">
+      <admin-chanks-form-input v-model="state.link" placeholder="link" />
+    </UFormField>
+
+    <UFormField v-if="'description' in state" name="description">
+      <admin-chanks-form-textarea v-model="state.description" placeholder="description" />
+    </UFormField>
+
     <UFormField v-if="'published_at' in state" name="published_at">
-      <UPopover :popper="{ placement: 'bottom-start' }">
-        <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.published_at as Date, 'd MMM, yyy')" />
-        <template #panel="{ close }">
-          <admin-chanks-form-date-picker v-model="state.published_at" is-required @close="close" />
-        </template>
-      </UPopover>
+      <admin-chanks-form-date-picker v-model="state.published_at as Date" />
     </UFormField>
 
     <ClientOnly>
@@ -109,7 +120,12 @@ const languages = useLanguages()
       </UFormField>
     </div>
     <!-- ////////////////////////////////////////////// -->
-    <admin-chanks-form-input-images v-if="'images' in state" v-model="state.images" refer_type="faq" />
+    <admin-chanks-form-input-images
+      v-if="'images' in state"
+      v-model="state.images"
+      refer_type="faq"
+      :max-amount="formEntries?.images?.maxAmount"
+    />
 
     <div class="flex gap-4">
       <UButton :loading type="submit">{{ itemId ? "Update" : "Create" }}</UButton>

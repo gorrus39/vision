@@ -95,7 +95,7 @@ const onSubmit = async () => {
 
 <template>
   <UForm class="space-y-4" v-if="state" :state="state" @submit="onSubmit" :validate="validate">
-    <UFormField name="text_content" label="ALWAYS RELEWANT">
+    <UFormField name="text_content">
       <div class="flex items-start gap-4">
         <admin-chanks-form-textarea v-model="state.text_content_json.en" placeholder="EN 🇺🇸" />
         <admin-chanks-form-textarea v-model="state.text_content_json.ru" placeholder="RU 🇷🇺" />

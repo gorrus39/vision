@@ -1,4 +1,4 @@
-import { bunnerSchema, Bunner, Reward } from "~/types/catalog"
+import { bunnerSchema, Bunner, CatalogReward } from "~/types/catalog"
 import { putBlobBunner } from "~/utils/all"
 
 export default eventHandler(async (event): Promise<{ error?: string; success?: boolean; data?: Bunner }> => {
@@ -13,7 +13,7 @@ export default eventHandler(async (event): Promise<{ error?: string; success?: b
 
   formData.forEach((part) => {
     if (part.name == "itemJson") {
-      item = JSON.parse(part.data.toString()) as Reward
+      item = JSON.parse(part.data.toString()) as CatalogReward
     } else if (part.name == "frontendFile") {
       fileBuffer = part.data
     } else if (part.name == "frontendFile.name") {

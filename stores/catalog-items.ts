@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { defineStore } from "pinia"
 import { z } from "zod"
-import { fullCatalogItemSchema, type FullCatalogItem, type Reward } from "~/types/catalog"
+import { fullCatalogItemSchema, type FullCatalogItem, type CatalogReward } from "~/types/catalog"
 
 const getData = async (initialized: boolean): Promise<FullCatalogItem[]> => {
   if (initialized) {

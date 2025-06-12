@@ -1,6 +1,8 @@
 import type { Image } from "~/types/common"
 
-export const getImagePath = (image: Image): string | undefined => {
+export const getImagePath = (image: Image | undefined): string | undefined => {
+  if (image == undefined) return undefined
+
   const isDirectLink = image.path?.startsWith("http")
   if (isDirectLink) {
     return image.path

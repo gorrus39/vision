@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // import { getRewardImageUrl } from "~/server/utils/helpers/catalog";
-import type { Reward } from "~/types/catalog";
+import type { CatalogReward } from "~/types/catalog"
 
-const store = await useInitializedRewardsStore();
-const { items: options } = storeToRefs(store);
+const store = await useInitializedRewardsStore()
+const { items: options } = storeToRefs(store)
 
-const selected = defineModel<Reward[]>();
+const selected = defineModel<CatalogReward[]>()
 
 // watchEffect(() => {
 //   if (selected.value?.length && options.value?.length) {
@@ -16,9 +16,9 @@ const selected = defineModel<Reward[]>();
 
 onMounted(() => {
   if (selected.value?.length && options.value?.length) {
-    selected.value = selected.value.map((sel) => options.value.find((opt) => opt.id === sel.id) || sel);
+    selected.value = selected.value.map((sel) => options.value.find((opt) => opt.id === sel.id) || sel)
   }
-});
+})
 // watch(
 //   [selected, options],
 //   ([sel, opts]) => {

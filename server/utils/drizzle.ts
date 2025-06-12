@@ -10,7 +10,7 @@ import {
   CatalogItem,
   CatalogLink,
   CatalogRewardsToItems,
-  Reward,
+  CatalogReward,
 } from "~/types/catalog"
 import { Image, ImageReferType, SlugAsset } from "~/types/common"
 import { FullFaqItem } from "~/types/faq"
@@ -68,11 +68,11 @@ export function queries() {
         return await db.select().from(schema.rewards).where(eq(schema.rewards.id, id)).limit(1)
       },
 
-      async create(data: Reward) {
+      async create(data: CatalogReward) {
         return await db.insert(schema.rewards).values(data).returning()
       },
 
-      async update(id: number, data: Reward) {
+      async update(id: number, data: CatalogReward) {
         return await db.update(schema.rewards).set(data).where(eq(schema.rewards.id, id)).returning()
       },
 
@@ -184,15 +184,7 @@ export function queries() {
         return await db.delete(schema.catalogLinks).where(eq(schema.catalogLinks.id, id)).returning()
       },
     },
-    //////////
-    // reitings: {
-    //   async getAll() {
-    //     return await db.select().from(schema.reitings).orderBy(desc(schema.reitings.created_at))
-    //   },
-    //   async create(data: Reiting) {
-    //     return await db.insert(schema.reitings).values(data).returning()
-    //   },
-    // },
+
     catalogBunners: {
       async getAll() {
         return await db.select().from(schema.catalogBunners)

@@ -8,12 +8,19 @@ import type { Lang } from "~/types/catalog"
 const props = defineProps<{
   columns: TableColumn<Record<string, any>>[]
   storeType: StoreType
-  lang: Lang
+  lang?: Lang
 }>()
 const currentStore = useCurrentStore(inject<StoreType>("storeType"))
 if (!currentStore) throw new Error("!currentStore")
 
-const localData = ref<AnyItem[]>(currentStore.data.filter((item) => item.lang === props.lang))
+const localData = ref<AnyItem[]>(
+  currentStore.data.filter((item) => {
+    if (!props.lang) return true
+    if (!("lang" in item)) return true
+
+    return item.lang === props.lang
+  }),
+)
 
 const emits = defineEmits(["make-order-changes"])
 

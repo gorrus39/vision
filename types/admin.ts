@@ -1,4 +1,5 @@
-import type { Lang } from "./catalog"
+import type { ZodSchema } from "zod"
+import type { CatalogAdmin, CatalogReward, Lang } from "./catalog"
 import type { FullFaqItem } from "./faq"
 
 export type AdminTableModeLiteral = (typeof A_MODES)[keyof typeof A_MODES]
@@ -16,11 +17,13 @@ export type Language = {
 }
 
 // export type FaqStoreType = ReturnType<typeof useFaqStore>
-export type StoreType = "faqStore" | "blogStore"
+export type StoreType = "faqStore" | "blogStore" | "catalogAdminsStore" | "catalogRewardsStore" | "catalogRewardsStore"
 
-export type FormItem = FullFaqItem
+export type FormItem = FullFaqItem | CatalogAdmin | CatalogReward
 
 export interface FormEntries<T extends FormItem> {
+  images?: { maxAmount: number }
+  schema: ZodSchema
   lang: Ref<Lang>
   emptyItem: T
   handleSubmit: (state: Ref<T>) => Promise<{ error?: string | undefined }>

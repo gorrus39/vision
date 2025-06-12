@@ -1,2 +1,6 @@
 <script setup lang="ts"></script>
-<template><div></div></template>
+<template>
+  <UContainer class="text-center font-bold">Catalog Amins</UContainer>
+
+  <admin-catalog-admins />
+</template>

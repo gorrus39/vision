@@ -1,7 +1,13 @@
 import _ from "lodash"
 import { defineStore } from "pinia"
 import { z } from "zod"
-import { bunnerSchema, fullCatalogItemSchema, type Bunner, type FullCatalogItem, type Reward } from "~/types/catalog"
+import {
+  bunnerSchema,
+  fullCatalogItemSchema,
+  type Bunner,
+  type FullCatalogItem,
+  type CatalogReward,
+} from "~/types/catalog"
 
 // const getData = async (initialized: boolean): Promise<Bunner[]> => {
 //   // debugger

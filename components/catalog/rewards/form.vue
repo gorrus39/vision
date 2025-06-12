@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import _ from "lodash";
-import { useInitializedRewardsStore } from "~/stores/rewards";
-import { rewardSchema, type Reward } from "~/types/catalog";
+import _ from "lodash"
+import { useInitializedRewardsStore } from "~/stores/rewards"
+import { catalogRewardSchema, type CatalogReward } from "~/types/catalog"
 
 const getCloneSelectedItem = () => {
-  const item = items.value.find((item) => item.id == props.selectedId);
-  return _.cloneDeep(item);
-};
+  const item = items.value.find((item) => item.id == props.selectedId)
+  return _.cloneDeep(item)
+}
 
-const showForm = defineModel<boolean>();
+const showForm = defineModel<boolean>()
 const props = defineProps<{
-  selectedId: undefined | number;
-}>();
+  selectedId: undefined | number
+}>()
 
-const store = await useInitializedRewardsStore();
-const { items } = storeToRefs(store);
+const store = await useInitializedRewardsStore()
+const { items } = storeToRefs(store)
 
-const { create_or_update_item_remote } = store;
-const toast = useToast();
+const { create_or_update_item_remote } = store
+const toast = useToast()
 
 const emptyItem = {
   img_path: "",
   name: "",
   description: "",
   frontendFile: undefined,
-};
+}
 
-const state = ref<Reward>(getCloneSelectedItem() || emptyItem);
+const state = ref<CatalogReward>(getCloneSelectedItem() || emptyItem)
 
 const onSubmit = async () => {
-  if (props.selectedId) state.value["id"] = props.selectedId;
-  const { success, data, error } = await create_or_update_item_remote(state);
+  if (props.selectedId) state.value["id"] = props.selectedId
+  const { success, data, error } = await create_or_update_item_remote(state)
 
-  showForm.value = false;
+  showForm.value = false
   if (success) {
-    toast.add({ title: "success" });
+    toast.add({ title: "success" })
   } else if (error) {
-    toast.add({ title: error as string, color: "red" });
+    toast.add({ title: error as string, color: "red" })
   }
-};
+}
 </script>
 
 <template>
-  <UForm class="space-y-4 p-2" @submit="onSubmit" :schema="rewardSchema" :state="state">
+  <UForm class="space-y-4 p-2" @submit="onSubmit" :schema="catalogRewardSchema" :state="state">
     <p class="text-black">{{ props.selectedId ? `Edit item id:${props.selectedId}` : "New item" }}</p>
 
     <UFormGroup name="name" label="name" required>

@@ -3,7 +3,7 @@ import { CatalogAdmin, CatalogItem } from "~/types/catalog"
 import { readFile } from "fs/promises"
 import path from "path"
 import { faker } from "@faker-js/faker"
-import { Reward } from "~/types/catalog"
+import { CatalogReward } from "~/types/catalog"
 import { randElement } from "~/utils/all"
 
 const seedAdmins = async () => {
@@ -64,7 +64,7 @@ const seedRewards = async () => {
   const drizzle = queries().catalogRewards
 
   for (let i = 0; i < pathNames.length; i++) {
-    const item: Reward = {
+    const item: CatalogReward = {
       name: faker.company.name(),
       description: faker.lorem.lines({ min: 3, max: 10 }),
       img_path: pathNames[i],

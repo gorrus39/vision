@@ -60,9 +60,9 @@ export const catalogItems = sqliteTable("catalogItems", {
   // is_top_cn: integer({ mode: "boolean" }),
 })
 ////////////////
-export const catalogAdmins = sqliteTable("catalogAdmins", {
+export const catalogAdmins = sqliteTable("catalog_admins", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  avatar_path: text("avatar_path").notNull(),
+  // avatar_path: text("avatar_path").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   link: text("link").notNull(),
@@ -80,7 +80,7 @@ export const catalogAdminsToItems = sqliteTable("catalogAdminsToItems", {
 ////////////////
 export const rewards = sqliteTable("rewards", {
   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-  img_path: text("img_path").notNull(),
+  // img_path: text("img_path").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
 })
@@ -106,15 +106,6 @@ export const catalogLinks = sqliteTable("catalogLinks", {
   link: text("link").notNull(),
   src_platform: text("src_platform").notNull(),
 })
-/////
-// export const reitings = sqliteTable("reitings", {
-//   id: integer("id").primaryKey({ autoIncrement: true }), // Автоинкрементный ID
-//   catalog_item_id: integer("catalog_item_id").references(() => catalogItems.id, { onDelete: "cascade" }), // <-- КАСКАДНОЕ УДАЛЕНИЕ
-//   value: integer("value").notNull(),
-//   created_at: text("created_at")
-//     .notNull()
-//     .default(sql`(current_timestamp)`),
-// })
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////

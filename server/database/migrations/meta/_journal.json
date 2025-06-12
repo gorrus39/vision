@@ -218,6 +218,20 @@
       "when": 1749279632680,
       "tag": "0030_tense_johnny_blaze",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "6",
+      "when": 1749369694120,
+      "tag": "0031_fuzzy_microbe",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "6",
+      "when": 1749389558098,
+      "tag": "0032_refactor_catalog-rewards",
+      "breakpoints": true
     }
   ]
 }

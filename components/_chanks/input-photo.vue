@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { getBlogImageUrl } from "~/utils/blog"
-import type { Reward } from "~/types/catalog"
+import type { CatalogReward } from "~/types/catalog"
 import type { SlugAsset } from "~/types/common"
 
-const item = defineModel<Reward | SlugAsset>()
+const item = defineModel<CatalogReward | SlugAsset>()
 
 const inputRef = ref<null | HTMLInputElement>(null)
 
@@ -45,7 +45,7 @@ const onFileChange = async (event: Event) => {
         alt="Photo"
       />
       <UButton
-        class="absolute right-1 top-1 opacity-0 transition group-hover:opacity-100"
+        class="absolute top-1 right-1 opacity-0 transition group-hover:opacity-100"
         color="red"
         variant="outline"
         size="xs"

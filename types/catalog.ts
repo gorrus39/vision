@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { getBriefAgrigationValue } from "~/utils/all"
+import { imageSchema } from "./common"
 
 export const randNumberCopy = ({ start, end }: { start: number; end: number }): number => {
   const amount = end - start
@@ -20,16 +21,15 @@ const randElementCopy = <T>(arr: T[]): T => {
   return arr[index]
 }
 /////////////////////////////////////////////////////////////////////////////
-export const rewardSchema = z.object({
+export const catalogRewardSchema = z.object({
   id: z.number().optional(),
-  img_path: z.string().min(1, { message: "must present" }),
   name: z.string().min(1).max(40),
   description: z.string().min(1).max(1000),
 
-  frontendFile: z.instanceof(File).optional(),
+  images: z.array(imageSchema),
 })
 
-export type Reward = z.infer<typeof rewardSchema>
+export type CatalogReward = z.infer<typeof catalogRewardSchema>
 
 export const catalogRewardsToItemsSchema = z.object({
   id: z.number().optional(),
@@ -42,12 +42,11 @@ export type CatalogRewardsToItems = z.infer<typeof catalogRewardsToItemsSchema>
 
 export const catalogAdminSchema = z.object({
   id: z.number().optional(),
-  avatar_path: z.string().min(1, { message: "must present" }),
   name: z.string().min(1).max(40),
   description: z.string().min(1).max(1000),
   link: z.string().min(1).max(200),
 
-  frontendFile: z.instanceof(File).optional(),
+  images: z.array(imageSchema),
 })
 export type CatalogAdmin = z.infer<typeof catalogAdminSchema>
 /////////////////////////////////////////////////////////////////////////////
@@ -130,7 +129,7 @@ export type CatalogItem = z.infer<typeof catalogItemSchema>
 export const fullCatalogItemSchema = catalogItemSchema.extend({
   links: z.array(catalogLinkSchema),
   admins: z.array(catalogAdminSchema),
-  rewards: z.array(rewardSchema),
+  rewards: z.array(catalogRewardSchema),
   // reitings: z.array(reitingSchema),
 
   frontendFileShort: z.instanceof(File).optional(),
