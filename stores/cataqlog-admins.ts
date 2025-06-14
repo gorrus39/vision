@@ -63,4 +63,9 @@ export const useCatalogAdminsStore = defineStore("catalogAdminsStore", {
       }
     },
   },
+  getters: {
+    getItemsByIds(state) {
+      return (ids: number[]) => state.initialData.filter((item) => ids.includes(item.id!))
+    },
+  },
 })

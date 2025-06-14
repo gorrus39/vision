@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const { ui } = useAppConfig()
 const toast = useToast()
-const store = await useInitializedCatalogItemsStore()
-const { delete_item_remote } = store
+const store = useCatalogItemsStore()
 
 const props = defineProps<{
   id: number | undefined
@@ -17,9 +16,9 @@ const deleteItem = async () => {
   if (!id) {
     toast.add({ title: "front. id:undefined", color: "error" })
   } else {
-    const { error, success } = await delete_item_remote(id)
-    if (success) toast.add({ title: "success" })
+    const { error } = await store.deleteItem(id)
     if (error) toast.add({ title: error as string, color: "error" })
+    else toast.add({ title: "success" })
   }
   loading.value = false
   show.value = false
@@ -27,11 +26,11 @@ const deleteItem = async () => {
 </script>
 
 <template>
-  <UModal v-model:open="show">
+  <UModal v-model:open="show" :ui="{ content: 'text-black' }">
     <UIcon class="on-hover h-5 w-5" :name="ui.iconsExt.delete" @click="show = true" />
 
     <template #header>
-      <p class="text-center text-2xl text-black">Are you sure?</p>
+      <p class="text-center text-2xl">Are you sure?</p>
     </template>
 
     <template #body>

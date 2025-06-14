@@ -51,8 +51,8 @@ export const catalogItems = sqliteTable("catalogItems", {
   description_large: text("description_large").notNull().default(""),
   rules: text("rules").notNull().default(""),
 
-  img_short_path: text("img_short_path"), // Ссылка на изображение (может быть null)
-  img_large_path: text("img_large_path"), // Ссылка на изображение (может быть null)
+  // img_short_path: text("img_short_path"), // Ссылка на изображение (может быть null)
+  // img_large_path: text("img_large_path"), // Ссылка на изображение (может быть null)
 
   is_top: integer({ mode: "boolean" }).notNull().default(false),
   // is_top_ru: integer({ mode: "boolean" }),

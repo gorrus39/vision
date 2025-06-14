@@ -1,8 +1,19 @@
 <script setup lang="ts">
 type Lang = "ru" | "en" | "cn"
 const lang = ref<Lang>("en")
-const descriptionShort = defineModel<string>()
-const isCompleteLang = ref<Set<Lang>>(new Set())
+const descriptionShort = defineModel<string>({ required: true })
+const isCompleteLang = computed<Set<Lang>>(() => {
+  const set: Set<Lang> = new Set()
+  for (const [lang, stringValue] of Object.entries(localModel.value)) {
+    const langTyped = lang as Lang
+
+    const isFilled = stringValue.trim().length > 0
+    if (isFilled) set.add(langTyped)
+    else set.delete(langTyped)
+  }
+  return set
+  // const json = JSON.parse(descriptionShort.value) as
+}) //ref<Set<Lang>>(new Set())
 const emit = defineEmits(["updateError"])
 
 const defaultValue = {
@@ -22,13 +33,6 @@ const localModel = ref<{ [key in "ru" | "en" | "cn"]: string }>(init())
 watch(localModel.value, () => {
   emit("updateError", null)
 
-  for (const [lang, stringValue] of Object.entries(localModel.value)) {
-    const langTyped = lang as Lang
-
-    const isFilled = stringValue.trim().length > 0
-    if (isFilled) isCompleteLang.value.add(langTyped)
-    else isCompleteLang.value.delete(langTyped)
-  }
   descriptionShort.value = JSON.stringify(localModel.value)
 })
 </script>

@@ -11,6 +11,7 @@ import {
   CatalogLink,
   CatalogRewardsToItems,
   CatalogReward,
+  FullCatalogItem,
 } from "~/types/catalog"
 import { Image, ImageReferType, SlugAsset } from "~/types/common"
 import { FullFaqItem } from "~/types/faq"
@@ -125,24 +126,56 @@ export function queries() {
       },
     },
     catalogItem: {
-      async getAll() {
-        return await db.select().from(schema.catalogItems)
+      async getAll(): Promise<CatalogItem[]> {
+        const db_items = await db.select().from(schema.catalogItems)
+        const formatted: CatalogItem[] = db_items.map((i) => ({
+          ...i,
+          brief: JSON.parse(i.brief),
+          tags: JSON.parse(i.tags),
+        }))
+        return formatted
       },
 
-      async getById(id: number) {
-        return await db.select().from(schema.catalogItems).where(eq(schema.catalogItems.id, id)).limit(1)
+      async getById(id: number): Promise<CatalogItem> {
+        const [db_item] = await db.select().from(schema.catalogItems).where(eq(schema.catalogItems.id, id)).limit(1)
+        const formatted: CatalogItem = { ...db_item, brief: JSON.parse(db_item.brief), tags: JSON.parse(db_item.tags) }
+        return formatted
       },
 
-      async create(data: CatalogItem) {
-        return await db.insert(schema.catalogItems).values(data).returning()
+      async create(data: CatalogItem): Promise<CatalogItem> {
+        const formattedInput = { ...data, brief: JSON.stringify(data.brief), tags: JSON.stringify(data.tags) }
+        const [db_item] = await db.insert(schema.catalogItems).values(formattedInput).returning()
+        const formattedOutput: CatalogItem = {
+          ...db_item,
+          brief: JSON.parse(db_item.brief),
+          tags: JSON.parse(db_item.tags),
+        }
+        return formattedOutput
       },
 
-      async update(id: number, data: CatalogItem) {
-        return await db.update(schema.catalogItems).set(data).where(eq(schema.catalogItems.id, id)).returning()
+      async update(id: number, data: CatalogItem): Promise<CatalogItem> {
+        const formattedInput = { ...data, brief: JSON.stringify(data.brief), tags: JSON.stringify(data.tags) }
+        const [db_item] = await db
+          .update(schema.catalogItems)
+          .set(formattedInput)
+          .where(eq(schema.catalogItems.id, id))
+          .returning()
+        const formattedOutput: CatalogItem = {
+          ...db_item,
+          brief: JSON.parse(db_item.brief),
+          tags: JSON.parse(db_item.tags),
+        }
+        return formattedOutput
       },
 
-      async delete(id: number) {
-        return await db.delete(schema.catalogItems).where(eq(schema.catalogItems.id, id)).returning()
+      async delete(id: number): Promise<CatalogItem> {
+        const [db_item] = await db.delete(schema.catalogItems).where(eq(schema.catalogItems.id, id)).returning()
+        const formattedOutput: CatalogItem = {
+          ...db_item,
+          brief: JSON.parse(db_item.brief),
+          tags: JSON.parse(db_item.tags),
+        }
+        return formattedOutput
       },
     },
     catalogAdminsToItems: {
@@ -269,12 +302,23 @@ export function queries() {
       },
     },
     images: {
-      async getByIds({ refer_ids, refer_type }: { refer_ids: number[]; refer_type: ImageReferType }) {
+      async getByIds({
+        refer_ids,
+        refer_type,
+      }: {
+        refer_ids: number[]
+        refer_type: ImageReferType | ImageReferType[]
+      }) {
+        const referTypeCondition = Array.isArray(refer_type)
+          ? inArray(schema.images.refer_type, refer_type)
+          : eq(schema.images.refer_type, refer_type)
+
         return await db
           .select()
           .from(schema.images)
-          .where(and(inArray(schema.images.refer_id, refer_ids), eq(schema.images.refer_type, refer_type)))
+          .where(and(inArray(schema.images.refer_id, refer_ids), referTypeCondition))
       },
+
       async getById({ refer_id, refer_type }: { refer_id: number; refer_type: ImageReferType }) {
         return await db
           .select()

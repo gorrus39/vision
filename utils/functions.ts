@@ -1,4 +1,4 @@
-import type { Image } from "~/types/common"
+import { image_referTypes, type Image } from "~/types/common"
 
 export const getImagePath = (image: Image | undefined): string | undefined => {
   if (image == undefined) return undefined

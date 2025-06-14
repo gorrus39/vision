@@ -63,4 +63,9 @@ export const useCatalogRewardsStore = defineStore("catalogRewardsStore", {
       }
     },
   },
+  getters: {
+    getItemsByIds: (state) => {
+      return (ids: number[]) => state.data.filter((item) => ids.includes(item.id!))
+    },
+  },
 })

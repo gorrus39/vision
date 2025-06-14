@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { UButton } from "#components"
 import type { TableColumn } from "@nuxt/ui"
-import { type CatalogItem, type FullBriefJson, type FullCatalogItem, type Tag } from "~/types/catalog"
+import { useCatalogItemsStore } from "~/stores/catalog-items"
+import type { FullCatalogItem, Tag } from "~/types/catalog"
 
-const showListItemsModal = defineModel<boolean>()
 const showForm = ref(false)
 const selectedId = ref<undefined | number>(undefined)
-const toast = useToast()
-const loadingDelete = ref(false)
+
+const rewardStore = useCatalogRewardsStore()
+rewardStore.initData()
+const adminStore = useCatalogAdminsStore()
+adminStore.initData()
 
 const availibleTags: Tag[][] = [
   ["kozmap", "oracle"],
@@ -17,9 +20,10 @@ const availibleTags: Tag[][] = [
 
 const filterTags = ref<Tag[]>([...availibleTags[0], ...availibleTags[1], ...availibleTags[2]])
 
-const store = await useInitializedCatalogItemsStore()
+const store = useCatalogItemsStore()
+await store.initData()
 
-const { items } = storeToRefs(store)
+const { data: items } = storeToRefs(store)
 
 const columns: TableColumn<FullCatalogItem>[] = [
   { accessorKey: "actions", header: "actions", meta: { class: { td: "w-5", th: "w-5" } } },
@@ -85,36 +89,17 @@ const columns: TableColumn<FullCatalogItem>[] = [
         onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
       })
     },
-    // sort: (a: string, b: string, direction: any) => {
-    //   const aJson = JSON.parse(a) as FullBriefJson
-    //   const bJson = JSON.parse(b) as FullBriefJson
-
-    //   const value_a: number | null = getBriefAgrigationValue({ items: aJson.items }).sumValue // a[0]?.value
-    //   const value_b: number | null = getBriefAgrigationValue({ items: bJson.items }).sumValue //b[0]?.value
-
-    //   if (value_a == value_b) return 0
-    //   if (value_a == null) return direction == "asc" ? 1 : -1
-    //   if (value_b == null) return direction == "asc" ? -1 : 1
-
-    //   return direction == "asc" ? value_b - value_a : value_a - value_b
-    // },
   },
   { accessorKey: "links", header: "links" },
 ]
 
-const try_add_item = () => {
-  selectedId.value = undefined
-  showForm.value = true
-}
-
 const rowsBySelectedTags = computed<FullCatalogItem[]>(() => {
   return items.value.filter((row) => {
-    const tags = JSON.parse(row.tags) as Tag[]
-    return tags.some((rowTag) => filterTags.value.includes(rowTag))
+    return row.tags.some((rowTag) => filterTags.value.includes(rowTag as Tag))
   })
 })
 
-watchEffect(() => (showForm.value = typeof selectedId === "number"))
+watchEffect(() => (showForm.value = typeof selectedId.value === "number"))
 </script>
 
 <template>
@@ -123,25 +108,29 @@ watchEffect(() => (showForm.value = typeof selectedId === "number"))
     <hr />
 
     <p>filter by Tags ({{ rowsBySelectedTags.length }})</p>
-    <admin-catalog-items-filter-tags v-model="filterTags" :availibleTags="availibleTags" />
+    <admin-catalog-items-filter-tags v-model="filterTags" :availibleTags />
 
     <hr />
-
+    <p v-for="item in rowsBySelectedTags">id:{{ item.id }} - reward_ids: {{ item.catalog_reward_ids }}</p>
     <UTable :data="rowsBySelectedTags" :columns>
       <template #actions-cell="{ row }">
         <div class="flex gap-2">
           <admin-catalog-items-button-delete-item :id="row.original.id" />
-          <admin-catalog-items-button-edit-item :item="row.original" />
+          <admin-catalog-items-button-edit-item :id="row.original.id" />
         </div>
       </template>
 
       <template #rewards-cell="{ row }">
         <div>
-          <span>{{ row.original.rewards.length }} reward{{ row.original.rewards.length > 1 ? "s" : "" }}</span>
+          <span
+            >{{ row.original.catalog_reward_ids.length }} reward{{
+              row.original.catalog_reward_ids.length > 1 ? "s" : ""
+            }}</span
+          >
           <span class="flex items-center space-x-1">
             <img
               class="w-4"
-              v-for="reward of row.original.rewards"
+              v-for="reward of rewardStore.getItemsByIds(row.original.catalog_reward_ids)"
               :key="reward.id"
               :src="getImagePath(reward.images[0])"
               alt="img"
@@ -152,11 +141,15 @@ watchEffect(() => (showForm.value = typeof selectedId === "number"))
 
       <template #admins-cell="{ row }">
         <div>
-          <span>{{ row.original.admins.length }} admin{{ row.original.admins.length > 1 ? "s" : "" }}</span>
+          <span
+            >{{ row.original.catalog_admin_ids.length }} admin{{
+              row.original.catalog_admin_ids.length > 1 ? "s" : ""
+            }}</span
+          >
           <span class="flex items-center space-x-1">
             <img
               class="w-4"
-              v-for="admin of row.original.admins"
+              v-for="admin of adminStore.getItemsByIds(row.original.catalog_admin_ids)"
               :key="admin.id"
               :src="getImagePath(admin.images[0])"
               alt="img"
@@ -165,11 +158,15 @@ watchEffect(() => (showForm.value = typeof selectedId === "number"))
         </div>
       </template>
 
-      <!-- <template #brief-cell="{ row }">
-        <div>
-          <div>{{ getBriefAgrigationValue({ items: JSON.parse(row.original.brief).items }).sumValue }}</div>
+      <template #brief-cell="{ row }">
+        <div class="flex gap-2">
+          <span>{{ getBriefAgrigationValue({ items: row.original.brief.items }).sumValue }}</span>
+          <admin-chanks-arrow-svg
+            :before="row.original.brief.lastAgrigation.sumValue"
+            :after="getBriefAgrigationValue({ items: row.original.brief.items }).sumValue!"
+          />
         </div>
-      </template> -->
+      </template>
 
       <template #links-cell="{ row }">
         <div>{{ row.original.links.length }} link{{ row.original.links.length > 1 ? "`s" : "" }}</div>
@@ -177,9 +174,7 @@ watchEffect(() => (showForm.value = typeof selectedId === "number"))
 
       <template #tags-cell="{ row }">
         <div>
-          <b>{{ JSON.parse(row.original.tags).length }}</b> tag{{
-            JSON.parse(row.original.tags).length > 1 ? "`s" : ""
-          }}
+          <b>{{ row.original.tags.length }}</b> tag{{ row.original.tags.length > 1 ? "`s" : "" }}
         </div>
       </template>
 

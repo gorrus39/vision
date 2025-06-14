@@ -2,122 +2,104 @@
 const { ui } = useAppConfig()
 import _ from "lodash"
 import {
+  fullBriefJsonEmpty,
   fullCatalogItemSchema as schema,
   type CatalogAdmin,
   type CatalogReward,
   type FullCatalogItem,
 } from "~/types/catalog"
+import type { Image } from "~/types/common"
 
 const form = useTemplateRef("form")
 
-const store = await useInitializedCatalogItemsStore()
-// const { items } = storeToRefs(store)
-const { create_or_update_item_remote } = store
+const store = useCatalogItemsStore()
+await store.initData()
+const { data } = storeToRefs(store)
+
 const toast = useToast()
 const isLoading = ref(false)
-const briefError = ref<null | string>(null)
 const descriptionShortError = ref<null | string>(null)
 
 const props = defineProps<{
-  item?: FullCatalogItem
+  id?: number | undefined
 }>()
 
 const [showForm, modificator] = defineModel<boolean>("showForm", { required: true })
 
+const blank: FullCatalogItem = {
+  title: "",
+  tags: ["kozmap", "oracle"],
+  description_short: "",
+  description_large: "",
+  rules: "",
+  is_top: false,
+  links: [],
+  brief: fullBriefJsonEmpty(),
+  catalog_admin_ids: [],
+  catalog_reward_ids: [],
+  images: [],
+}
 const initItem = (): FullCatalogItem => {
-  if (props.item) {
-    return _.cloneDeep(props.item)
+  if (props.id) {
+    const item = data.value.find((i) => i.id === props.id)
+    if (item) return _.cloneDeep({ ...item })
+    else return _.cloneDeep(blank)
   } else {
-    const blank: FullCatalogItem = {
-      title: "",
-      tags: "",
-      img_short_path: null,
-      img_large_path: null,
-      description_short: "",
-      description_large: "",
-      rules: "",
-      brief: "",
-      is_top: false,
-      links: [],
-      admins: [],
-      rewards: [],
-    }
-
-    return blank
+    return _.cloneDeep(blank)
   }
 }
 
 const state = ref<FullCatalogItem>(initItem())
-
-const invalidDescriptionShort = () => {
-  if (!state.value) return
-
-  const errors: Record<string, string> = {}
-  let json: any
-
-  try {
-    json = JSON.parse(state.value.description_short)
-  } catch (err) {
-    errors.brief = "Description short must be valid JSON"
-  }
-
-  const jsonDescriptionShort = json as {
-    ru: string
-    en: string
-    cn: string
-  }
-
-  const isAnyValuePresent = Object.values(jsonDescriptionShort).some((v) => v.trim().length > 0)
-
-  if (!isAnyValuePresent) {
-    errors.description_short = "required any value"
-  }
-
-  // Если есть ошибки, устанавливаем их в форму
-  if (Object.keys(errors).length > 0) {
-    descriptionShortError.value = errors.description_short
-    return true // Возвращаем true, если ошибки есть
-  }
-
-  return false // Нет ошибок
-}
-
 const handleSubmit = async () => {
-  if (state.value === undefined) return
-  if (invalidDescriptionShort()) return
-
   isLoading.value = true
-  const { error, success } = await create_or_update_item_remote(state.value)
-  if (success) {
+
+  const formData = new FormData()
+
+  for (let i = 0; i < state.value.images.length; i++) {
+    const imageJson: Image = state.value.images[i]
+    if (!imageJson.frontendFile) continue
+
+    formData.set(`photo__index_${i}`, imageJson.frontendFile)
+    delete state.value.images[i].frontendFile
+  }
+
+  formData.set("catalogItemJson", JSON.stringify(state.value))
+
+  let error = undefined
+  const id = state.value.id
+  if (id) {
+    error = (await store.updateItem(formData, id)).error
+  } else {
+    error = (await store.createItem(formData)).error
+  }
+
+  if (!error) {
     toast.add({ title: "success" })
   } else {
     toast.add({ title: error as string, color: "error" })
   }
+
   showForm.value = false
   isLoading.value = false
 }
 
-const handleChangeRewards = (value: CatalogReward[]) => {
-  console.log(value)
+const handleChangeRewards = (reward_ids: number[]) => {
+  state.value.catalog_reward_ids = reward_ids
 }
-const handleChangeAdmins = (value: CatalogAdmin[]) => {
-  console.log(value)
+const handleChangeAdmins = (admin_ids: number[]) => {
+  state.value.catalog_admin_ids = admin_ids
 }
 
 const isEdit = "edit" in modificator
 </script>
 <template>
-  <USlideover v-model:open="showForm" :title="isEdit ? `Edit item id: ${item?.id}` : 'New item'">
+  <USlideover v-model:open="showForm" :title="isEdit ? `Edit item id: ${id}` : 'New item'">
     <template #body>
       <UForm ref="form" @submit="handleSubmit" :state :schema>
         <div class="space-y-2 text-black">
           <div class="flex gap-2">
-            <UFormField name="img_short_path" label="img-short" required>
-              <ChanksInputPhotoCatalogItem v-model="state" photoShort />
-            </UFormField>
-
-            <UFormField name="img_large_path" label="img-large" required>
-              <ChanksInputPhotoCatalogItem v-model="state" />
+            <UFormField name="images">
+              <admin-chanks-form-input-images v-model="state.images" :max-amount="2" refer_type="catalog-item" />
             </UFormField>
           </div>
 
@@ -137,11 +119,11 @@ const isEdit = "edit" in modificator
 
           <div class="flex gap-2">
             <UFormField name="rewards" label="rewards">
-              <admin-catalog-items-input-rewards :rewards="state.rewards" @change="handleChangeRewards" />
+              <admin-catalog-items-input-rewards :reward_ids="state.catalog_reward_ids" @change="handleChangeRewards" />
             </UFormField>
 
             <UFormField name="admins" label="admins">
-              <admin-catalog-items-input-admins :admins="state.admins" @change="handleChangeAdmins" />
+              <admin-catalog-items-input-admins :admin_ids="state.catalog_admin_ids" @change="handleChangeAdmins" />
             </UFormField>
           </div>
 
@@ -160,8 +142,10 @@ const isEdit = "edit" in modificator
           <hr />
 
           <UFormField name="brief">
-            <admin-catalog-items-input-brief v-model="state.brief" @updateError="briefError = $event" />
-            <p class="text-red-500" v-if="briefError">{{ briefError }}</p>
+            <admin-catalog-items-input-brief
+              v-model="state.brief"
+              :lastAgrigation="data.find((i) => i.id === id)?.brief.lastAgrigation.sumValue"
+            />
           </UFormField>
 
           <hr />

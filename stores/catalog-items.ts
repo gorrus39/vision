@@ -1,94 +1,72 @@
-import _ from "lodash"
 import { defineStore } from "pinia"
-import { z } from "zod"
-import { fullCatalogItemSchema, type FullCatalogItem, type CatalogReward } from "~/types/catalog"
+import { cloneDeep } from "lodash"
+import type { CatalogAdmin, CatalogItem, FullCatalogItem } from "~/types/catalog"
 
-const getData = async (initialized: boolean): Promise<FullCatalogItem[]> => {
-  if (initialized) {
-    return await $fetch<FullCatalogItem[]>("/api/catalog/items")
-  } else {
-    const { data } = await useAsyncData<FullCatalogItem[]>("catalog-items", () => $fetch("/api/catalog/items"))
-    return data.value || []
-  }
-}
-
-const useCatalogItemsStore = defineStore("catalogItemsStore", {
+export const useCatalogItemsStore = defineStore("catalogItemsStore", {
   state: () => ({
-    items: [] as FullCatalogItem[], //_.cloneDeep(test_items), // изначальные, для отмены превью
-    // items: [] as FullCatalogItem[], //_.cloneDeep(test_items), // изначальные, для отмены превью
+    initialData: [] as FullCatalogItem[],
+    data: [] as FullCatalogItem[],
     initialized: false,
+    hasOrderChanges: false,
   }),
+
   actions: {
-    async init() {
+    async initData() {
+      if (this.initialized) return
+
+      await this.refreshData()
+      this.initialized = true
+    },
+
+    async refreshData() {
       try {
-        const data = await getData(this.initialized)
-        // const { data } = await useAsyncData(() => $fetch("/api/catalog/items"));
-        const { data: items, success, error } = z.array(fullCatalogItemSchema).safeParse(data)
-
-        if (!items) throw new Error("error, when parse catalog-items data from backend in store init", error)
-
-        this.items = _.cloneDeep(items)
-        this.initialized = true
-      } catch (error) {
-        console.log("init state catalog-items ERROR", error)
+        const data = await $fetch<FullCatalogItem[]>("/api/catalog/items")
+        this.data = cloneDeep(data)
+        this.initialData = cloneDeep(data)
+        this.hasOrderChanges = false
+      } catch (e) {
+        console.error("Failed to fetch catalog-items items:", e)
       }
     },
-    async create_or_update_item_remote(state: FullCatalogItem) {
-      const formData = new FormData()
 
-      const { frontendFileLarge, frontendFileShort, ...dataWithoutFile } = state
-
-      formData.append("itemJson", JSON.stringify(dataWithoutFile))
-
-      if (frontendFileShort) {
-        ///
-        formData.append("frontendFileShort", frontendFileShort)
-        formData.append("frontendFileShort.name", frontendFileShort.name)
-        formData.append("frontendFileShort.type", frontendFileShort.type)
-        ///
-      }
-
-      if (frontendFileLarge) {
-        ///
-        formData.append("frontendFileLarge", frontendFileLarge)
-        formData.append("frontendFileLarge.name", frontendFileLarge.name)
-        formData.append("frontendFileLarge.type", frontendFileLarge.type)
-        ///
-      }
-
+    async createItem(formData: FormData): Promise<{ error?: string }> {
       try {
-        const method = state.id ? "PUT" : "POST"
-        const { success, error } = await $fetch("/api/catalog/items", { method, body: formData })
-        await this.init()
+        const { error } = await $fetch("/api/catalog/items", { method: "POST", body: formData })
+        await this.refreshData()
 
-        return { success, error }
-      } catch (error) {
         return { error }
+      } catch (error) {
+        return { error: String(error) }
       }
     },
-    async delete_item_remote(itemId: number) {
+    async deleteItem(id: number): Promise<{ error?: string }> {
       try {
-        const { success, error } = await $fetch("/api/catalog/items", { method: "DELETE", query: { id: itemId } })
-        await this.init()
+        const { error } = await $fetch("/api/catalog/items", { method: "DELETE", query: { id } })
+        await this.refreshData()
 
-        return { success, error }
-      } catch (error) {
         return { error }
+      } catch (error) {
+        return { error: String(error) }
+      }
+    },
+    async updateItem(formData: FormData, id: number): Promise<{ error?: string }> {
+      try {
+        const { error } = await $fetch("/api/catalog/items", { method: "PUT", body: formData, query: { id } })
+
+        const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+        await sleep(1000) // не успевает blob storage
+
+        await this.refreshData()
+
+        return { error }
+      } catch (error) {
+        return { error: String(error) }
       }
     },
   },
   getters: {
-    topProjects(): FullCatalogItem[] {
-      return this.items.filter((i) => i.is_top)
+    getItems(state) {
+      return state.data
     },
   },
 })
-
-// Автоматический вызов init() при первом использовании стора
-export const useInitializedCatalogItemsStore = async () => {
-  const store = useCatalogItemsStore()
-  if (!store.initialized) {
-    await store.init()
-  }
-  return store
-}

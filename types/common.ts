@@ -1,11 +1,27 @@
 import z from "zod"
 
-export const imageReferTypeScheme = z.enum(["faq", "blog", "slug-asset", "catalog-admin", "catalog-reward"])
+export const imageReferTypeSchema = z.enum([
+  "faq",
+  "blog",
+  "slug-asset",
+  "catalog-admin",
+  "catalog-reward",
+  "catalog-item",
+])
+
+export const image_referTypes: ImageReferType[] = [
+  "faq",
+  "blog",
+  "slug-asset",
+  "catalog-admin",
+  "catalog-reward",
+  "catalog-item",
+] as const
 
 export const imageSchema = z.object({
   id: z.number().optional(),
   refer_id: z.number().optional(),
-  refer_type: imageReferTypeScheme,
+  refer_type: imageReferTypeSchema,
 
   path: z.string().optional(),
   is_title: z.boolean(),
@@ -27,5 +43,5 @@ export const slugAssetSchema = z.object({
 })
 
 export type Image = z.infer<typeof imageSchema>
-export type ImageReferType = z.infer<typeof imageReferTypeScheme>
+export type ImageReferType = z.infer<typeof imageReferTypeSchema>
 export type SlugAsset = z.infer<typeof slugAssetSchema>

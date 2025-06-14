@@ -232,6 +232,20 @@
       "when": 1749389558098,
       "tag": "0032_refactor_catalog-rewards",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1749758797827,
+      "tag": "0033_empty_lily_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1749890943154,
+      "tag": "0034_tearful_longshot",
+      "breakpoints": true
     }
   ]
 }

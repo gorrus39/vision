@@ -1,60 +1,60 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui"
-import _ from "lodash"
-import { fullBriefJsonEmpty, type BriefItemJson, type FullBriefJson, type Lang } from "~/types/catalog"
+import _, { cloneDeep } from "lodash"
+import { type BriefRow, type BriefJson } from "~/types/catalog"
 import { isValidBrief } from "~/utils/all"
 const { ui } = useAppConfig()
-// TODO:
-// почему-то при edit isCompleteLang ожидаемые значения принимает, но в модалке с заполнением кнопка не всегда соответсвует. иногда дизейблится когда не должна. во вкладках с языками не всегда соответсвующий значёк отображается, который зависим от isCompleteLang
-const briefString = defineModel<string>()
+
+const modelJson = defineModel<BriefJson>({ required: true })
+const emit = defineEmits(["updateError"])
+const props = defineProps<{
+  lastAgrigation: number | undefined | null
+}>()
+
 const showModal = ref(false)
 const isValidBriefRef = ref(false)
 
-const emit = defineEmits(["updateError"])
+const hasScoreChanges = ref(false)
+const state = ref<BriefJson>(_.cloneDeep(modelJson.value))
+const stateScore = computed(() => {
+  return getBriefAgrigationValue({ items: state.value.items }).sumValue
+})
 
-const init = (): FullBriefJson => {
-  // заглушка, так как brief может быть undefined
-  if (!briefString.value) return fullBriefJsonEmpty()
-
-  const briefJson = JSON.parse(briefString.value) as FullBriefJson
-  const isEdit = briefJson.lastAgrigation.sumValue !== null //
-
-  if (isEdit) return briefJson
-  else return fullBriefJsonEmpty()
-}
-
-const briefJson = ref<FullBriefJson>(init())
-
-const columns: TableColumn<BriefItemJson>[] = [
+const columns: TableColumn<BriefRow>[] = [
   { accessorKey: "category", header: "category", meta: { class: { td: "w-[200px]", th: "w-[200px]" } } },
   { accessorKey: "meaning", header: "meaning", meta: { class: { td: "h-4", th: "h-4" } } },
   { accessorKey: "score", header: "score" },
 ]
 
-watch(briefJson.value, () => {
+watch(state.value, () => {
   emit("updateError", null)
 
-  const { error } = isValidBrief(briefJson.value)
+  const { error } = isValidBrief(state.value)
   if (error) isValidBriefRef.value = false
   else isValidBriefRef.value = true
 
-  briefAgrigationAfter.value = getBriefAgrigationValue({ items: briefJson.value.items }).sumValue || 0
+  // briefAgrigationAfter.value = getBriefAgrigationValue({ items: state.value.items }).sumValue || 0
 })
 
 const handleSubmit = () => {
-  briefString.value = JSON.stringify(briefJson.value)
   showModal.value = false
+  modelJson.value = cloneDeep(state.value)
 }
 
 const closeModal = () => {
   showModal.value = false
-  briefJson.value = init()
 }
 
-const briefAgrigationAfter = ref<number>(getBriefAgrigationValue({ items: briefJson.value.items }).sumValue || 0)
+const initBriefAgrigationBefore = props.lastAgrigation //computed(() => modelJson.value.lastAgrigation.sumValue)
+const initBriefAgrigationAfter = computed(() => getBriefAgrigationValue({ items: modelJson.value.items }).sumValue || 0)
 
-const briefAgrigationBefore =
-  briefString.value && (JSON.parse(briefString.value) as FullBriefJson).lastAgrigation.sumValue
+watch(state.value, () => {
+  if (hasScoreChanges!) {
+    const scoreInit = getBriefAgrigationValue({ items: modelJson.value.items }).sumValue
+    const scoreNow = getBriefAgrigationValue({ items: state.value.items }).sumValue
+    if (scoreInit !== scoreNow) hasScoreChanges.value = true
+  }
+})
 </script>
 
 <template>
@@ -63,60 +63,66 @@ const briefAgrigationBefore =
 
     <template #body>
       <div class="p-4 text-black">
-        <div class="flex w-full gap-4">
-          <p>
-            reiting before: <b> {{ briefAgrigationBefore ?? "null" }}</b>
-          </p>
-          <p>
-            reiting after: <b>{{ briefAgrigationAfter }}</b>
-          </p>
-          <svg
-            v-if="briefJson.lastAgrigation.sumValue"
-            :class="[(briefAgrigationBefore || 0) <= briefAgrigationAfter ? 'rotate-0' : 'rotate-180']"
-            width="8"
-            height="20"
-            viewBox="0 0 8 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.35355 0.646447C4.15829 0.451184 3.84171 0.451184 3.64645 0.646447L0.464465 3.82843C0.269203 4.02369 0.269203 4.34027 0.464465 4.53553C0.659728 4.7308 0.97631 4.7308 1.17157 4.53553L4 1.70711L6.82843 4.53553C7.02369 4.7308 7.34027 4.7308 7.53553 4.53553C7.7308 4.34027 7.7308 4.02369 7.53553 3.82843L4.35355 0.646447ZM4.5 20L4.5 1L3.5 1L3.5 20L4.5 20Z"
-              :fill="(briefAgrigationBefore || 0) <= briefAgrigationAfter ? '#18B700' : 'red'"
-            />
-          </svg>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-4 rounded p-1 ring-1 ring-gray-300">
+            <span>
+              reiting before: <b> {{ initBriefAgrigationBefore ?? "null" }} </b></span
+            >
+            <span>
+              reiting after: <b>{{ initBriefAgrigationAfter }}</b>
+            </span>
+            <admin-chanks-arrow-svg :before="initBriefAgrigationBefore" :after="initBriefAgrigationAfter" />
+          </div>
+          <div class="flex gap-4 rounded p-1 ring-1 ring-gray-600" v-if="hasScoreChanges">
+            <span>
+              reiting before: <b> {{ initBriefAgrigationAfter }} </b></span
+            >
+            <span>
+              reiting after: <b>{{ stateScore }}</b>
+            </span>
+            <admin-chanks-arrow-svg :before="initBriefAgrigationAfter" :after="stateScore!" />
+          </div>
+          <p class="ms-auto">fill every fields in any language</p>
         </div>
-        <p class="text-center">fill every fields in any language</p>
 
-        <UTable :data="briefJson.items" :columns>
+        <UTable :data="state.items" :columns>
           <template #category-cell="{ row }">
             <p>{{ row.original.category.toUpperCase() }}</p>
           </template>
 
           <template #meaning-cell="{ row }">
             <div class="flex w-full gap-2">
-              <UTextarea
-                v-model="row.original.meaning.en"
-                :ui="{ base: 'h-12 flex-1' }"
-                size="sm"
-                placeholder="Enter meaning EN"
-              />
-              <UTextarea
-                v-model="row.original.meaning.ru"
-                :ui="{ base: 'h-12 flex-1' }"
-                size="sm"
-                placeholder="Enter meaning RU"
-              />
-              <UTextarea
-                v-model="row.original.meaning.cn"
-                :ui="{ base: 'h-12 flex-1' }"
-                size="sm"
-                placeholder="Enter meaning CN"
-              />
+              <UFormField name="plug">
+                <UTextarea
+                  v-model="row.original.meaning.en"
+                  :ui="{ base: 'h-12 flex-1' }"
+                  size="sm"
+                  placeholder="Enter meaning EN"
+                />
+              </UFormField>
+              <UFormField name="plug">
+                <UTextarea
+                  v-model="row.original.meaning.ru"
+                  :ui="{ base: 'h-12 flex-1' }"
+                  size="sm"
+                  placeholder="Enter meaning RU"
+                />
+              </UFormField>
+              <UFormField name="plug">
+                <UTextarea
+                  v-model="row.original.meaning.cn"
+                  :ui="{ base: 'h-12 flex-1' }"
+                  size="sm"
+                  placeholder="Enter meaning CN"
+                />
+              </UFormField>
             </div>
           </template>
 
           <template #score-cell="{ row }">
-            <UInputNumber v-model="row.original.score" :min="0" :max="10" color="success" />
+            <UFormField name="plug">
+              <UInputNumber v-model="row.original.score" :min="0" :max="10" color="success" />
+            </UFormField>
           </template>
         </UTable>
       </div>
