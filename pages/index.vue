@@ -1,16 +1,12 @@
-<script setup lang="ts">
-const aaa = "AAAAAAAAAAAAAAAAAAAAAAAA"
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <h1>QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ</h1>
-  <p>{{ aaa }}</p>
-  <!-- <Home1Title />
+  <Home1Title />
   <Home2Vision />
   <Home3TopProjects />
   <Home4AlwaysRelevant />
   <Home5VisionBlog />
-  <Home6Faq /> -->
+  <Home6Faq />
 </template>
 
 <style scoped></style>
