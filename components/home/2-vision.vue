@@ -22,12 +22,15 @@ const goToLearnMore = () => {
       </div>
 
       <div class="border-D-e relative flex flex-1 border-white">
-        <div class="on-hover left-D-150 absolute top-1/2" @click="goToLearnMore">
+        <NuxtLinkLocale class="on-hover left-D-150 absolute top-1/2" to="/about-fraudvision">
+          <!-- <div class="on-hover left-D-150 absolute top-1/2" @click="goToLearnMore"> -->
           <NuxtImg class="bottom-D-1 w-D-600 absolute" src="images/home/arrow-to-right.svg" />
           <span class="text-D-30 font-semibold">
             {{ $t("home.vision.learn_more__") }}
           </span>
-        </div>
+          <!-- </div> -->
+        </NuxtLinkLocale>
+
         <div class="border-D-b w-D-500 border-white"></div>
         <div class="flex-1"></div>
       </div>
@@ -110,7 +113,9 @@ const goToLearnMore = () => {
         {{ $t("home.vision.featured_vlogs") }}
       </span>
     </div>
-    <div class="on-hover flex items-center" @click="goToLearnMore">
+
+    <NuxtLinkLocale class="on-hover left-D-150 absolute top-1/2" to="/about-fraudvision">
+      <!-- <div class="on-hover flex items-center" @click="goToLearnMore"> -->
       <div class="w-M-30"></div>
 
       <div class="h-M-80 flex flex-col items-center">
@@ -122,7 +127,8 @@ const goToLearnMore = () => {
       <div class="w-M-30 h-M-80">
         <!-- <div class="w-M-7 border-M-e h-full border-white"></div> -->
       </div>
-    </div>
+    </NuxtLinkLocale>
+    <!-- </div> -->
   </div>
 </template>
 
