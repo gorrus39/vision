@@ -9,7 +9,7 @@ export const getImagePath = (image: Image | undefined): string | undefined => {
   }
 
   // только добавлен на фронте. в блоб браузера
-  const isFrontOnly = image.path?.startsWith("blob:http://")
+  const isFrontOnly = image.path?.startsWith("blob:http")
   if (isFrontOnly) {
     return image.path
   }
