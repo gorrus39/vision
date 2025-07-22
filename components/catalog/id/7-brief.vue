@@ -1,29 +1,26 @@
 <script setup lang="ts">
-import type { BriefItemJson, FullBriefJson, FullCatalogItem, Lang } from "~/types/catalog"
+import type { TableColumn } from "@nuxt/ui"
+import type { BriefCategory, BriefJson, BriefRow, FullCatalogItem, Lang } from "~/types/catalog"
 const { t, locale } = useI18n()
 
 const props = defineProps<{
   item: FullCatalogItem
 }>()
-const rows: BriefItemJson[] = (JSON.parse(props.item.brief) as FullBriefJson).items
+const rows = props.item.brief.items
 
-const columns = [
+const columns: TableColumn<BriefRow>[] = [
   {
-    key: "category",
-    label: t("catalog.id.brief_category"),
-
-    class: "",
+    accessorKey: "category",
+    header: t("catalog.id.brief_category"),
   },
-  { key: "meaning", label: t("catalog.id.brief_meaning"), class: "" },
+  { accessorKey: "meaning", header: t("catalog.id.brief_meaning") },
   {
-    key: "score",
-    label: t("catalog.id.brief_score"),
-
-    class: "",
+    accessorKey: "score",
+    header: t("catalog.id.brief_score"),
   },
 ]
 
-const getMeaningValue = (row: BriefItemJson) => {
+const getMeaningValue = (row: BriefRow) => {
   const valueByLocale = row.meaning[locale.value as Lang]
 
   if (valueByLocale && valueByLocale.length > 0) return valueByLocale
@@ -37,7 +34,7 @@ const getMeaningValue = (row: BriefItemJson) => {
   return ""
 }
 
-const briefFielsAmount = (JSON.parse(props.item.brief) as FullBriefJson).items.length
+const briefFielsAmount = props.item.brief.items.length
 </script>
 
 <template>
@@ -47,33 +44,28 @@ const briefFielsAmount = (JSON.parse(props.item.brief) as FullBriefJson).items.l
     <NuxtImg class="absolute top-[20vw] z-0 w-full md:top-[-1vw]" src="images/catalog/id/brief.png" />
 
     <UTable
-      class="x-mx relative z-10 hidden mb-D-120 md:block"
+      class="x-mx mb-D-120 relative z-10 hidden md:block"
       :columns="columns"
-      :rows="rows"
+      :data="rows"
       :ui="{
         base: 'table-fixed max-w-full border-D',
-        devide: 'divide-white dark:divide-white',
-        th: { color: 'text-white dark:text-white', base: 'font-secondary', size: 'text-D-45', padding: 'p-D-70' },
-        td: {
-          color: 'text-white dark:text-white',
-          padding: 'p-D-70',
-          size: 'text-D-26 leading-D-34',
-          base: 'whitespace-normal',
-        },
+        // separator: 'divide-white dark:divide-white',
+        th: 'text-white dark:text-white font-secondary text-D-45 p-D-70',
+        td: 'text-white dark:text-white p-D-70 text-D-26 leading-D-34 whitespace-normal',
         thead: 'bg-black/90',
         tbody: 'bg-black/60',
       }"
     >
-      <template #category-data="{ row }: { row: BriefItemJson }">
-        <b> {{ $t(`catalog.id.brief_category_${row.category.replaceAll(" ", "_")}`) }}</b>
+      <template #category-cell="{ row }">
+        <b> {{ $t(`catalog.id.brief_category_${row.original.category.replaceAll(" ", "_")}`) }}</b>
       </template>
-      <template #meaning-data="{ row }: { row: BriefItemJson }">
-        {{ getMeaningValue(row) }}
+      <template #meaning-cell="{ row }">
+        {{ getMeaningValue(row.original) }}
       </template>
-      <template #score-data="{ row }: { row: BriefItemJson }"> {{ row.score }}/{{ briefFielsAmount }} </template>
+      <template #score-cell="{ row }"> {{ row.original.score }}/{{ briefFielsAmount }} </template>
     </UTable>
 
-    <div class="x-mx relative z-10 flex flex-col gap-M-5 md:hidden">
+    <div class="x-mx gap-M-5 relative z-10 flex flex-col md:hidden">
       <CatalogIdBriefMobileField
         v-for="row in rows"
         :row="row"

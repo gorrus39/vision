@@ -19,14 +19,14 @@ defineProps<{
   >
     <div :class="['flex flex-wrap justify-between', mobile ? 'mb-M-21' : 'mb-D-34']">
       <div v-if="'published_at' in item" :class="[mobile ? 'text-M-16' : 'text-D-22']">
-        {{ formatDate(item.published_at) }}
+        {{ formatDate(new Date(item.published_at)) }}
       </div>
       <div
         :class="[
           'border-white',
           mobile
-            ? 'border-M rounded-[5vw] ps-M-10 pe-M-10 text-M-14'
-            : 'border-D rounded-[2vw] pt-D-2 ps-D-10 pe-D-10 text-D-18',
+            ? 'border-M ps-M-10 pe-M-10 text-M-14 rounded-[5vw]'
+            : 'border-D pt-D-2 ps-D-10 pe-D-10 text-D-18 rounded-[2vw]',
         ]"
       >
         {{ item.category }}
@@ -42,8 +42,8 @@ defineProps<{
       :class="[
         'formatted-text',
         mobile
-          ? 'max-h-[50vw] overflow-hidden mb-M-14 text-M-16 leading-M-24'
-          : 'max-h-[10vw] overflow-hidden mb-D-18 text-D-24 leading-D-36',
+          ? 'mb-M-14 text-M-16 leading-M-24 max-h-[50vw] overflow-hidden'
+          : 'mb-D-18 text-D-24 leading-D-36 max-h-[10vw] overflow-hidden',
       ]"
       style="
         mask-image: linear-gradient(to bottom, black 10%, transparent);

@@ -68,5 +68,8 @@ export const useCatalogItemsStore = defineStore("catalogItemsStore", {
     getItems(state) {
       return state.data
     },
+    topProjects(state) {
+      return state.data.filter((i) => i.is_top)
+    },
   },
 })

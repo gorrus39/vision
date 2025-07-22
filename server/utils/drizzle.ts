@@ -309,14 +309,46 @@ export function queries() {
         refer_ids: number[]
         refer_type: ImageReferType | ImageReferType[]
       }) {
+        // console.log("refer_ids.length", refer_ids.length)
+        // if (Array.isArray(refer_type)) {
+        //   console.log("array refer_type", refer_type.length)
+        // } else {
+        //   console.log("string refer_type")
+        // }
+        // console.log("refer_type", refer_type)
+
+        const chunkArray = <T>(arr: T[], chunkSize: number): T[][] => {
+          const res = []
+          for (let i = 0; i < arr.length; i += chunkSize) {
+            res.push(arr.slice(i, i + chunkSize))
+          }
+          return res
+        }
+
         const referTypeCondition = Array.isArray(refer_type)
           ? inArray(schema.images.refer_type, refer_type)
           : eq(schema.images.refer_type, refer_type)
 
-        return await db
-          .select()
-          .from(schema.images)
-          .where(and(inArray(schema.images.refer_id, refer_ids), referTypeCondition))
+        const results: any[] = []
+
+        for (const chunk of chunkArray(refer_ids, 10)) {
+          const res = await db
+            .select()
+            .from(schema.images)
+            .where(and(inArray(schema.images.refer_id, chunk), referTypeCondition))
+          results.push(...res)
+        }
+
+        return results
+
+        // const referTypeCondition = Array.isArray(refer_type)
+        //   ? inArray(schema.images.refer_type, refer_type)
+        //   : eq(schema.images.refer_type, refer_type)
+
+        // return await db
+        //   .select()
+        //   .from(schema.images)
+        //   .where(and(inArray(schema.images.refer_id, refer_ids), referTypeCondition))
       },
 
       async getById({ refer_id, refer_type }: { refer_id: number; refer_type: ImageReferType }) {
@@ -337,6 +369,9 @@ export function queries() {
       },
       async delete(id: number) {
         return await db.delete(schema.images).where(eq(schema.images.id, id)).returning()
+      },
+      async getAll() {
+        return await db.select().from(schema.images)
       },
     },
   }

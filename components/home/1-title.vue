@@ -14,32 +14,32 @@ const toast = useToast()
 
 <template>
   <div class="hidden md:flex">
-    <div class="border-D-e border-white w-D-154"></div>
+    <div class="border-D-e w-D-154 border-white"></div>
     <div class="border-D-b flex flex-1 border-white">
-      <div class="relative ps-D-28 w-D-732">
-        <p class="font-bebas-neue absolute z-10 text-D-62 leading-D-75 top-D-144 md:w-[39vw]">
+      <div class="ps-D-28 w-D-732 relative">
+        <p class="font-bebas-neue text-D-62 leading-D-75 top-D-144 absolute z-10 md:w-[39vw]">
           {{ $t("home.title.vision_save__") }}
         </p>
       </div>
       <div class="flex w-full flex-col">
-        <div class="relative border-white h-D-593">
+        <div class="h-D-593 relative border-white">
           <video class="h-full w-auto" playsinline autoplay muted loop preload="auto">
             <source src="/videos/home/video-desktop.mp4" type="video/mp4" />
             Ваш браузер не поддерживает видео.
           </video>
           <!-- <p class="absolute text-D-38 top-D-383">*VIDEO*</p> -->
         </div>
-        <div class="flex flex-col h-D-359">
-          <div class="border-D-t flex border-white text-D-24 leading-D-36">
-            <span class="mx-auto pt-D-43">
+        <div class="h-D-359 flex flex-col">
+          <div class="border-D-t text-D-24 leading-D-36 flex border-white">
+            <span class="pt-D-43 mx-auto">
               {{ $t("home.title.say_goodbuy__") }}
             </span>
           </div>
-          <div class="border-D-e relative mt-auto flex border-white h-D-100">
-            <div class="on-hover ms-auto me-D-100" @click="scrollToAnchor('top-projects')">
+          <div class="border-D-e h-D-100 relative mt-auto flex border-white">
+            <div class="on-hover me-D-100 ms-auto" @click="scrollToAnchor('top-projects')">
               <!-- <NuxtLink to="#top-projects"> -->
-              <NuxtImg class="absolute top-D--25 right-D-75 h-D-100" src="/images/home/arrow-to-bottom.svg" />
-              <span class="font-bold text-D-28">
+              <NuxtImg class="right-D-75 h-D-80 absolute" src="/images/home/arrow-to-bottom.svg" />
+              <span class="text-D-28 font-bold">
                 {{ $t("home.title.top_projects") }}
               </span>
               <!-- </NuxtLink> -->
@@ -48,11 +48,11 @@ const toast = useToast()
         </div>
       </div>
     </div>
-    <div class="border-D-b border-white w-D-154"></div>
+    <div class="border-D-b w-D-154 border-white"></div>
   </div>
 
-  <div class="flex h-M-499 md:hidden">
-    <div class="border-M-e border-white w-M-23"></div>
+  <div class="h-M-499 flex md:hidden">
+    <div class="border-M-e w-M-23 border-white"></div>
     <div class="border-M-b flex flex-1 flex-col border-white">
       <div class="flex flex-1 overflow-hidden">
         <video class="h-auto w-full" playsinline autoplay muted loop preload="auto">

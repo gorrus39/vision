@@ -47,7 +47,7 @@ const getData = async (initialized: boolean): Promise<Bunner[]> => {
   }
 }
 
-const useCatalogBunnersStore = defineStore("catalogStore", {
+const useCatalogBunnersStore = defineStore("catalogBunnersStore", {
   state: () => ({
     items: [] as Bunner[],
     initialized: false,

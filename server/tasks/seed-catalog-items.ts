@@ -1,29 +1,26 @@
 import { faker } from "@faker-js/faker"
 import { seedAdmins, seedLinksToCatalogItem, seedRewards } from "../utils/seed"
 import { fullBriefJsonSeed, Tag } from "~/types/catalog"
-import { randElement, randNumber } from "~/utils/all"
+import { randBool, randElement, randNumber } from "~/utils/all"
+import { Image } from "~/types/common"
+import { imageDirectLiks } from "./seed-faq-items"
 
 const randBoolean = () => Boolean(Math.round(Math.random()))
 
-const makeTagsString = (): string => {
+const makeTagsString = (): string[] => {
   const tags: Tag[][] = [
     ["kozmap", "oracle"],
     ["english", "russian", "chinese", "spanish", "french"],
     ["chat", "markets", "forums", "top sellers", "essentials", "others"],
   ]
-  const setTags = new Set()
+
+  const setTags: Set<string> = new Set()
 
   if (Math.random() * 10 > 5) setTags.add(randElement(tags[0]))
+  for (let i = 0; i < 4; i++) setTags.add(randElement(tags[1]))
+  for (let i = 0; i < 5; i++) setTags.add(randElement(tags[2]))
 
-  for (let i = 0; i < 4; i++) {
-    setTags.add(randElement(tags[1]))
-  }
-
-  for (let i = 0; i < 5; i++) {
-    setTags.add(randElement(tags[2]))
-  }
-
-  return JSON.stringify([...setTags])
+  return [...setTags]
 }
 
 const makeImgShortPath = (): string => {
@@ -65,19 +62,17 @@ export default defineTask({
     const { db_ids: rewardIds } = await seedRewards()
 
     for (let i = 0; i < catalogItemAmount; i++) {
-      const briefJson = fullBriefJsonSeed()
-      const [catalogItem] = await drizzle.catalogItem.create({
+      const brief = fullBriefJsonSeed()
+      const catalogItem = await drizzle.catalogItem.create({
         title: faker.company.name(),
         tags: makeTagsString(),
-        img_short_path: makeImgShortPath(),
-        img_large_path: makeImgLargePath(),
         description_short: makeDescriptionShort(),
         description_large: makeDescriptionLarge(),
         rules: makeRules(),
-        brief: JSON.stringify(briefJson),
+        brief,
         is_top: randBoolean(),
       })
-      const catalog_item_id = catalogItem.id
+      const catalog_item_id = catalogItem.id!
 
       // add admin ids
       const catalogAdminsToItemsAmount = randElement([1, 2, 3, 4, 5])
@@ -97,11 +92,21 @@ export default defineTask({
         })
       }
 
-      // add reitings
-      // const caralogReitingsAmount = randElement([0, 1, 2, 3, 4])
-      // for (let i = 0; i < caralogReitingsAmount; i++) {
-      //   await drizzle.reitings.create({ catalog_item_id, value: Math.floor(Math.random() * 101) })
-      // }
+      const preImages: Image[] = Array(randNumber({ start: 0, end: 4 }))
+        .fill(null)
+        .map((i) => ({
+          path: randElement(imageDirectLiks),
+          is_title: randBool(),
+          refer_type: "catalog-item",
+        }))
+
+      for (const preImage of preImages) {
+        const data = preImage
+        const refer_id = catalog_item_id
+        const refer_type = "catalog-item"
+
+        await queries().images.create(data, refer_id, refer_type)
+      }
 
       await seedLinksToCatalogItem({ item: catalogItem, linksAmount: 10 })
     }

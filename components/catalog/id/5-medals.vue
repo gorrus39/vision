@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import type { FullCatalogItem } from "~/types/catalog"
 
+const rewardsStore = useCatalogRewardsStore()
+await callOnce(async () => rewardsStore.initData())
+
 const props = defineProps<{
   item: FullCatalogItem
 }>()
 
-const medals = props.item.rewards
+const medals = props.item.catalog_reward_ids
+  .map((id) => rewardsStore.data.find((r) => r.id === id))
+  .filter((r) => r !== undefined)
 </script>
 
 <template>
   <CatalogIdTitleBlock :text="$t('catalog.id.medals')" />
-  <div class="x-mx flex flex-wrap justify-center mb-M-30 md:mb-D-70">
+  <div class="x-mx mb-M-30 md:mb-D-70 flex flex-wrap justify-center">
     <div
-      class="mx-auto flex rounded-[3vw] border-2 border-solid border-white gap-M-10 p-M-15 md:rounded-[2vw] md:border-[.5px] md:gap-D-40 md:p-D-50"
+      class="gap-M-10 p-M-15 md:gap-D-40 md:p-D-50 mx-auto flex rounded-[3vw] border-2 border-solid border-white md:rounded-[2vw] md:border-[.5px]"
     >
-      <CatalogIdMedalItem v-for="medal in medals" :medal="medal" />
+      <CatalogIdMedalItem v-for="medal in medals" :medal />
     </div>
   </div>
 </template>

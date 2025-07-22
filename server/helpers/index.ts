@@ -1,6 +1,6 @@
 import { Image, ImageReferType } from "~/types/common"
 
-const createImageWithBlob = async (
+export const createImageWithBlob = async (
   imageAfter: Image & { frontendFile: File },
   refer_id: number,
   refer_type: ImageReferType,

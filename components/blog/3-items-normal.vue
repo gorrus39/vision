@@ -6,7 +6,6 @@ import type { FullFaqItem } from "~/types/faq"
 const props = defineProps<{
   isFaqItems?: true
 }>()
-
 const randBool = (): boolean => {
   return Math.random() > 0.5
 }
@@ -47,16 +46,20 @@ const reqursiveMakeGroup = <T extends BlogItem | FullFaqItem>(
 
 const { locale } = useI18n()
 
-const { items_view } = storeToRefs(await useInitializedBlogStore())
+const blogStore = useBlogStore()
+await callOnce(() => blogStore.initData())
+
+const items_view = blogStore.data
+
 const faqStore = useFaqStore()
 await callOnce(() => faqStore.initData())
 
 const items_by_lang = computed(() => {
-  const itemsType = props.isFaqItems ? ref(faqStore.data) : items_view
+  const itemsType = props.isFaqItems ? faqStore.data : items_view
 
-  return get_items_by_lang(itemsType, locale)
+  return get_items_by_lang(ref(itemsType), locale)
 })
-
+// alert(items_by_lang.value.length)
 // const rows = computed(() => items_by_lang.value.map((item) => [item]));
 const rows = computed(() => reqursiveMakeGroup(items_by_lang.value))
 
@@ -76,27 +79,10 @@ const cardsWidth = () => {
   const value = Math.floor(Math.random() * 25 + minWidth)
   return `${value}vw`
 }
-
-// 1
-// imgPosition: left | right
-// imgWidth 40vw - 60vw
-// itemWidth: flex-1
-
-// 2
-// imgPosition: left | right
-// imgWidth 20vw - 30vw
-// itemWidth: flex-1 | vw
-
-// 3
-// imgPosition: left | right | bottom
-// imgWidth 20vw - 30vw
-// itemWidth: flex-1 | vw
-// flex col with bottom img
-// flex reverse?
 </script>
 
 <template>
-  <div class="border-D-t border-white mb-M-83 me-D-155 ms-D-156 md:mb-D-183">
+  <div class="border-D-t mb-M-83 me-D-155 ms-D-156 md:mb-D-183 border-white">
     <div class="hidden md:block" v-for="row in rows">
       <div class="flex" v-if="row.length === 2">
         <BlogItemsNormalItem2
@@ -104,27 +90,27 @@ const cardsWidth = () => {
           :imgPosition="imagePosion()"
           :imgMaxWidthStyle="imgMaxWidthStyle()"
           :width="cardsWidth()"
-          isFaqItems
+          :isFaqItems
         />
         <BlogItemsNormalItem2
           :item="row[1]"
           :imgPosition="imagePosion()"
-          isFaqItems
+          :isFaqItems
           :imgMaxWidthStyle="imgMaxWidthStyle()"
         />
       </div>
 
-      <BlogItemsNormalItem1 v-if="row.length === 1" :item="row[0]" isFaqItems />
+      <BlogItemsNormalItem1 v-if="row.length === 1" :item="row[0]" :isFaqItems />
     </div>
 
     <div :class="[`border-M-s border-M-t border-M-e flex flex-col border-white md:hidden`]">
-      <BlogItemsNormalItem1Mobile v-for="item in items_by_lang" :item="item" isFaqItems />
+      <BlogItemsNormalItem1Mobile v-for="item in items_by_lang" :item="item" :isFaqItems />
     </div>
 
     <div class="text-M-16 mt-M-30 md:mt-D-30 md:text-D-40" v-if="isFaqItems">
       {{ $t("faq.text") }}
     </div>
 
-    <ChanksButtonGoUp class="ms-auto mt-D-30" />
+    <ChanksButtonGoUp class="mt-D-30 ms-auto" />
   </div>
 </template>

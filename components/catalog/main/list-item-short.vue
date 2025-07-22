@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { locale } = useI18n()
-import type { FullBriefJson, FullCatalogItem } from "~/types/catalog"
+import type { FullCatalogItem } from "~/types/catalog"
 
 const props = defineProps<{
   item: FullCatalogItem
@@ -8,9 +8,36 @@ const props = defineProps<{
   color?: "red"
 }>()
 
-const leftRewards = computed(() => props.item.rewards.filter((i, index) => index == 0 || index == 2))
-const rightRewards = computed(() => props.item.rewards.filter((i, index) => index == 1 || index == 3))
-const bottomRewards = computed(() => props.item.rewards.filter((i, index) => index > 3))
+const rewardStore = useCatalogRewardsStore()
+callOnce(async () => rewardStore.initData())
+const rewardStoreData = rewardStore.data
+
+const rewardIds = props.item.catalog_reward_ids
+
+const leftRewardsCondition = (_item: any, index: number) => index == 0 || index == 2
+const rightRewardsCondition = (_item: any, index: number) => index == 1 || index == 3
+const bottomRewardsCondition = (_item: any, index: number) => index > 3
+
+const leftRewards = computed(() =>
+  rewardIds
+    .filter(leftRewardsCondition)
+    .map((rewardId) => rewardStoreData.find((r) => r.id === rewardId))
+    .filter(Boolean),
+)
+
+const rightRewards = computed(() =>
+  rewardIds
+    .filter(rightRewardsCondition)
+    .map((rewardId) => rewardStoreData.find((r) => r.id === rewardId))
+    .filter(Boolean),
+)
+
+const bottomRewards = computed(() =>
+  rewardIds
+    .filter(bottomRewardsCondition)
+    .map((rewardId) => rewardStoreData.find((r) => r.id === rewardId))
+    .filter(Boolean),
+)
 
 const getDescriptionShort = (item: FullCatalogItem): string => {
   const description_short_json = JSON.parse(props.item.description_short)
@@ -44,63 +71,59 @@ const getDescriptionShort = (item: FullCatalogItem): string => {
 // const reitingDiff = getReitingDiff(props.item.reitings)
 
 const reiting = computed(() => {
-  const brief = JSON.parse(props.item.brief) as FullBriefJson
-
+  const brief = props.item.brief
   const { sumValue } = getBriefAgrigationValue({ items: brief.items })
   const sumValueBefore = brief.lastAgrigation.sumValue
 
   return { sumValue, sumValueBefore }
 })
+
+const imageShort = props.item.images.find((i) => !i.is_title)
 </script>
 
 <template>
   <NuxtLinkLocale class="hover:cursor-pointer" :to="`/catalog/${item.id}`">
     <div
-      class="flex w-full flex-col justify-between rounded-xl border-2 border-solid mb-D-10 p-D-15 md:rounded-md md:border-[.5px] md:w-D-335"
+      class="mb-D-10 p-D-15 md:w-D-335 flex w-full flex-col justify-between rounded-xl border-2 border-solid md:rounded-md md:border-[.5px]"
       :style="{ height: '-webkit-fill-available' }"
       :class="[color == 'red' ? 'border-red-500' : 'border-white']"
     >
       <div class="grid grid-cols-3 items-center">
         <!-- Левая колонка -->
         <div class="flex justify-end gap-1">
-          <img
-            class="w-M-20 md:w-D-44"
-            v-for="{ img_path } in leftRewards"
-            :key="img_path"
-            :src="getRewardImageUrl(img_path)"
-          />
+          <img class="w-M-20 md:w-D-44" v-for="reward in leftRewards" :src="getImagePath(reward?.images[0])" />
         </div>
 
         <!-- Центр -->
         <div class="flex justify-center">
           <img
-            class="overflow-hidden rounded-full border-[.5px] border-solid border-white w-M-35 h-M-35 md:w-D-75 md:h-D-75"
-            v-if="item.img_short_path"
-            :src="item.img_short_path"
+            class="w-M-35 h-M-35 md:w-D-75 md:h-D-75 overflow-hidden rounded-full border-[.5px] border-solid border-white"
+            v-if="imageShort"
+            :src="getImagePath(imageShort)"
           />
         </div>
 
         <!-- Правая колонка -->
         <div class="flex justify-start gap-1">
-          <img
-            class="w-M-20 md:w-D-44"
-            v-for="{ img_path } in rightRewards"
-            :key="img_path"
-            :src="getRewardImageUrl(img_path)"
-          />
+          <img class="w-M-20 md:w-D-44" v-for="reward in rightRewards" :src="getImagePath(reward?.images[0])" />
         </div>
       </div>
 
       <div class="flex flex-wrap gap-1" v-if="bottomRewards.length > 0">
-        <img class="w-D-44" v-for="{ img_path } in bottomRewards" :key="img_path" :src="getRewardImageUrl(img_path)" />
+        <img
+          class="w-D-44"
+          v-for="reward in bottomRewards"
+          :key="reward?.name"
+          :src="getImagePath(reward?.images[0])"
+        />
       </div>
 
-      <p class="text-center font-semibold mb-D-10 mt-D-10 text-M-18 md:text-D-24">{{ item.title }}</p>
+      <p class="mb-D-10 mt-D-10 text-M-18 md:text-D-24 text-center font-semibold">{{ item.title }}</p>
 
-      <p class="text-center font-semibold mb-D-10 mt-D-10 text-M-12 md:text-D-16">{{ getDescriptionShort(item) }}</p>
+      <p class="mb-D-10 mt-D-10 text-M-12 md:text-D-16 text-center font-semibold">{{ getDescriptionShort(item) }}</p>
 
-      <div class="flex items-center justify-center gap-D-10">
-        <span class="font-semibold text-M-14 md:text-D-18">{{ reiting.sumValue }}/100</span>
+      <div class="gap-D-10 flex items-center justify-center">
+        <span class="text-M-14 md:text-D-18 font-semibold">{{ reiting.sumValue }}/100</span>
         <svg
           v-if="reiting.sumValueBefore !== null && reiting.sumValue !== null"
           :class="[reiting.sumValue >= reiting.sumValueBefore ? 'rotate-0' : 'rotate-180']"

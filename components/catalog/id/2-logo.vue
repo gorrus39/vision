@@ -2,7 +2,7 @@
 const { locale } = useI18n()
 import type { FullCatalogItem, Lang } from "~/types/catalog"
 
-defineProps<{
+const props = defineProps<{
   item: FullCatalogItem
 }>()
 
@@ -20,18 +20,25 @@ const getByLang = (str: string) => {
     return ""
   }
 }
+
+const imageLarge = props.item.images.find((i) => i.is_title)
 </script>
 
 <template>
-  <div class="relative mb-M-30 md:mb-D-80">
-    <NuxtImg class="absolute -top-[18vw] hidden w-D-600 md:block" src="images/catalog/id/logo-left.png" />
-    <NuxtImg class="absolute -top-[10vw] right-0 hidden w-D-350 md:block" src="images/catalog/id/logo-right.png" />
+  <div class="mb-M-30 md:mb-D-80 relative">
+    <NuxtImg class="w-D-600 absolute -top-[18vw] -z-10 hidden md:block" src="images/catalog/id/logo-left.png" />
+    <NuxtImg class="w-D-350 absolute -top-[10vw] right-0 hidden md:block" src="images/catalog/id/logo-right.png" />
 
     <div class="relative z-10">
-      <p class="font-secondary text-center mb-M-20 text-M-42 md:mb-D-20 md:text-D-100">{{ item.title }}</p>
-      <div class="x-mx flex flex-col items-center gap-M-20 md:flex-row md:gap-D-20">
-        <img class="w-full flex-1" v-if="item.img_large_path" :src="item.img_large_path" alt="" />
-        <p class="flex-1 text-M-12 md:text-D-22">{{ getByLang(item.description_short) }}</p>
+      <p class="font-secondary mb-M-20 text-M-42 md:mb-D-20 md:text-D-100 text-center">{{ item.title }}</p>
+      <div class="x-mx gap-M-20 md:gap-D-20 flex flex-col items-center md:flex-row">
+        <img
+          class="w-full max-w-full flex-1 md:max-w-[40vw]"
+          v-if="imageLarge"
+          :src="getImagePath(imageLarge)"
+          alt=""
+        />
+        <p class="text-M-12 md:text-D-22 flex-1">{{ getByLang(item.description_short) }}</p>
       </div>
     </div>
   </div>

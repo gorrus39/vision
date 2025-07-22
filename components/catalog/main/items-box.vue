@@ -17,18 +17,18 @@ defineProps<{
   <div class="me-M-23 ms-M-23 md:me-D-182 md:ms-D-182">
     <b
       ><p
-        class="font-secondary text-center mb-M-10 text-M-18 mt-M-20 md:mb-D-10 md:text-D-32 md:mt-D-40"
+        class="font-secondary mb-M-10 text-M-18 mt-M-20 md:mb-D-10 md:text-D-32 md:mt-D-40 text-center"
         :class="color == 'red' ? 'text-red-500' : 'text-white'"
       >
         {{ title }}
       </p></b
     >
     <div
-      class="flex flex-col rounded-xl border-2 border-solid p-M-20 md:rounded-md md:border-[.5px] md:p-D-39"
+      class="p-M-20 md:p-D-39 flex flex-col rounded-xl border-2 border-solid md:rounded-md md:border-[.5px]"
       :class="color == 'red' ? 'border-red-500' : 'border-white'"
     >
       <TransitionGroup
-        class="flex w-full flex-col flex-wrap justify-center gap-M-30 md:flex-row md:gap-D-70"
+        class="gap-M-30 md:gap-D-70 flex w-full flex-col flex-wrap justify-center md:flex-row"
         v-if="viewAll || (viewWidth && viewWidth < 786)"
         name="list"
         tag="div"
@@ -51,7 +51,12 @@ defineProps<{
         />
       </TransitionGroup>
 
-      <UCarousel v-else v-slot="{ item, index }" :items="items" :ui="{ container: 'gap-D-70 ', wrapper: 'ms-D-140' }">
+      <UCarousel
+        v-else
+        v-slot="{ item, index }"
+        :items
+        :ui="{ container: 'gap-D-70 ms-0', root: 'ms-D-150', item: 'basis-auto ps-0' }"
+      >
         <CatalogMainListItemLarge v-if="isLarge" :key="item.id || index" :item="item" :index="index" />
 
         <CatalogMainListItemShort
@@ -64,7 +69,7 @@ defineProps<{
       </UCarousel>
 
       <UIcon
-        class="on-hover m-auto transition-transform duration-300 w-M-30 h-M-30 md:me-[0] md:w-D-30 md:h-D-30"
+        class="on-hover w-M-30 h-M-30 md:w-D-30 md:h-D-30 m-auto transition-transform duration-300 md:me-[0]"
         v-if="items.length > 3"
         name="i-ep:arrow-down-bold"
         :class="[viewAll ? 'rotate-0' : 'rotate-180']"

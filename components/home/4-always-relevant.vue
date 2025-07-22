@@ -4,7 +4,7 @@ const { loggedIn } = useUserSession()
 
 const store = useSlugAssetsStore()
 
-const alwaysRelevantAsset = computed(() => store.alwaysRelevantAsset)
+const alwaysRelevantAsset = computed(() => store.homeAlwaysRelevant[0])
 // const modal = useModal()
 
 import HomeAdminModalAlwaysRelevant from "~/components/home/admin/modal-always-relevant.vue"
@@ -15,9 +15,7 @@ const openAdminModal = () => {
   // })
 }
 
-onMounted(async () => {
-  await store.fetchData()
-})
+onMounted(() => store.initData())
 
 const getTextContentByLocale = () => {
   const asset = alwaysRelevantAsset.value
@@ -57,7 +55,7 @@ const getTextContentByLocale = () => {
         :class="[
           'leading-D-200 absolute w-max -rotate-90',
 
-          locale == 'cn' ? 'left-D--290 top-D-280' : 'left-D--185 top-D-120',
+          locale == 'cn' ? '-left-D-290 top-D-280' : '-left-D-185 top-D-120',
         ]"
       >
         <p :class="['font-bebas-neue text-right', locale == 'cn' ? 'text-D-200' : 'text-D-250']">
@@ -67,9 +65,9 @@ const getTextContentByLocale = () => {
       </div>
       <img
         class="h-D-493 w-D-1285 relative top-1/2 ms-auto object-cover"
-        v-if="alwaysRelevantAsset && alwaysRelevantAsset.img_path"
+        v-if="alwaysRelevantAsset && alwaysRelevantAsset.images[0]"
         :class="[{ '-translate-y-1/2': locale == 'cn' }]"
-        :src="getImg(alwaysRelevantAsset.img_path, 'slug-assets')"
+        :src="getImagePath(alwaysRelevantAsset.images[0])"
       />
       <div class="h-D-493 w-D-1285 ms-auto bg-white" v-else></div>
     </div>
@@ -84,8 +82,8 @@ const getTextContentByLocale = () => {
 
     <img
       class="h-M-305 ms-auto w-full object-cover"
-      v-if="alwaysRelevantAsset && alwaysRelevantAsset.img_path"
-      :src="getImg(alwaysRelevantAsset.img_path, 'slug-assets')"
+      v-if="alwaysRelevantAsset && alwaysRelevantAsset.images[0]"
+      :src="getImagePath(alwaysRelevantAsset.images[0])"
     />
     <div class="mb-M-13 h-M-305 w-full bg-white" v-else></div>
 

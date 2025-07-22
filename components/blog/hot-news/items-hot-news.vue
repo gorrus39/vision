@@ -1,34 +1,25 @@
 <script lang="ts" setup>
-const { locale } = useI18n();
+const { locale } = useI18n()
 
-defineProps<{
-  withInfoItems?: true;
-}>();
+const { withInfoItems, maxItemsAmount = 3 } = defineProps<{
+  withInfoItems?: true
+  maxItemsAmount?: number
+}>()
 
-const { items_view } = storeToRefs(await useInitializedBlogStore());
+const store = useBlogStore()
+callOnce(async () => await store.initData())
 
 const hot_items_by_lang = computed(() => {
-  return items_view.value.filter((item) => {
-    const isLocalDeletedByAdmin = item.modified === "deleted";
-    const isHiPriority = item.priority == "High";
-    const correspondingLang = locale.value == item.lang;
-    return isHiPriority && !isLocalDeletedByAdmin && correspondingLang;
-  });
-});
+  return store.data.filter((item) => {
+    const isHiPriority = item.priority == "High"
+    const correspondingLang = locale.value == item.lang
+    return isHiPriority && correspondingLang
+  })
+})
 
-const hot_items_slice = computed(() => hot_items_by_lang.value.slice(0, 4));
-
-// const test = computed(() => []);
-// const test = computed(() => [...hot_items_slice.value]);
-// const test = computed(() => [...hot_items_slice.value, ...hot_items_slice.value]);
-// const test = computed(() => [...hot_items_slice.value, ...hot_items_slice.value, ...hot_items_slice.value]);
-// const test = computed(() => [
-//   ...hot_items_slice.value,
-//   ...hot_items_slice.value,
-//   ...hot_items_slice.value,
-//   ...hot_items_slice.value,
-// ]);
+const hot_items_slice = computed(() => hot_items_by_lang.value.slice(0, maxItemsAmount))
 </script>
+
 <template>
   <div class="border-D-t border-D-s hidden flex-wrap md:flex">
     <BlogHotNewsItemText v-if="withInfoItems" />

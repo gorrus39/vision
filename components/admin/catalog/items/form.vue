@@ -161,7 +161,11 @@ const isEdit = "edit" in modificator
           <hr />
 
           <UFormField name="description_large">
-            <admin-chanks-form-textarea v-model="state.description_large" placeholder="description_large" />
+            <admin-chanks-form-textarea
+              class="w-full"
+              v-model="state.description_large"
+              placeholder="description_large"
+            />
           </UFormField>
 
           <hr />

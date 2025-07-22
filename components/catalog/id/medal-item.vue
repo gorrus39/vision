@@ -8,26 +8,28 @@ defineProps<{
 </script>
 
 <template>
-  <UModal v-model="showModal" :ui="{ rounded: 'rounded-xl', width: 'max-w-[90vw] md:max-w-[60vw]' }">
-    <div class="p-M-20 gap-D-40 md:p-D-48 flex flex-col items-center rounded-xl bg-black md:flex-row">
-      <img class="w-M-82 md:w-D-230" :src="getRewardImageUrl(medal.img_path)" />
+  <UModal v-model:open="showModal">
+    <template #content>
+      <div class="p-M-20 gap-D-40 md:p-D-48 flex flex-col items-center rounded-xl bg-black md:flex-row">
+        <img class="w-M-82 md:w-D-230" :src="getImagePath(medal.images[0])" />
 
-      <div class="border-D-s hidden md:block">
-        <p class="font-secondary border-D-b p-D-26 text-D-40">{{ medal.name }}</p>
-        <p class="text-D-26 p-D-26">{{ medal.description }}</p>
-      </div>
+        <div class="border-D-s hidden md:block">
+          <p class="font-secondary border-D-b p-D-26 text-D-40">{{ medal.name }}</p>
+          <p class="text-D-26 p-D-26">{{ medal.description }}</p>
+        </div>
 
-      <div class="block md:hidden">
-        <p class="font-secondary border-M-b p-M-14 text-M-18">{{ medal.name }}</p>
-        <p class="text-M-14 p-M-14">{{ medal.description }}</p>
+        <div class="block md:hidden">
+          <p class="font-secondary border-M-b p-M-14 text-M-18">{{ medal.name }}</p>
+          <p class="text-M-14 p-M-14">{{ medal.description }}</p>
+        </div>
       </div>
-    </div>
+    </template>
   </UModal>
   <div
     class="img w-M-50 h-M-50 md:w-D-270 md:h-D-270"
     @click="showModal = true"
     :style="{
-      backgroundImage: `url(${getRewardImageUrl(medal.img_path)})`,
+      backgroundImage: `url(${getImagePath(medal.images[0])})`,
     }"
   ></div>
 </template>

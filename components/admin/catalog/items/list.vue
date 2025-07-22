@@ -111,7 +111,6 @@ watchEffect(() => (showForm.value = typeof selectedId.value === "number"))
     <admin-catalog-items-filter-tags v-model="filterTags" :availibleTags />
 
     <hr />
-    <p v-for="item in rowsBySelectedTags">id:{{ item.id }} - reward_ids: {{ item.catalog_reward_ids }}</p>
     <UTable :data="rowsBySelectedTags" :columns>
       <template #actions-cell="{ row }">
         <div class="flex gap-2">

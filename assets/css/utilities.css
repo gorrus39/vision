@@ -140,6 +140,10 @@
 @utility left-D-* {
   left: calc(--value(integer) / var(--w-desktop) * 100vw);
 }
+@utility -left-D-* {
+  left: calc(-1 * --value(integer) / var(--w-desktop) * 100vw);
+}
+
 @utility left-M-* {
   left: calc(--value(integer) / var(--w-mobile) * 100vw);
 }
@@ -151,6 +155,13 @@
 @utility right-M-* {
   right: calc(--value(integer) / var(--w-mobile) * 100vw);
 }
+@utility -right-D-* {
+  right: calc(-1 * --value(integer) / var(--w-desktop) * 100vw);
+}
+@utility -right-M-* {
+  right: calc(-1 * --value(integer) / var(--w-mobile) * 100vw);
+}
+
 
 /* bottom */
 @utility bottom-D-* {
@@ -158,4 +169,10 @@
 }
 @utility bottom-M-* {
   bottom: calc(--value(integer) / var(--w-mobile) * 100vw);
+}
+@utility -bottom-D-* {
+  bottom: calc(-1 * --value(integer) / var(--w-desktop) * 100vw);
+}
+@utility -bottom-M-* {
+  bottom: calc(-1 * --value(integer) / var(--w-mobile) * 100vw);
 }

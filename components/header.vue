@@ -27,6 +27,10 @@ const toggle = ref(true)
         :label="`logout ${user && 'email' in user && user.email}`"
         @click="clear"
       />
+
+      <NuxtLinkLocale v-if="loggedIn" to="/admin">
+        <u-button class="absolute top-12 left-2" label="to admin" />
+      </NuxtLinkLocale>
     </div>
 
     <div class="border-D-e ps-D-28 text-D-42 w-D-686 flex items-center border-white">
@@ -36,7 +40,7 @@ const toggle = ref(true)
     </div>
 
     <nav class="ps-D-22 gap-D-70 relative flex items-center">
-      <NuxtLinkLocale class="absolute bottom-[-40px] z-100" to="/admin/faq">admin-faq</NuxtLinkLocale>
+      <!-- <NuxtLinkLocale class="absolute bottom-[-40px] z-100" to="/admin/faq">admin-faq</NuxtLinkLocale> -->
       <NuxtLinkLocale
         class="on-hover text-D-20"
         v-for="link in navLinks"

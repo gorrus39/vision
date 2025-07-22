@@ -6,11 +6,8 @@
       {{ $t("faq.title_1") }}
     </p>
 
-    <!-- <UDivider class="hidden md:block" size="xl" /> -->
-
     <p class="leading text-M-24 md:text-D-52">
       {{ $t("faq.title_2") }}
     </p>
-    <!-- <UDivider class="block mt-M-30 md:hidden" /> -->
   </div>
 </template>

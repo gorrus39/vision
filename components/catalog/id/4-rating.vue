@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FullBriefJson, FullCatalogItem } from "~/types/catalog"
+import type { FullCatalogItem } from "~/types/catalog"
 
 const showModal = ref(false)
 
@@ -7,35 +7,35 @@ const props = defineProps<{
   item: FullCatalogItem
 }>()
 
-const raiting = JSON.parse(props.item.brief) as FullBriefJson
-const ratingBefore: null | number = raiting.lastAgrigation.sumValue
-const ratingNow: number = getBriefAgrigationValue({ items: raiting.items }).sumValue || 0
+const brief = props.item.brief
+const ratingBefore: null | number = brief.lastAgrigation.sumValue
+const ratingNow: number = getBriefAgrigationValue({ items: brief.items }).sumValue || 0
 </script>
 
 <template>
-  <div class="bg-[#1A1A1A] pe-0 ps-0 pt-M-30 pb-M-30 mb-M-40 md:pt-D-70 md:pb-D-70 md:mb-D-80 md:ps-D-182 md:pe-D-182">
-    <UModal v-model="showModal" :ui="{ rounded: 'rounded-xl', background: 'bg-black' }">
-      <div class="border-M-[2px] md:border-D-[.5px] border-solid border-white p-M-15 md:p-D-40">
-        <p class="font-secondary text-center text-M-18 md:text-D-40">{{ $t("catalog.id.rating_changes") }}</p>
+  <div class="pt-M-30 pb-M-30 mb-M-40 md:pt-D-70 md:pb-D-70 md:mb-D-80 md:ps-D-182 md:pe-D-182 bg-[#1A1A1A] ps-0 pe-0">
+    <UModal v-model:open="showModal">
+      <template #content>
+        <div class="border-M-[2px] md:border-D-[.5px] p-M-15 md:p-D-40 border-solid border-white text-black">
+          <p class="font-secondary text-M-18 md:text-D-40 text-center">{{ $t("catalog.id.rating_changes") }}</p>
 
-        <div>
-          <p v-for="num in Array(10)">
-            Тут будет какой-то текст, который не меняется из админки. Текст изменится когда появится в фигме.
-          </p>
+          <div>
+            <p v-for="num in Array(10)">
+              Тут будет какой-то текст, который не меняется из админки. Текст изменится когда появится в фигме.
+            </p>
+          </div>
         </div>
-      </div>
+      </template>
     </UModal>
 
-    <p
-      class="font-secondary border-b-2 border-white text-center font-bold text-M-18 md:border-b-[.5px] md:text-D-40"
-    >
+    <p class="font-secondary text-M-18 md:text-D-40 border-b-2 border-white text-center font-bold md:border-b-[.5px]">
       {{ $t("catalog.id.rating") }}
     </p>
-    <div class="font-secondary flex justify-center text-M-50 md:text-D-100">
-      <div class="on-hover flex items-center justify-center gap-M-10 md:gap-D-10" @click="showModal = true">
+    <div class="font-secondary text-M-50 md:text-D-100 flex justify-center">
+      <div class="on-hover gap-M-10 md:gap-D-10 flex items-center justify-center" @click="showModal = true">
         <span>{{ ratingNow }}/100</span>
         <svg
-          class="w-auto h-M-35 md:h-D-75"
+          class="h-M-35 md:h-D-75 w-auto"
           v-if="ratingBefore"
           :class="[ratingBefore <= ratingNow ? 'rotate-0' : 'rotate-180']"
           width="8"

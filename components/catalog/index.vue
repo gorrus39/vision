@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { type FullBriefJson, type FullCatalogItem, type Tag } from "~/types/catalog"
+import { type FullCatalogItem, type Tag } from "~/types/catalog"
 
 const tagsLine2: Tag[] = ["english", "russian", "chinese", "spanish", "french"]
 const tagsLine3: Tag[] = ["chat", "markets", "forums", "top sellers", "essentials", "others"]
 
-const store = await useInitializedCatalogItemsStore()
-const { items } = storeToRefs(store)
+const catalogItemsStore = useCatalogItemsStore()
+await callOnce(async () => await catalogItemsStore.initData())
+
+const items = catalogItemsStore.data
 
 const selectedTagLine2 = ref<Tag[]>([])
 const selectedTagLine3 = ref<Tag[]>([])
 
-const itemsOracle = computed(() => items.value.filter((i) => JSON.parse(i.tags).includes("oracle")))
-const itemsKozmap = computed(() => items.value.filter((i) => JSON.parse(i.tags).includes("kozmap")))
+const itemsOracle = computed(() => items.filter((i) => i.tags.includes("oracle")))
+const itemsKozmap = computed(() => items.filter((i) => i.tags.includes("kozmap")))
 
 const itemForTiers = computed(() => {
   // without kozmap & oracle
@@ -28,12 +30,12 @@ const itemForTiers = computed(() => {
   const tagLine2 = selectedTagLine2.value[0]
   const tagLine3 = selectedTagLine3.value[0]
 
-  for (const item of items.value) {
-    const itemTags = JSON.parse(item.tags) as Tag[]
+  for (const item of items) {
+    const itemTags = item.tags as Tag[]
 
     if (!(itemTags.includes(tagLine2) && itemTags.includes(tagLine3))) continue
 
-    const reiting = getBriefAgrigationValue({ items: (JSON.parse(item.brief) as FullBriefJson).items }).sumValue
+    const reiting = getBriefAgrigationValue({ items: item.brief.items }).sumValue
 
     if (reiting == null) tierLow.push(item)
     else if (reiting < 25) tierLow.push(item)
