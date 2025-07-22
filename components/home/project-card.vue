@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { locale } = useI18n()
-import type { FullBriefJson, FullCatalogItem, Tag } from "~/types/catalog"
+import type { FullCatalogItem, Tag } from "~/types/catalog"
 
 const cardType = ["chat", "markets", "forums", "top sellers", "essentials", "others"]
 
@@ -16,7 +16,7 @@ const isEven = props.index % 2 == 0
 
 const tagsString = props.project.tags
 // debugger
-const cardTags = JSON.parse(tagsString) as Tag[]
+const cardTags = tagsString
 let type = cardType[0] // default
 
 for (const cardTag of cardTags) {
@@ -27,7 +27,7 @@ for (const cardTag of cardTags) {
 }
 
 const reiting = computed(() => {
-  const brief = JSON.parse(props.project.brief) as FullBriefJson
+  const brief = props.project.brief
 
   const { sumValue } = getBriefAgrigationValue({ items: brief.items })
   const sumValueBefore = brief.lastAgrigation.sumValue
@@ -53,7 +53,7 @@ const description_short = () => {
         { 'bg-white': isEven },
         { 'text-black': isEven },
         { 'border-D p-D-20 gap-D-22 w-D-405': screen == 'desktop' },
-        { 'border-M w-full gap-M-19 p-M-20': screen == 'mobile' },
+        { 'border-M gap-M-19 p-M-20 w-full': screen == 'mobile' },
       ]"
     >
       <div class="flex items-center justify-between">
@@ -61,8 +61,8 @@ const description_short = () => {
           :class="[
             'text-center',
             isEven ? 'border-black' : 'border-white',
-            { 'border-D rounded-[.3vw] text-D-12 w-D-50': screen == 'desktop' },
-            { 'border-M rounded-[2vw] text-M-12 w-M-50': screen == 'mobile' },
+            { 'border-D text-D-12 w-D-50 rounded-[.3vw]': screen == 'desktop' },
+            { 'border-M text-M-12 w-M-50 rounded-[2vw]': screen == 'mobile' },
           ]"
         >
           {{ type }}
@@ -81,11 +81,11 @@ const description_short = () => {
       /> -->
         <img
           class="rounded-full object-cover"
-          v-if="project.img_short_path"
+          v-if="project.images[0]"
           :class="[{ 'w-D-48': screen == 'desktop' }, { 'w-M-34': screen == 'mobile' }]"
-          :src="getCatalogItemImageUrl(project.img_short_path)"
+          :src="getImagePath(project.images[0])"
         />
-        <div class="flex flex-col md:gap-D-10">
+        <div class="md:gap-D-10 flex flex-col">
           <p
             :class="[
               'font-bold',
@@ -112,8 +112,8 @@ const description_short = () => {
             />
           </div> -->
 
-          <div class="flex items-center gap-D-10">
-            <span class="font-semibold text-M-14 md:text-D-18">{{ reiting.sumValue }}/100</span>
+          <div class="gap-D-10 flex items-center">
+            <span class="text-M-14 md:text-D-18 font-semibold">{{ reiting.sumValue }}/100</span>
             <svg
               v-if="reiting.sumValueBefore !== null && reiting.sumValue !== null"
               :class="[reiting.sumValue >= reiting.sumValueBefore ? 'rotate-0' : 'rotate-180']"
