@@ -5,15 +5,6 @@ const { loggedIn } = useUserSession()
 const store = useSlugAssetsStore()
 
 const alwaysRelevantAsset = computed(() => store.homeAlwaysRelevant[0])
-// const modal = useModal()
-
-import HomeAdminModalAlwaysRelevant from "~/components/home/admin/modal-always-relevant.vue"
-import type { Lang } from "~/types/catalog"
-const openAdminModal = () => {
-  // modal.open(HomeAdminModalAlwaysRelevant, {
-  //   slugAsset: alwaysRelevantAsset.value,
-  // })
-}
 
 onMounted(() => store.initData())
 
@@ -36,10 +27,6 @@ const getTextContentByLocale = () => {
 </script>
 
 <template>
-  <div class="hidden p-2 md:flex" v-if="loggedIn">
-    <UButton @click="openAdminModal" icon="i-lucide:settings" label="always relevant" />
-  </div>
-
   <div class="mb-D-80 ms-D-168 me-D-182 hidden md:block">
     <div class="gap-D-50 flex items-center">
       <p :class="['font-bebas-neue', locale == 'cn' ? 'text-D-200 w-[120vw]' : 'text-D-250']">

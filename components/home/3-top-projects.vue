@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const store = useCatalogItemsStore()
+await callOnce(async () => store.initData())
 const topProjects = store.topProjects
 
 const toast = useToast()
